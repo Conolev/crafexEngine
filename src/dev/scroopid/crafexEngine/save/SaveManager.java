@@ -80,8 +80,8 @@ public class SaveManager {
 	 * Saves an ISavable type variable, calls are recursive to saveObject
 	 * if a field of type ISavable or ISaveHandler is run upon.
 	 * 
-	 * @param object The object to save
-	 * @param callsDeep The amount of calls deep
+	 * @param object The object to save.
+	 * @param callsDeep The amount of calls deep.
 	 * @param objectData The list of strings to save the data to.
 	 */
 	private void saveISavable(ISavable object, int callsDeep, List<String> objectData) {
@@ -117,6 +117,7 @@ public class SaveManager {
 		objectData.add(SaveUtils.addMultipleString(TAB, callsDeep - 1) + "}");
 
 		// We are done saving, call postSave
+		LOGGER.trace("Calling object postSave");
 		object.postSave();
 	}
 
