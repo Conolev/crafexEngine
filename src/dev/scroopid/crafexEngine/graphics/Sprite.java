@@ -2,6 +2,7 @@ package dev.scroopid.crafexEngine.graphics;
 
 
 import dev.scroopid.crafexEngine.Crafex;
+import dev.scroopid.crafexEngine.save.ISavable;
 import dev.scroopid.crafexEngine.save.Ignore;
 import dev.scroopid.crafexEngine.util.floatPoint;
 import dev.scroopid.crafexEngine.util.intPoint;
@@ -9,7 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-public class Sprite {
+public class Sprite implements ISavable{
 	
 	/**the texture for the spriite*/
 	@Ignore
@@ -251,5 +252,29 @@ public class Sprite {
 	 */
 	public int getCycle(){
 		return _cycle;
+	}
+
+	@Override
+	public void preSave() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void postSave() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void preLoad() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void postLoad() {
+		// TODO Auto-generated method stub
+		
 	}
 }
