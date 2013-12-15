@@ -1,8 +1,8 @@
 package dev.scroopid.crafexEngine.graphics;
 
 
-import dev.scroopid.crafexEngine.AppActivity;
 import dev.scroopid.crafexEngine.Crafex;
+import dev.scroopid.crafexEngine.save.Ignore;
 import dev.scroopid.crafexEngine.util.floatPoint;
 import dev.scroopid.crafexEngine.util.intPoint;
 import android.graphics.Bitmap;
@@ -12,6 +12,7 @@ import android.graphics.Rect;
 public class Sprite {
 	
 	/**the texture for the spriite*/
+	@Ignore
 	private Bitmap _image;
 	/**the destenation size for the game*/
 	private intPoint _dstSize;
