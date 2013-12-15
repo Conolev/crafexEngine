@@ -1,5 +1,7 @@
 package dev.scroopid.crafexEngine.save;
 
+import java.util.List;
+
 /**
  * An interface that allows classes that implement it
  * to save data in its own format. 
@@ -8,6 +10,6 @@ package dev.scroopid.crafexEngine.save;
  *
  */
 public interface ISaveHandler {
-	public void load(String data);
-	public String save();
+	public void load(List<String> data);
+	public List<String> save();
 }
