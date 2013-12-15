@@ -7,7 +7,7 @@ package dev.scroopid.crafexEngine.save;
  * @author jameswomack
  *
  */
-public interface SaveHandler {
+public interface ISaveHandler {
 	public void load(String data);
 	public String save();
 }
