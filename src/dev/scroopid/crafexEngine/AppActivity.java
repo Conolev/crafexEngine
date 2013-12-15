@@ -14,11 +14,15 @@ import android.view.WindowManager;
 
 public abstract class AppActivity extends Activity{
 	
+	public static final int TOUCH_STYLE_NONE = 0;
+	public static final int TOUCH_STYLE_NORMAL = 1;
+	
 	public static Crafex crafex;
 	private static intPoint defaultRes = new intPoint(1920, 1080);
 	private static int defaultColor = Color.BLACK;
 	private DisplayMetrics displaymetrics = new DisplayMetrics();
 	protected intPoint resalution;
+	private int touchStyle = 1;
 	
 	
 	@Override
@@ -39,7 +43,10 @@ public abstract class AppActivity extends Activity{
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		return crafex.onTouchEvent(event);
+		if(touchStyle > 0){
+			return crafex.onTouchEvent(event);
+		}
+		return super.onTouchEvent(event);
 	}
 	
 	public void setDefaultResalution(intPoint dimentions){
@@ -70,6 +77,10 @@ public abstract class AppActivity extends Activity{
 
     public void setPortrait(){
     	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+    
+    public void disableTouch(){
+    	touchStyle = TOUCH_STYLE_NONE;
     }
 
 	public abstract void beforeCreated();
