@@ -33,7 +33,7 @@ public class SaveManager {
 		// Iterate through objects
 		LOGGER.trace("Iterating through objects");
 		for(Object object : objects){
-			
+			// TODO: Iterate through the objects
 		}
 		
 		return file;
