@@ -16,6 +16,11 @@ public class SaveManager {
 	private static final String TAB = "    ";
 	private static final Class<? extends Annotation> IGNORE = Ignore.class;
 	
+	/**
+	 * Saves a list of ISavable, ISaveHandler objects
+	 * @param objects The objects to save
+	 * @return The file in the format of a list of Strings
+	 */
 	public List<String> saveObjects(List<Object> objects){
 		// Create the file that we will save to.
 		List<String> file = new ArrayList<String>();
@@ -30,9 +35,16 @@ public class SaveManager {
 		for(Object object : objects){
 			
 		}
+		
 		return file;
 	}
 	
+	/**
+	 * Saves an object of type ISavable or ISaveHandler
+	 * @param object The object to save
+	 * @param callsDeep How many calls deep this method is
+	 * @return The Data to append to the save file
+	 */
 	private List<String> saveObject(Object object, int callsDeep){
 		// Create String list for Saving purposes
 		List<String> objectData = new ArrayList<String>();
@@ -41,15 +53,21 @@ public class SaveManager {
 		// If the object is not null, then save it's ass
 		if(object != null){
 			if (object instanceof ISavable){
+				
 				// ISavable, go through and save each of it's fields
 				saveISavable((ISavable)object, callsDeep, objectData);
+				
 			} else if (object instanceof ISaveHandler){
+				
 				// ISaveHandler, call it's save method
 				LOGGER.trace("object is type ISaveHandler");
 				objectData.addAll(((ISaveHandler)object).save());
+				
 			} else {
+				
 				// Not of type ISavable or ISaveHandler
 				LOGGER.debug("object is not of type ISavable or ISaveHandler");
+				
 			}
 		} else {
 			LOGGER.debug("Cannot save a null object!");
@@ -58,6 +76,14 @@ public class SaveManager {
 		return objectData;
 	}
 
+	/**
+	 * Saves an ISavable type variable, calls are recursive to saveObject
+	 * if a field of type ISavable or ISaveHandler is run upon.
+	 * 
+	 * @param object The object to save
+	 * @param callsDeep The amount of calls deep
+	 * @param objectData The list of strings to save the data to.
+	 */
 	private void saveISavable(ISavable object, int callsDeep, List<String> objectData) {
 		LOGGER.trace("object is type ISavable");
 		// Call preSave
@@ -94,6 +120,13 @@ public class SaveManager {
 		object.postSave();
 	}
 
+	/**
+	 * Saves a field from the object.
+	 * @param object The object being saved
+	 * @param callsDeep The amount of calls deep from saveObject
+	 * @param objectData The list of Strings to save data to
+	 * @param field The field in question
+	 */
 	private void saveField(ISavable object, int callsDeep, List<String> objectData, Field field) {
 		LOGGER.trace("Saving field: " + field.getName());
 		Class<?> fieldType = field.getType();
@@ -105,11 +138,11 @@ public class SaveManager {
 			
 		} else if (fieldType.isAssignableFrom(ISavable.class) || fieldType.isAssignableFrom(ISaveHandler.class)){
 			
-			saveSavableType(object, callsDeep, objectData, field);
+			saveSavableField(object, callsDeep, objectData, field);
 			
 		} else if (fieldType.isAssignableFrom(String.class)){
 			
-			// TODO: String, save it!
+			saveStringField(object, objectData, field, fieldType);
 			
 		} else if(fieldType.isArray()){
 			
@@ -128,12 +161,54 @@ public class SaveManager {
 		}
 	}
 
-	private void saveSavableType(ISavable object, int callsDeep, List<String> objectData, Field field) {
+	/**
+	 * Saves a String field from the ISavable Object,
+	 * 
+	 * Saves in this format<br/>
+	 * <b>&lt;fieldName : java.lang.String : "data"&gt;</b>
+	 * @param object The object being saved
+	 * @param objectData The List to add the save data to
+	 * @param field The field in question
+	 * @param fieldType The type of the field
+	 */
+	private void saveStringField(ISavable object, List<String> objectData, Field field, Class<?> fieldType) {
+		try {
+			// Save data in the format
+			String data = String.format("<%s : %s : \"%s\">", field.getName(), fieldType.getName(), field.get(object));
+			LOGGER.trace("Saved String Field: " + data);
+			
+			objectData.add(data);
+			
+		} catch (IllegalArgumentException e) {
+			// Unable to get String Data
+			LOGGER.error("Was not able to retrieve String Type object!", e);
+			throw new SaveException(String.format("Unable to save: %s", field.getName()));
+			
+		} catch (IllegalAccessException e) {
+			// Unable to get String Data
+			LOGGER.error("Was not able to retrieve String Type object!", e);
+			throw new SaveException(String.format("Unable to save: %s", field.getName()));
+			
+		}
+	}
+
+	/**
+	 * Saves a Savable type field by recursively calling the saveObject method
+	 * 
+	 * @param object The object being saved
+	 * @param callsDeep The amount of calls deep the object is being saved
+	 * @param objectData The String list to add the Save data to
+	 * @param field The field in question
+	 */
+	private void saveSavableField(ISavable object, int callsDeep, List<String> objectData, Field field) {
 		// Field is a Savable type, save it too!!
 		try {
 			LOGGER.trace("Trying to save Savable Type: " + field.getName());
+			
 			// Recursively call saveObject to save every field.
 			List<String> fieldData = saveObject(field.get(object), callsDeep + 1);
+			LOGGER.trace(String.format("Saved %s field, was %d calls deep", field.getName(), callsDeep));
+			
 			objectData.addAll(fieldData);
 			
 		} catch (IllegalArgumentException e) {
@@ -143,6 +218,7 @@ public class SaveManager {
 		} catch (IllegalAccessException e) {
 			LOGGER.error("Was not able to retrieve Savable Type object!", e);
 			throw new SaveException(String.format("Unable to save: %s", field.getName()));
+			
 		}
 	}
 	
