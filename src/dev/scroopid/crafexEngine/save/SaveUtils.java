@@ -124,4 +124,16 @@ class SaveUtils {
 		
 		return val;
 	}
+	
+	/**
+	 * Formats a primitive type field in this format
+	 * <br/><b>&lt;fieldName : type : data&gt;</b>
+	 * @param fieldName The field name
+	 * @param type The type of the field
+	 * @param data The data to put into the field
+	 * @return The formatted field data
+	 */
+	static String formatPrimitive(String fieldName, String type, String data){
+		return String.format("<%s : %s : \"%s\">", fieldName,type,data);
+	}
 }

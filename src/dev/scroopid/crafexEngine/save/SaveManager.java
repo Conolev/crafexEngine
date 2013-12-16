@@ -93,7 +93,7 @@ public class SaveManager {
 		Class<?> klass = object.getClass();
 		
 		// Get class name and uuid hash.
-		String objectHeader = String.format("%s : %s : %s", klass.getName(), I_SAVABLE, SaveUtils.uuidObjectHash(klass));
+		String objectHeader = String.format("(%s : %s : %s)", klass.getName(), I_SAVABLE, SaveUtils.uuidObjectHash(klass));
 		LOGGER.trace("Created objectHeader: " + objectHeader);
 		
 		// Add it to the file header along with {
@@ -134,8 +134,8 @@ public class SaveManager {
 		
 		if (fieldType.isPrimitive()){
 			
-			// TODO: primitive, Save it
-			
+			String data = savePrimitiveField(object, field, fieldType);
+			objectData.add(SaveUtils.addMultipleString(TAB, callsDeep) + data);
 			
 		} else if (fieldType.isAssignableFrom(ISavable.class) || fieldType.isAssignableFrom(ISaveHandler.class)){
 			
@@ -143,7 +143,8 @@ public class SaveManager {
 			
 		} else if (fieldType.isAssignableFrom(String.class)){
 			
-			saveStringField(object, objectData, field, fieldType);
+			String data = saveStringField(object, field, fieldType);
+			objectData.add(SaveUtils.addMultipleString(TAB, callsDeep) + data);
 			
 		} else if(fieldType.isArray()){
 			
@@ -163,6 +164,112 @@ public class SaveManager {
 	}
 
 	/**
+	 * Saves a primitive type field and returns it as a String
+	 * Saves it in this format <br/>
+	 * <b>&lt;fieldName : type : "data"&gt;</b>
+	 * @param object The object being saved
+	 * @param field The field to save
+	 * @param fieldType The type of the field
+	 * @return The Formatted string of the primitive field
+	 */
+	private String savePrimitiveField(ISavable object, Field field,Class<?> fieldType) {
+		String data = "";
+		try{
+			
+			// How I wish I could use a switch on this...
+			// Sees what primitive type it is and tries to save it.
+			if (fieldType.equals(int.class)){
+				
+				LOGGER.trace("Trying to save int variable named " + field.getName());
+				
+				// Save data in the format
+				data = SaveUtils.formatPrimitive(field.getName(), fieldType.getName(), (String)field.get(object));
+				LOGGER.trace("Saved int Field: " + data);
+				
+			} else if (fieldType.equals(short.class)){
+				
+				LOGGER.trace("Trying to save short variable named " + field.getName());
+				
+				// Save data in the format
+				data = SaveUtils.formatPrimitive(field.getName(), fieldType.getName(), (String)field.get(object));
+				LOGGER.trace("Saved short Field: " + data);
+				
+			} else if (fieldType.equals(long.class)){
+				
+				LOGGER.trace("Trying to save long variable named " + field.getName());
+				
+				// Save data in the format
+				data = SaveUtils.formatPrimitive(field.getName(), fieldType.getName(), (String)field.get(object));
+				LOGGER.trace("Saved long Field: " + data);
+
+				
+			} else if (fieldType.equals(float.class)){
+				
+				LOGGER.trace("Trying to save float variable named " + field.getName());
+				
+				// Save data in the format
+				data = SaveUtils.formatPrimitive(field.getName(), fieldType.getName(), (String)field.get(object));
+				LOGGER.trace("Saved float Field: " + data);
+
+				
+			} else if (fieldType.equals(double.class)){
+				
+				LOGGER.trace("Trying to save double variable named " + field.getName());
+				
+				// Save data in the format
+				data = SaveUtils.formatPrimitive(field.getName(), fieldType.getName(), (String)field.get(object));
+				LOGGER.trace("Saved double Field: " + data);
+
+				
+			} else if (fieldType.equals(char.class)){
+				
+				LOGGER.trace("Trying to save char variable named " + field.getName());
+				
+				// Save data in the format
+				data = SaveUtils.formatPrimitive(field.getName(), fieldType.getName(), (String)field.get(object));
+				LOGGER.trace("Saved char Field: " + data);
+
+				
+			} else if (fieldType.equals(byte.class)){
+				
+				LOGGER.trace("Trying to save byte variable named " + field.getName());
+				
+				// Save data in the format
+				data = SaveUtils.formatPrimitive(field.getName(), fieldType.getName(), (String)field.get(object));
+				LOGGER.trace("Saved byte Field: " + data);
+
+				
+			} else if (fieldType.equals(boolean.class)){
+				
+				LOGGER.trace("Trying to save boolean variable named " + field.getName());
+				
+				// Save data in the format
+				data = SaveUtils.formatPrimitive(field.getName(), fieldType.getName(), (String)field.get(object));
+				LOGGER.trace("Saved boolean Field: " + data);
+				
+			} else {
+				
+				LOGGER.debug("Must have forgotten a primitive type...");
+				
+			}
+		} catch (IllegalArgumentException e){
+			
+			// Unable to get primitive Data
+			LOGGER.error("Was not able to retrieve primitive Type object!", e);
+			throw new SaveException(String.format("Unable to save: %s", field.getName()));
+			
+		} catch(IllegalAccessException e){
+			
+			// Unable to get primitive Data
+			LOGGER.error("Was not able to retrieve primitive Type object!", e);
+			throw new SaveException(String.format("Unable to save: %s", field.getName()));
+			
+		}
+		
+		return data;
+	}
+
+	/**
 	 * Saves a String field from the ISavable Object,
 	 * 
 	 * Saves in this format<br/>
@@ -172,14 +279,15 @@ public class SaveManager {
 	 * @param field The field in question
 	 * @param fieldType The type of the field
 	 */
-	private void saveStringField(ISavable object, List<String> objectData, Field field, Class<?> fieldType) {
+	private String saveStringField(ISavable object, Field field, Class<?> fieldType) {
+		String data = "";
+		
+		// Try to save the data into the string
 		try {
 			// Save data in the format
-			String data = String.format("<%s : %s : \"%s\">", field.getName(), fieldType.getName(), field.get(object));
+			data = SaveUtils.formatPrimitive(field.getName(), fieldType.getName(), (String)field.get(object));
 			LOGGER.trace("Saved String Field: " + data);
-			
-			objectData.add(data);
-			
+						
 		} catch (IllegalArgumentException e) {
 			// Unable to get String Data
 			LOGGER.error("Was not able to retrieve String Type object!", e);
@@ -191,6 +299,9 @@ public class SaveManager {
 			throw new SaveException(String.format("Unable to save: %s", field.getName()));
 			
 		}
+		
+		// Return the data
+		return data;
 	}
 
 	/**
@@ -204,6 +315,7 @@ public class SaveManager {
 	private void saveSavableField(ISavable object, int callsDeep, List<String> objectData, Field field) {
 		// Field is a Savable type, save it too!!
 		try {
+			
 			LOGGER.trace("Trying to save Savable Type: " + field.getName());
 			
 			// Recursively call saveObject to save every field.
@@ -213,10 +325,12 @@ public class SaveManager {
 			objectData.addAll(fieldData);
 			
 		} catch (IllegalArgumentException e) {
+			
 			LOGGER.error("Was not able to retrieve Savable Type object!", e);
 			throw new SaveException(String.format("Unable to save: %s", field.getName()));
 			
 		} catch (IllegalAccessException e) {
+			
 			LOGGER.error("Was not able to retrieve Savable Type object!", e);
 			throw new SaveException(String.format("Unable to save: %s", field.getName()));
 			
