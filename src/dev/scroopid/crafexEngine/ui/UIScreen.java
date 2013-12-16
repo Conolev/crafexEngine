@@ -22,6 +22,10 @@ public class UIScreen implements Updatable, Touchable{
 		uiLayers.add(uiobject);
 	}
 	
+	public void addUIObject(UIObject object){
+		uiLayers.get(uiLayers.size() - 1).addUIObject(object);
+	}
+	
 	public int getNextLayer(){
 		return uiLayers.size();
 	}

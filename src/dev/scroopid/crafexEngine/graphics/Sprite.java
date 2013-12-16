@@ -256,25 +256,21 @@ public class Sprite implements ISavable{
 
 	@Override
 	public void preSave() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void postSave() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void preLoad() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void postLoad() {
-		// TODO Auto-generated method stub
 		
 	}
 }

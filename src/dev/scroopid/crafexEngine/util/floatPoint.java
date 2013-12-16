@@ -95,4 +95,8 @@ public class floatPoint {
 	public intPoint toIntPoint(){
 		return new intPoint((int) x, (int) y);
 	}
+	
+	public floatPoint clone(){
+		return new floatPoint(x, y);
+	}
 }
