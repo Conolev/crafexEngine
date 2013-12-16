@@ -1,6 +1,7 @@
 package dev.scroopid.crafexEngine;
 
 import dev.scroopid.crafexEngine.input.InputHandler;
+import dev.scroopid.crafexEngine.level.Level;
 import dev.scroopid.crafexEngine.level.LevelManager;
 import dev.scroopid.crafexEngine.ui.UIHandler;
 import dev.scroopid.crafexEngine.util.FileManager;
@@ -28,7 +29,7 @@ public class Crafex extends View{
 	 * Game screen where update threads are.
 	 * @param context of activity
 	 */
-	public Crafex(AssetManager assets, Context context, int backGroundColor, intPoint defaultResalution, intPoint screenResalution, String files) {
+	public Crafex(Level level, AssetManager assets, Context context, int backGroundColor, intPoint defaultResalution, intPoint screenResalution, String files) {
 		super(context);
 		WINDOW_DIMENTIONS = screenResalution;
 		fileMan = new FileManager(assets, files);

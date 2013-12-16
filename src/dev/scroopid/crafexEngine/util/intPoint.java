@@ -98,4 +98,8 @@ public class intPoint {
 	public floatPoint getFloatPoint(){
 		return new floatPoint(x, y);
 	}
+	
+	public intPoint clone(){
+		return new intPoint(x, y);
+	}
 }

@@ -1,5 +1,6 @@
 package dev.scroopid.crafexEngine;
 
+import dev.scroopid.crafexEngine.level.Level;
 import dev.scroopid.crafexEngine.util.intPoint;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -23,6 +24,7 @@ public abstract class AppActivity extends Activity{
 	private DisplayMetrics displaymetrics = new DisplayMetrics();
 	protected intPoint resalution;
 	private int touchStyle = 1;
+	private Level level;;
 	
 	
 	@Override
@@ -30,12 +32,16 @@ public abstract class AppActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		beforeCreated();
 		
+		if(level == null){
+			level = new Level();
+		}
+		
 		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 		int height = displaymetrics.heightPixels;
 		int width = displaymetrics.widthPixels;
 		resalution = new intPoint(width, height);
 		
-		crafex = new Crafex(getAssets(), this, defaultColor, defaultRes, resalution, getFilesDir().toString());
+		crafex = new Crafex(level, getAssets(), this, defaultColor, defaultRes, resalution, getFilesDir().toString());
 		setContentView(crafex);
 		
 		afterCreated();
@@ -81,6 +87,10 @@ public abstract class AppActivity extends Activity{
     
     public void disableTouch(){
     	touchStyle = TOUCH_STYLE_NONE;
+    }
+    
+    public void setLevel(Level level){
+    	
     }
 
 	public abstract void beforeCreated();
