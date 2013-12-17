@@ -49,7 +49,7 @@ public class Logger {
 	}
 
 	private void log(int messageLevel, String message, Throwable t) {
-		if (messageLevel < level) {
+		if (messageLevel <= level) {
 			System.out.print(this.prefix);
 			System.out.print('[');
 

@@ -1,6 +1,7 @@
 package dev.scroopid.crafexEngine.save;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,11 +11,14 @@ import java.util.Map;
 import dev.scroopid.crafexEngine.Logger;
 
 public class SaveManager {
+	private static final SaveManager instance = new SaveManager();
 	private static final String DATA_END = "}";
 
 	private static final String DATA_START = "{";
 
 	private static final String SAVE_TYPE_FORMAT = "(%s : %s : %s)";
+	
+	private static final String ARRAY_TYPE_FORMAT = "[%s : %s : %s]";
 
 	private static final String I_SAVE_HANDLER = "ISaveHandler";
 
@@ -26,6 +30,10 @@ public class SaveManager {
 
 	private static final Class<? extends Annotation> IGNORE = Ignore.class;
 
+	public static SaveManager getInstance(){
+		return instance;
+	}
+	
 	/**
 	 * Saves a field from the object.
 	 * 
@@ -44,11 +52,13 @@ public class SaveManager {
 
 		if (fieldType.isPrimitive()) {
 
+			// Primitive Type, save it!
 			String data = this.savePrimitiveField(object, field, fieldType);
 			objectData.add(SaveUtils.addMultipleString(TAB, callsDeep) + data);
 
 		} else if (fieldType.isAssignableFrom(ISavable.class) || fieldType.isAssignableFrom(ISaveHandler.class)) {
 
+			// ISavable/ISaveHandler, save it!
 			this.saveSavableField(object, callsDeep, objectData, field);
 
 		} else if (fieldType.isAssignableFrom(String.class)) {
@@ -57,8 +67,8 @@ public class SaveManager {
 			objectData.add(SaveUtils.addMultipleString(TAB, callsDeep) + data);
 
 		} else if (fieldType.isArray()) {
-
-			// TODO: Array, save it!
+			
+			
 
 		} else if (fieldType.isAssignableFrom(Collection.class)) {
 
@@ -121,6 +131,15 @@ public class SaveManager {
 		object.postSave();
 	}
 
+	/**
+	 * Saves an object of type ISavable or ISaveHandler
+	 * @param object the object to save
+	 * @return The file
+	 */
+	public List<String> saveObject(Object object){
+		return saveObject(object, 1);
+	}
+	
 	/**
 	 * Saves an object of type ISavable or ISaveHandler
 	 * 
