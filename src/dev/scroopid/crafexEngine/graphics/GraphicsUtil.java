@@ -63,11 +63,12 @@ public class GraphicsUtil {
 		return null;
 	}
 
-	public static Bitmap makeTextButtonImage(String text, Bitmap Buttonimage, Bitmap letters, intPoint grid, boolean scale) {
+	public static Bitmap makeTextButtonImage(String text, Bitmap Buttonimage, 
+				Bitmap letters, intPoint grid, boolean scale) {
 		char[] newtext = text.toCharArray();
 		Bitmap data = null;
-		Bitmap textmap =
-					Bitmap.createBitmap((letters.getWidth() / grid.getX()) * newtext.length, (letters.getHeight() / grid.getY()), letters.getConfig());
+		Bitmap textmap = Bitmap.createBitmap((letters.getWidth() / grid.getX()) * newtext.length,
+					(letters.getHeight() / grid.getY()), letters.getConfig());
 		Canvas temp = null;
 		Canvas textcanvas = new Canvas(textmap);
 		for (int i = 0; i < newtext.length; i++) {
@@ -85,29 +86,64 @@ public class GraphicsUtil {
 			int srcx = (letters.getWidth() / grid.getX()) * carx;
 			int srcy = (letters.getHeight() / grid.getY()) * cary;
 			int dstx = (letters.getWidth() / grid.getX()) * i;
-			textcanvas.drawBitmap(letters, new Rect(srcx, srcy, srcx + (letters.getWidth() / grid.getX()), srcy
+			textcanvas.drawBitmap(letters, new Rect(srcx, srcy, 
+						srcx + (letters.getWidth() / grid.getX()), srcy
 						+ (letters.getHeight() / grid.getY())), new Rect(dstx, 0, dstx
-						+ (letters.getWidth() / grid.getX()), (letters.getHeight() / grid.getY())), null);
+						+ (letters.getWidth() / grid.getX()), 
+						(letters.getHeight() / grid.getY())), null);
 		}
 
 		if (scale) {
-			// TODO make button scaling
+			Buttonimage = strechImage(Buttonimage, textmap.getWidth(), textmap.getHeight());
+			data = Bitmap.createBitmap(Buttonimage.getWidth(), Buttonimage.getHeight(), 
+						Buttonimage.getConfig());
+			temp = new Canvas(data);
+			temp.drawBitmap(Buttonimage, 0, 0, null);
 		} else {
-			data = Bitmap.createBitmap(Buttonimage.getWidth(), Buttonimage.getHeight(), Buttonimage.getConfig());
+			data = Bitmap.createBitmap(Buttonimage.getWidth(), Buttonimage.getHeight(), 
+						Buttonimage.getConfig());
 			temp = new Canvas(data);
 			temp.drawBitmap(Buttonimage, 0, 0, null);
 		}
-		temp.drawBitmap(textmap, (data.getWidth() - textmap.getWidth()) / 2, (data.getHeight() - textmap.getHeight()) / 2, null);
+		temp.drawBitmap(textmap, (data.getWidth() - textmap.getWidth()) / 2, 
+					(data.getHeight() - textmap.getHeight()) / 2, null);
 
 		return data;
 	}
-
+	
+	/**
+	 * scales image to a decimal
+	 * @param image to scale
+	 * @param scale amount
+	 * @return scaled image
+	 */
 	public static Bitmap scaleImage(Bitmap image, float scale) {
-		scale = 1;
-		Bitmap data =
-					Bitmap.createBitmap((int) (image.getWidth() * scale), (int) (image.getHeight() * scale), image.getConfig());
+		Bitmap data = Bitmap.createBitmap((int) (image.getWidth() * scale), 
+					(int) (image.getHeight() * scale), image.getConfig());
 		Canvas canvas = new Canvas(data);
-		canvas.drawBitmap(image, new Rect(0, 0, image.getWidth(), image.getHeight()), new Rect(0, 0, (int) (image.getWidth() * scale), (int) (image.getHeight() * scale)), null);
+		canvas.drawBitmap(image, new Rect(0, 0, image.getWidth(), image.getHeight()), 
+					new Rect(0, 0, (int) (image.getWidth() * scale), 
+								(int) (image.getHeight() * scale)), null);
+		return data;
+	}
+	
+	public static Bitmap strechImage(Bitmap image, float xscale, float yscale){
+		Bitmap data = Bitmap.createBitmap((int) (image.getWidth() * xscale), 
+					(int) (image.getHeight() * yscale), image.getConfig());
+		Canvas canvas = new Canvas(data);
+		canvas.drawBitmap(image, new Rect(0, 0, image.getWidth(), image.getHeight()), 
+					new Rect(0, 0, (int) (image.getWidth() * xscale), 
+								(int) (image.getHeight() * yscale)), null);
+		return data;
+	}
+	
+	public static Bitmap strechImage(Bitmap image, int xsize, int ysize){
+		Bitmap data = Bitmap.createBitmap((int) (xsize), 
+					(int) (image.getHeight() * ysize), image.getConfig());
+		Canvas canvas = new Canvas(data);
+		canvas.drawBitmap(image, new Rect(0, 0, image.getWidth(), image.getHeight()), 
+					new Rect(0, 0, (int) (image.getWidth() * xsize), 
+								(int) (image.getHeight() * ysize)), null);
 		return data;
 	}
 

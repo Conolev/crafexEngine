@@ -7,13 +7,8 @@ import dev.scroopid.crafexEngine.util.floatPoint;
 
 public class Button extends UIObject {
 
-	public Button(Bitmap image, floatPoint location, int layer, Command command) {
+	public Button(Bitmap image, floatPoint location, int layer) {
 		super(image, location, layer);
-	}
-
-	@Override
-	public void update() {
-
 	}
 
 	@Override
