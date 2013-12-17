@@ -49,6 +49,10 @@ public class SaveManager {
 	private void saveField(ISavable object, int callsDeep, List<String> objectData, Field field) {
 		LOGGER.trace("Saving field: " + field.getName());
 		Class<?> fieldType = field.getType();
+		LOGGER.debug("Is Assignable to ISavable: " + fieldType.isAssignableFrom(ISavable.class));
+		
+		// Set field to accessible if not
+		field.setAccessible(true);
 
 		if (fieldType.isPrimitive()) {
 
@@ -56,12 +60,12 @@ public class SaveManager {
 			String data = this.savePrimitiveField(object, field, fieldType);
 			objectData.add(SaveUtils.addMultipleString(TAB, callsDeep) + data);
 
-		} else if (fieldType.isAssignableFrom(ISavable.class) || fieldType.isAssignableFrom(ISaveHandler.class)) {
+		} else if (ISavable.class.isAssignableFrom(fieldType) || ISaveHandler.class.isAssignableFrom(fieldType)) {
 
 			// ISavable/ISaveHandler, save it!
 			this.saveSavableField(object, callsDeep, objectData, field);
 
-		} else if (fieldType.isAssignableFrom(String.class)) {
+		} else if (String.class.isAssignableFrom(fieldType)) {
 
 			String data = this.saveStringField(object, field, fieldType);
 			objectData.add(SaveUtils.addMultipleString(TAB, callsDeep) + data);
@@ -70,11 +74,12 @@ public class SaveManager {
 			
 			
 
-		} else if (fieldType.isAssignableFrom(Collection.class)) {
+		} else if (Collection.class.isAssignableFrom(fieldType)) {
 
 			// TODO: Collection, save it!
+			LOGGER.debug("Made it here!");
 
-		} else if (fieldType.isAssignableFrom(Map.class)) {
+		} else if (Map.class.isAssignableFrom(fieldType)) {
 
 			// TODO: Map, Save it!
 
