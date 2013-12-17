@@ -8,8 +8,8 @@ import dev.scroopid.crafexEngine.input.Inputable;
 import dev.scroopid.crafexEngine.util.floatPoint;
 import dev.scroopid.crafexEngine.util.intPoint;
 
-public class EditableTextBox extends TextBox implements Inputable{
-	
+public class EditableTextBox extends TextBox implements Inputable {
+
 	private int index = -1;
 
 	public EditableTextBox(Bitmap image, floatPoint location, int layer) {
@@ -17,49 +17,49 @@ public class EditableTextBox extends TextBox implements Inputable{
 	}
 
 	@Override
-	public void whenReleased(CrafexTouchEvent touch) {
-		if(this.touch != null && this.touch.getPointer() == touch.getPointer()){
-			if(index < 0){
-				startInput();
-			}else{
-				setCursor(touch.getTouchLocation());
-			}
-		}
-	}
-	
-	@Override
-	public void startInput() {
-		index = Text.length();
-		Crafex.inputHandler.startInput(this, CrafexInputer.INPUT_TYPE_ASSCI_KEYBOARD);
-	}
-
-	@Override
 	public void endInput() {
-		index = -1;
+		this.index = -1;
 	}
 
 	@Override
 	public String getInput() {
-		return Text;
-	}
-
-	@Override
-	public void setInput(String newInput) {
-		setText(newInput);
-	}
-
-	@Override
-	public int getInputLength() {
-		return Text.length();
+		return this.Text;
 	}
 
 	@Override
 	public int getInputingIndex() {
-		return index;
+		return this.index;
 	}
-	
-	public void setCursor(intPoint location){
-		index = location.getX()/letterWidth;
+
+	@Override
+	public int getInputLength() {
+		return this.Text.length();
+	}
+
+	public void setCursor(intPoint location) {
+		this.index = location.getX() / this.letterWidth;
+	}
+
+	@Override
+	public void setInput(String newInput) {
+		this.setText(newInput);
+	}
+
+	@Override
+	public void startInput() {
+		this.index = this.Text.length();
+		Crafex.inputHandler.startInput(this, CrafexInputer.INPUT_TYPE_ASSCI_KEYBOARD);
+	}
+
+	@Override
+	public void whenReleased(CrafexTouchEvent touch) {
+		if (this.touch != null && this.touch.getPointer() == touch.getPointer()) {
+			if (this.index < 0) {
+				this.startInput();
+			} else {
+				this.setCursor(touch.getTouchLocation());
+			}
+		}
 	}
 
 }

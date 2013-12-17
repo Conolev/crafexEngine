@@ -2,101 +2,103 @@ package dev.scroopid.crafexEngine.util;
 
 public class floatPoint {
 	private float x;
+
 	private float y;
-	
-	public floatPoint(){
-		setX(0);
-		setY(0);
+
+	public floatPoint() {
+		this.setX(0);
+		this.setY(0);
 	}
-	
-	public floatPoint(floatPoint point){
-		set(point);
+
+	public floatPoint(float x, float y) {
+		this.setX(x);
+		this.setY(y);
 	}
-	
-	public floatPoint(float x, float y){
-		setX(x);
-		setY(y);
+
+	public floatPoint(floatPoint point) {
+		this.set(point);
 	}
-	
-	public void set(floatPoint point){
-		x = point.x;
-		y = point.y;
-	}
-	
-	public void setX(float x){
-		this.x = x;
-	}
-	
-	public void setY(float y){
-		this.y = y;
-	}
-	
-	public void addX(float value){
-		x += value;
-	}
-	
-	public void addY(float value){
-		y += value;
-	}
-	
-	public floatPoint add(floatPoint target){
-		x += target.x;
-		y += target.y;
+
+	public floatPoint add(floatPoint target) {
+		this.x += target.x;
+		this.y += target.y;
 		return this;
 	}
-	
-	public floatPoint subtract(floatPoint target){
-		x -= target.x;
-		y -= target.y;
-		return this;
+
+	public void addX(float value) {
+		this.x += value;
 	}
-	
-	public floatPoint subtractNew(floatPoint target){
-		return new floatPoint(x - target.x, y - target.y);
+
+	public void addY(float value) {
+		this.y += value;
 	}
-	
-	public void negateX(){
-		x = -x;
+
+	@Override
+	public floatPoint clone() {
+		return new floatPoint(this.x, this.y);
 	}
-	
-	public void negateY(){
-		y = -y;
+
+	public float getDistance(floatPoint target) {
+		return Util.getDistance(this.x, this.y, target.x, target.y);
 	}
-	
-	public void negate(){
-		x = -x;
-		y = -y;
+
+	public float getDistance(intPoint target) {
+		return Util.getDistance(this.x, this.y, target.getX(), target.getY());
 	}
-	
-	public float getX(){
-		return x;
+
+	public float getX() {
+		return this.x;
 	}
-	
-	public float getY(){
-		return y;
+
+	public float getY() {
+		return this.y;
 	}
-	
-	public boolean isEqualTo(floatPoint target){
+
+	public boolean isEqualTo(floatPoint target) {
 		return this.x == target.x && this.y == target.y;
 	}
-	
-	public boolean isEqualTo(intPoint target){
-		return this.x == (float)target.getX() && this.y == (float)target.getY();
+
+	public boolean isEqualTo(intPoint target) {
+		return this.x == target.getX() && this.y == target.getY();
 	}
-	
-	public float getDistance(intPoint target){
-		return Util.getDistance(x, y, (float)target.getX(), (float)target.getY());
+
+	public void negate() {
+		this.x = -this.x;
+		this.y = -this.y;
 	}
-	
-	public float getDistance(floatPoint target){
-		return Util.getDistance(x, y, target.x, target.y);
+
+	public void negateX() {
+		this.x = -this.x;
 	}
-	
-	public intPoint toIntPoint(){
-		return new intPoint((int) x, (int) y);
+
+	public void negateY() {
+		this.y = -this.y;
 	}
-	
-	public floatPoint clone(){
-		return new floatPoint(x, y);
+
+	public void set(floatPoint point) {
+		this.x = point.x;
+		this.y = point.y;
+	}
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	public void setY(float y) {
+		this.y = y;
+	}
+
+	public floatPoint subtract(floatPoint target) {
+		this.x -= target.x;
+		this.y -= target.y;
+		return this;
+	}
+
+	public floatPoint subtractNew(floatPoint target) {
+		return new floatPoint(this.x - target.x, this.y - target.y);
+	}
+
+	public intPoint toIntPoint() {
+		return new intPoint((int) this.x, (int) this.y);
 	}
 }

@@ -7,17 +7,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 public class FileManager {
-	
+
 	private String fileLocation;
+
 	private AssetManager assets;
-	
-	
-	public FileManager(AssetManager assets, String files){
-		fileLocation = files;
+
+	public FileManager(AssetManager assets, String files) {
+		this.fileLocation = files;
 	}
-	
-	public Bitmap getAssestImage(String file) throws IOException{
-		return BitmapFactory.decodeStream(assets.open(file));
+
+	public Bitmap getAssestImage(String file) throws IOException {
+		return BitmapFactory.decodeStream(this.assets.open(file));
 	}
 
 }

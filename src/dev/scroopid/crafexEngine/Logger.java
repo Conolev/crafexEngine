@@ -5,41 +5,34 @@ package dev.scroopid.crafexEngine;
  */
 public class Logger {
 	public static final int DEBUG = 4;
+
 	public static final int ERROR = 1;
+
 	public static final int INFO = 3;
+
 	public static final int TRACE = 5;
+
 	public static final int WARNING = 2;
 
 	/** This member holds the current level to be output. */
 	private static int level = TRACE;
+
 	private String prefix;
 
 	public Logger(Class cls) {
-		prefix = getName(cls) + " ";
+		this.prefix = this.getName(cls) + " ";
 	}
 
 	public void debug(String message) {
-		log(DEBUG, message, null);
+		this.log(DEBUG, message, null);
 	}
 
 	public void error(String message) {
-		error(message, null);
+		this.error(message, null);
 	}
 
 	public void error(String message, Throwable t) {
-		log(ERROR, message, t);
-	}
-
-	public void info(String message) {
-		log(INFO, message, null);
-	}
-
-	public void trace(String message) {
-		log(TRACE, message, null);
-	}
-
-	public void warning(String message) {
-		log(WARNING, message, null);
+		this.log(ERROR, message, t);
 	}
 
 	/**
@@ -51,9 +44,13 @@ public class Logger {
 		return name.substring(name.lastIndexOf('.') + 1);
 	}
 
+	public void info(String message) {
+		this.log(INFO, message, null);
+	}
+
 	private void log(int messageLevel, String message, Throwable t) {
 		if (messageLevel < level) {
-			System.out.print(prefix);
+			System.out.print(this.prefix);
 			System.out.print('[');
 
 			switch (messageLevel) {
@@ -84,5 +81,13 @@ public class Logger {
 				t.printStackTrace();
 			}
 		}
+	}
+
+	public void trace(String message) {
+		this.log(TRACE, message, null);
+	}
+
+	public void warning(String message) {
+		this.log(WARNING, message, null);
 	}
 }

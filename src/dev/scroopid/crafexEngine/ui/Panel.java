@@ -6,84 +6,88 @@ import android.graphics.Bitmap;
 import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
 import dev.scroopid.crafexEngine.util.Util;
 import dev.scroopid.crafexEngine.util.floatPoint;
-import dev.scroopid.crafexEngine.util.intPoint;
 
-public class Panel extends UIObject{
-	
+public class Panel extends UIObject {
+
 	protected ArrayList<UIObject> uiObjects;
-	
+
 	private int index;
+
 	private boolean scrolled;
+
 	protected int panelLayer = 0;
 
 	public Panel(Bitmap image, floatPoint location, int layer) {
 		super(image, location, layer);
-		setUiObjects(new ArrayList<UIObject>());
-		setSelected(0);
+		this.setUiObjects(new ArrayList<UIObject>());
+		this.setSelected(0);
 	}
-	
+
+	public void addPanelLayer(int value) {
+		this.panelLayer += value;
+	}
+
+	public void addUIObject(UIObject uiobject) {
+		this.uiObjects.add(uiobject);
+	}
+
+	public int getIndex() {
+		return this.index;
+	}
+
 	public ArrayList<UIObject> getUiObjects() {
-		return uiObjects;
+		return this.uiObjects;
+	}
+
+	public void setPanelLayer(int layer) {
+		this.panelLayer = layer;
+	}
+
+	public void setSelected(int index) {
+		this.index = index;
 	}
 
 	public void setUiObjects(ArrayList<UIObject> uiObjects) {
 		this.uiObjects = uiObjects;
 	}
-	
-	public int getIndex(){
-		return index;
-	}
-	
-	public void setSelected(int index){
-		this.index = index;
-	}
-	
-	public void addUIObject(UIObject uiobject){
-		uiObjects.add(uiobject);
-	}
-	
-	public void addPanelLayer(int value){
-		panelLayer += value;
-	}
-	
-	public void setPanelLayer(int layer){
-		panelLayer = layer;
+
+	@Override
+	public void whenHeld(CrafexTouchEvent touch) {
+		if (touch.getTouchLocation().getDistance(touch.getTouchLocation()) > this.DRAG_DISTANCE) {
+			if (this.realSize.getX() != this.size.getX()) {
+				this.scrollX(this.touch.getTouchLocation().getX() - touch.getTouchLocation().getX());
+				this.scrolled = true;
+			}
+			if (this.realSize.getY() != this.size.getY()) {
+				this.scrollY(this.touch.getTouchLocation().getY() - touch.getTouchLocation().getY());
+				this.scrolled = true;
+			}
+			this.touch = touch;
+		}
 	}
 
 	@Override
 	public void whenPressed(CrafexTouchEvent touch) {
-		for(int i = 0; i < uiObjects.size(); ++i){
-			if(uiObjects.get(i).getLayer() == panelLayer && 
-					Util.isBetween(touch.getTouchLocation().getX(), uiObjects.get(i).getX(), uiObjects.get(i).getSize().getX() + uiObjects.get(i).getX()) &&
-					Util.isBetween(touch.getTouchLocation().getY(), uiObjects.get(i).getY(), uiObjects.get(i).getSize().getY() + uiObjects.get(i).getY())){
-				touch.getTouchLocation().subtract(uiObjects.get(i).getLocation().toIntPoint());
-				uiObjects.get(i).whenPressed(touch);
-				index = i;
+		for (int i = 0; i < this.uiObjects.size(); ++i) {
+			if (this.uiObjects.get(i).getLayer() == this.panelLayer
+						&& Util.isBetween(touch.getTouchLocation().getX(), this.uiObjects.get(i).getX(), this.uiObjects.get(i).getSize().getX()
+									+ this.uiObjects.get(i).getX())
+						&& Util.isBetween(touch.getTouchLocation().getY(), this.uiObjects.get(i).getY(), this.uiObjects.get(i).getSize().getY()
+									+ this.uiObjects.get(i).getY())) {
+				touch.getTouchLocation().subtract(this.uiObjects.get(i).getLocation().toIntPoint());
+				this.uiObjects.get(i).whenPressed(touch);
+				this.index = i;
 			}
 		}
 	}
 
 	@Override
 	public void whenReleased(CrafexTouchEvent touch) {
-		if(!scrolled && Util.isBetween(touch.getTouchLocation().getX(), uiObjects.get(index).getX(), uiObjects.get(index).getSize().getX()) &&
-				Util.isBetween(touch.getTouchLocation().getY(), uiObjects.get(index).getY(), uiObjects.get(index).getSize().getY())){
-			touch.getTouchLocation().subtract(uiObjects.get(index).getLocation().toIntPoint());
-			uiObjects.get(index).whenPressed(touch);
-		}
-	}
-
-	@Override
-	public void whenHeld(CrafexTouchEvent touch) {
-		if(touch.getTouchLocation().getDistance(touch.getTouchLocation()) > DRAG_DISTANCE){
-			if(realSize.getX() != size.getX()){
-				scrollX(this.touch.getTouchLocation().getX() - touch.getTouchLocation().getX());
-				scrolled = true;
-			}
-			if(realSize.getY() != size.getY()){
-				scrollY(this.touch.getTouchLocation().getY() - touch.getTouchLocation().getY());
-				scrolled = true;
-			}
-			this.touch = touch;
+		if (!this.scrolled
+					&& Util.isBetween(touch.getTouchLocation().getX(), this.uiObjects.get(this.index).getX(), this.uiObjects.get(this.index).getSize().getX())
+					&& Util.isBetween(touch.getTouchLocation().getY(), this.uiObjects.get(this.index).getY(), this.uiObjects.get(this.index).getSize().getY())) {
+			touch.getTouchLocation().subtract(this.uiObjects.get(this.index).getLocation().toIntPoint());
+			this.uiObjects.get(this.index).whenPressed(touch);
 		}
 	}
 

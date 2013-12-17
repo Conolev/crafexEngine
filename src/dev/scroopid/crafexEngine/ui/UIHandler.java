@@ -8,78 +8,77 @@ import dev.scroopid.crafexEngine.Touchable;
 import dev.scroopid.crafexEngine.Updatable;
 import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
 
-public class UIHandler implements Updatable, Drawable{
-	
+public class UIHandler implements Updatable, Drawable {
+
 	private long lastUpdateTime;
+
 	private UIScreen uiscreen;
-	
-	public UIHandler(){
-		
-	}
-	
-	public void setUIScreen(UIScreen uiscreen){
-		this.uiscreen = uiscreen;
-	}
-	
-	public void setOverlay(UIObject overlay){
-		
-	}
-	
-	public boolean hasOverlay(){
-		return uiscreen.hasOverlay();
-	}
-	
-	public UIObject getOverlay(){
-		return uiscreen.getOverlay();
-	}
 
-	@Override
-	public void update(){
-		uiscreen.update();
-		setLastUpdateTime(System.currentTimeMillis());
-	}
+	public UIHandler() {
 
-	@Override
-	public void setLastUpdateTime(long time) {
-		lastUpdateTime = time;
-	}
-
-	@Override
-	public long getLastUpdateTime() {
-		return lastUpdateTime;
-	}
-	
-	@Override
-	public float getUpdateTimeDelta() {
-		return (System.currentTimeMillis() - lastUpdateTime)/1000;
-	}
-	
-	public void touchScreen(CrafexTouchEvent touch){
-		if(touch.getAction() == CrafexTouchEvent.ACTION_DOWN){
-			uiscreen.whenPressed(touch);
-		}
-		else if(touch.getAction() == CrafexTouchEvent.ACTION_UP){
-			uiscreen.whenReleased(touch);
-		}
-		else if(touch.getAction() == CrafexTouchEvent.ACTION_MOVE){
-			uiscreen.whenHeld(touch);
-		}
 	}
 
 	@Override
 	public void draw(Canvas canvas) {
-		uiscreen.draw(canvas);
+		this.uiscreen.draw(canvas);
+	}
+
+	@Override
+	public long getLastUpdateTime() {
+		return this.lastUpdateTime;
+	}
+
+	public UIObject getOverlay() {
+		return this.uiscreen.getOverlay();
 	}
 
 	public Touchable[] getTouchables() {
 		ArrayList<Touchable> data = new ArrayList<Touchable>();
-		
-		for(int i = 0; i < uiscreen.getUILayers().size(); ++i){
-			for(int i2 = 0; i2 < uiscreen.getUILayers().get(i).getSize(); ++i2){
-				data.add(uiscreen.getUILayers().get(i).getObject(i2));
+
+		for (int i = 0; i < this.uiscreen.getUILayers().size(); ++i) {
+			for (int i2 = 0; i2 < this.uiscreen.getUILayers().get(i).getSize(); ++i2) {
+				data.add(this.uiscreen.getUILayers().get(i).getObject(i2));
 			}
 		}
-		
+
 		return (Touchable[]) data.toArray();
+	}
+
+	@Override
+	public float getUpdateTimeDelta() {
+		return (System.currentTimeMillis() - this.lastUpdateTime) / 1000;
+	}
+
+	public boolean hasOverlay() {
+		return this.uiscreen.hasOverlay();
+	}
+
+	@Override
+	public void setLastUpdateTime(long time) {
+		this.lastUpdateTime = time;
+	}
+
+	public void setOverlay(UIObject overlay) {
+
+	}
+
+	public void setUIScreen(UIScreen uiscreen) {
+		this.uiscreen = uiscreen;
+	}
+
+	public void touchScreen(CrafexTouchEvent touch) {
+		if (touch.getAction() == CrafexTouchEvent.ACTION_DOWN) {
+			this.uiscreen.whenPressed(touch);
+		} else if (touch.getAction() == CrafexTouchEvent.ACTION_UP) {
+			this.uiscreen.whenReleased(touch);
+		} else if (touch.getAction() == CrafexTouchEvent.ACTION_MOVE) {
+			this.uiscreen.whenHeld(touch);
+		}
+	}
+
+	@Override
+	public void update() {
+		this.uiscreen.update();
+		this.setLastUpdateTime(System.currentTimeMillis());
 	}
 }
