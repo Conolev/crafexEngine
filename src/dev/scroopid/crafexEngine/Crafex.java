@@ -16,6 +16,8 @@ import dev.scroopid.crafexEngine.util.intPoint;
 
 public class Crafex extends View {
 
+	public static int DEFAULT_COLOR;
+	
 	public static FileManager fileMan;
 
 	public static InputHandler inputHandler;
@@ -39,12 +41,18 @@ public class Crafex extends View {
 	public Crafex(Level level, AssetManager assets, Context context, int backGroundColor, intPoint defaultResalution, intPoint screenResalution, String files) {
 		super(context);
 		WINDOW_DIMENTIONS = screenResalution;
+		WINDOW_DEFAULT = defaultResalution;
+		DEFAULT_COLOR = backGroundColor;
 		fileMan = new FileManager(assets, files);
 		uiHandler = new UIHandler();
 		levelMan = new LevelManager(uiHandler);
 		inputHandler = new InputHandler(context);
-		paint.setColor(Color.BLACK);
-		System.out.println("fuck");
+		paint.setColor(backGroundColor);
+		if(level != null){
+			levelMan.setLevel(level);
+		}else{
+			levelMan.setLevel(new Level());
+		}
 	}
 
 	@Override

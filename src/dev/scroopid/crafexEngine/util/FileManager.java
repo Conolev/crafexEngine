@@ -13,6 +13,7 @@ public class FileManager {
 	private AssetManager assets;
 
 	public FileManager(AssetManager assets, String files) {
+		this.assets = assets;
 		this.fileLocation = files;
 	}
 
