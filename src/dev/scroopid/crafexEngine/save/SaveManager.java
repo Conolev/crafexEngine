@@ -11,14 +11,17 @@ import java.util.Map;
 import dev.scroopid.crafexEngine.Logger;
 
 public class SaveManager {
+	private static final String ARRAY = "Array";
+	
 	private static final SaveManager instance = new SaveManager();
+	
 	private static final String DATA_END = "}";
 
 	private static final String DATA_START = "{";
 
 	private static final String SAVE_TYPE_FORMAT = "(%s : %s : %s)";
 	
-	private static final String ARRAY_TYPE_FORMAT = "[%s : %s : %s]";
+	private static final String ARRAY_TYPE_FORMAT = "[%s : %s : %s : %d]";
 
 	private static final String I_SAVE_HANDLER = "ISaveHandler";
 
@@ -27,6 +30,8 @@ public class SaveManager {
 	private static final Logger LOGGER = new Logger(SaveManager.class);
 
 	private static final String TAB = "    ";
+	
+	private static final String NULL = "$NULL$";
 
 	private static final Class<? extends Annotation> IGNORE = Ignore.class;
 
@@ -49,7 +54,6 @@ public class SaveManager {
 	private void saveField(ISavable object, int callsDeep, List<String> objectData, Field field) {
 		LOGGER.trace("Saving field: " + field.getName());
 		Class<?> fieldType = field.getType();
-		LOGGER.debug("Is Assignable to ISavable: " + fieldType.isAssignableFrom(ISavable.class));
 		
 		// Set field to accessible if not
 		field.setAccessible(true);
@@ -72,12 +76,13 @@ public class SaveManager {
 
 		} else if (fieldType.isArray()) {
 			
+			saveArrayField(object, field, fieldType);
+			
 			
 
 		} else if (Collection.class.isAssignableFrom(fieldType)) {
 
 			// TODO: Collection, save it!
-			LOGGER.debug("Made it here!");
 
 		} else if (Map.class.isAssignableFrom(fieldType)) {
 
@@ -86,6 +91,76 @@ public class SaveManager {
 		} else {
 			LOGGER.debug(String.format("Unable to save field of type %s named %s", fieldType.getName(), field.getName()));
 		}
+	}
+
+	private void saveArrayField(ISavable object, Field field, Class<?> fieldType) {
+		
+		// TODO: Array, save it
+		// Lets get how many demensions the array is!
+		// And get its component Type!
+		// Create List for data
+		int dimensions = 1;
+		Class<?> baseType = fieldType.getComponentType();
+		List<String> arrayData = new ArrayList<String>();
+		
+		// Desend Type Hiarchy, used insted of lastIndexOf because we need to know
+		// The declaring type.
+		while (baseType.isArray()){
+			// Add one to deminsions and get the array componentType
+			dimensions++;
+			baseType = fieldType.getComponentType();
+		}
+		
+		LOGGER.trace(String.format("Dealing with a %d demension array of type %s", dimensions, baseType.getName()));
+		
+		// Create the array header
+		String arrayHeader = String.format(ARRAY_TYPE_FORMAT, field.getName(), ARRAY,baseType.getName(), dimensions);
+		LOGGER.trace("Array header: " + arrayHeader);
+		arrayData.add(arrayHeader);
+		
+		// Lets go through the wormhole! (Dimensions)
+		int curDimension = 1;
+		arrayData.addAll(walkArray(object, field,curDimension));
+		
+	}
+
+	private List<String> walkArray(ISavable object, Field field, int curDimension) {
+		List<String> arrayData = new ArrayList<String>();
+		
+		try {
+			
+			// Add opening {
+			arrayData.add(SaveUtils.addMultipleString(TAB, curDimension - 1) + DATA_START);
+			
+			Object arrayObject = field.get(object);
+			if (arrayObject == null){
+				LOGGER.debug(String.format("Null array in dimension %d on field %s", curDimension, field.getName()));
+				// Write null token
+				 arrayData.add(SaveUtils.addMultipleString(TAB, curDimension) + NULL);
+			} else {
+				// Lets walk this beotch
+				int length = Array.getLength(arrayObject);
+			}
+			
+			// Add Closing }
+			arrayData.add(SaveUtils.addMultipleString(TAB, curDimension - 1) + DATA_END);
+			
+		} catch (IllegalArgumentException e) {
+			
+			// Was unable to get the array, illegal arguement
+			LOGGER.error("Unable to retrieve array", e);
+			throw new SaveException("Unable to save, could not retrieve aray from " + field.getName());
+			
+		} catch (IllegalAccessException e) {
+			
+			// Was unable to get the array, illegal access
+			LOGGER.error("Unable to retrieve array", e);
+			throw new SaveException("Unable to save, could not retrieve aray from " + field.getName());
+			
+		}
+		
+		// Return the data
+		return arrayData;
 	}
 
 	/**
@@ -121,7 +196,6 @@ public class SaveManager {
 			// If the Ignore annotation is not present then save field
 			if (!field.isAnnotationPresent(IGNORE)) {
 				this.saveField(object, callsDeep, objectData, field);
-
 			} else {
 				// Ignore the field
 				LOGGER.trace("Ignoring field: " + field.getName());
