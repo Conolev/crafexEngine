@@ -49,7 +49,7 @@ public class GraphicsUtil {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		int scale = Crafex.WINDOW_DIMENTIONS.getX() / Crafex.WINDOW_DIMENTIONS.getY();
+		int scale = Crafex.WINDOW_DIMENTIONS.getY() / Crafex.WINDOW_DEFAULT.getY();
 
 		if (temp != null) {
 			data = scaleImage(temp, scale);
