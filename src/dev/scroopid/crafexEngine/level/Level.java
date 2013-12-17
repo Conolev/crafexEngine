@@ -1,13 +1,15 @@
 package dev.scroopid.crafexEngine.level;
 
+import android.graphics.Canvas;
 import dev.scroopid.crafexEngine.Crafex;
+import dev.scroopid.crafexEngine.Drawable;
 import dev.scroopid.crafexEngine.Updatable;
 import dev.scroopid.crafexEngine.ui.UILayer;
 import dev.scroopid.crafexEngine.ui.UIObject;
 import dev.scroopid.crafexEngine.ui.UIScreen;
 import dev.scroopid.crafexEngine.util.intPoint;
 
-public class Level implements Updatable {
+public class Level implements Updatable, Drawable{
 
 	protected long lastUpdateTime;
 
@@ -91,6 +93,12 @@ public class Level implements Updatable {
 	@Override
 	public void update() {
 
+	}
+
+	@Override
+	public void draw(Canvas canvas) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

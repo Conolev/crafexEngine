@@ -55,7 +55,7 @@ public class GraphicsUtil {
 			e.printStackTrace();
 		}
 		
-		float scale = Crafex.WINDOW_DIMENTIONS.getY() / Crafex.WINDOW_DEFAULT.getY();
+		float scale = (float) (Crafex.WINDOW_DIMENTIONS.getY()) / Crafex.WINDOW_DEFAULT.getY();
 
 		if (temp != null) {
 			data = scaleImage(temp, scale);
@@ -128,6 +128,7 @@ public class GraphicsUtil {
 		return data;
 	}
 	
+	@Deprecated
 	public static Bitmap strechImage(Bitmap image, float xscale, float yscale){
 		Bitmap data = Bitmap.createBitmap((int) (image.getWidth() * xscale), 
 					(int) (image.getHeight() * yscale), image.getConfig());
@@ -140,11 +141,26 @@ public class GraphicsUtil {
 	
 	public static Bitmap strechImage(Bitmap image, int xsize, int ysize){
 		Bitmap data = Bitmap.createBitmap((int) (xsize), 
-					(int) (image.getHeight() * ysize), image.getConfig());
+					(int) (ysize), image.getConfig());
 		Canvas canvas = new Canvas(data);
-		canvas.drawBitmap(image, new Rect(0, 0, image.getWidth(), image.getHeight()), 
-					new Rect(0, 0, (int) (image.getWidth() * xsize), 
-								(int) (image.getHeight() * ysize)), null);
+		canvas.drawBitmap(image, new Rect(0, 0, image.getWidth()/2, image.getHeight()/2), 
+					new Rect(0, 0, (int) (image.getWidth()/2), 
+								(int) (image.getHeight()/2)), null);
+		
+		canvas.drawBitmap(image, new Rect(image.getWidth()/2, 0, image.getWidth(), 
+					image.getHeight()/2), 
+					new Rect(xsize - (image.getWidth()/2), 0,xsize, 
+								(int) (image.getHeight()/2)), null);
+		
+		canvas.drawBitmap(image, new Rect(0, image.getHeight()/2, image.getWidth()/2, 
+					image.getHeight()), 
+					new Rect(0, ysize - (image.getHeight()/2), 
+								(int) (image.getWidth()/2), ysize), null);
+		
+		canvas.drawBitmap(image, new Rect(image.getWidth()/2, image.getHeight()/2, 
+					image.getWidth(), image.getHeight()), 
+					new Rect(xsize - (image.getWidth()/2), ysize - (image.getHeight()/2),
+								xsize, ysize), null);
 		return data;
 	}
 

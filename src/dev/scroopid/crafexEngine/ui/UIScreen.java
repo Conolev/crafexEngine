@@ -16,7 +16,7 @@ public class UIScreen implements Updatable, Touchable {
 	private long lastUpdateTime;
 
 	public UIScreen() {
-
+		uiLayers = new ArrayList<UILayer>();
 	}
 
 	public void addUILayer(UILayer uiobject) {

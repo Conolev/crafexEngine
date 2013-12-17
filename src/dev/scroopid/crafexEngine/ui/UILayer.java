@@ -10,7 +10,7 @@ public class UILayer {
 	private ArrayList<UIObject> uiObjects = new ArrayList<UIObject>();
 
 	public UILayer() {
-
+		uiObjects = new ArrayList<UIObject>();
 	}
 
 	public void addUIObject(UIObject uiObject) {

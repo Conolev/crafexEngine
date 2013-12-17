@@ -15,7 +15,7 @@ public class UIHandler implements Updatable, Drawable {
 	private UIScreen uiscreen;
 
 	public UIHandler() {
-
+		uiscreen = new UIScreen();
 	}
 
 	@Override

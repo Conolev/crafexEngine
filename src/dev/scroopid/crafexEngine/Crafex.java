@@ -38,7 +38,8 @@ public class Crafex extends View {
 	 * @param context
 	 *        of activity
 	 */
-	public Crafex(Level level, AssetManager assets, Context context, int backGroundColor, intPoint defaultResalution, intPoint screenResalution, String files) {
+	public Crafex(Level level, AssetManager assets, Context context, int backGroundColor, 
+				intPoint defaultResalution, intPoint screenResalution, String files) {
 		super(context);
 		WINDOW_DIMENTIONS = screenResalution;
 		WINDOW_DEFAULT = defaultResalution;
@@ -58,7 +59,7 @@ public class Crafex extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		canvas.drawRect(0, 0, WINDOW_DIMENTIONS.getX(), WINDOW_DIMENTIONS.getY(), paint);
-
+		levelMan.draw(canvas);
 		super.onDraw(canvas);
 	}
 

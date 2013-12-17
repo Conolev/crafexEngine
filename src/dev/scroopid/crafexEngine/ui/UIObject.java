@@ -69,11 +69,11 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	@Override
 	public void draw(Canvas canvas) {
-
+		sprite.draw(canvas, location.toIntPoint());
 	}
 
 	public void generateRect() {
-		// TODO add generate rect to UIObject.
+		size = new intPoint(sprite.getWidth(), sprite.getHeight());
 	}
 
 	@Override
