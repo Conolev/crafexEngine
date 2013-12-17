@@ -40,7 +40,12 @@ public class GraphicsUtil {
 
 		return data;
 	}
-
+	
+	/**
+	 * loads bitmap from assets
+	 * @param file in assets to load
+	 * @return bitmap
+	 */
 	public static Bitmap loadAssestImage(String file) {
 		Bitmap temp = null;
 		Bitmap data = null;
