@@ -101,4 +101,9 @@ public class floatPoint {
 	public intPoint toIntPoint() {
 		return new intPoint((int) this.x, (int) this.y);
 	}
+	
+	@Override
+	public String toString() {
+		return "X: " + x + ". Y:" + y + ".";
+	}
 }

@@ -40,8 +40,14 @@ public class UIHandler implements Updatable, Drawable {
 				data.add(this.uiscreen.getUILayers().get(i).getObject(i2));
 			}
 		}
+		
+		Touchable[] touchables = new Touchable[data.size()];
+		
+		for (int i = 0; i < data.size(); ++i){
+			touchables[i] = data.get(i);
+		}
 
-		return (Touchable[]) data.toArray();
+		return touchables;
 	}
 
 	@Override

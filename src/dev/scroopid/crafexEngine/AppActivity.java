@@ -66,15 +66,7 @@ public abstract class AppActivity extends Activity {
 		
 		LOGGER.info("Crafex Started");
 	}
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		if (this.touchStyle > 0) {
-			return crafex.onTouchEvent(event);
-		}
-		return super.onTouchEvent(event);
-	}
-
+	
 	/**
 	 * removes the apps title on the top.
 	 */

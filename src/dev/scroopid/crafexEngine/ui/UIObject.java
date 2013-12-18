@@ -10,6 +10,7 @@ import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
 import dev.scroopid.crafexEngine.util.Util;
 import dev.scroopid.crafexEngine.util.floatPoint;
 import dev.scroopid.crafexEngine.util.intPoint;
+import dev.scroopid.crafexEngine.util.intRectangle;
 
 public abstract class UIObject implements Updatable, Touchable, Drawable {
 
@@ -75,6 +76,11 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	public void generateRect() {
 		size = new intPoint(sprite.getWidth(), sprite.getHeight());
 	}
+	
+	public intRectangle getRectangle(){
+		return new intRectangle((int) location.getX(), (int) location.getY(), 
+					(int) location.getX() + size.getX(), (int) location.getY() + size.getY());
+	}
 
 	@Override
 	public long getLastUpdateTime() {
@@ -115,7 +121,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	@Override
 	public float getUpdateTimeDelta() {
-		return (System.currentTimeMillis() - this.lastUpdateTime) / 1000;
+		return (System.currentTimeMillis() - this.lastUpdateTime) / 1000f;
 	}
 
 	public float getX() {
@@ -132,8 +138,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	@Override
 	public boolean isTouching(CrafexTouchEvent touch) {
-		return Util.isBetween(touch.getTouchLocation().getX(), this.getX(), this.getSize().getX() + this.getX())
-					&& Util.isBetween(touch.getTouchLocation().getY(), this.getY(), this.getSize().getY() + this.getY());
+		return isActive() && Util.isBetween(touch.getTouchLocation(), getRectangle());
 	}
 
 	public void scrollX(int differance) {
@@ -208,7 +213,8 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	@Override
 	public void update() {
 		if (!this.location.isEqualTo(this.targetLocation)) {
-			Util.move(this.location, this.targetLocation.getFloatPoint(), this.speed * this.getUpdateTimeDelta());
+			this.location = Util.move(this.location, this.targetLocation.getFloatPoint(), 
+						this.speed * this.getUpdateTimeDelta());
 		}
 		this.setLastUpdateTime(System.currentTimeMillis());
 	}

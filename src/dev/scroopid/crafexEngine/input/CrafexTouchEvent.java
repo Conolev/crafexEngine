@@ -20,6 +20,7 @@ public class CrafexTouchEvent {
 	public CrafexTouchEvent(int pointer, intPoint touchlocation, int action) {
 		this.setPointer(pointer);
 		this.setTouchLocation(touchlocation);
+		setAction(action);
 	}
 
 	public int getAction() {

@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import dev.scroopid.crafexEngine.input.InputHandler;
 import dev.scroopid.crafexEngine.level.Level;
@@ -14,7 +16,7 @@ import dev.scroopid.crafexEngine.ui.UIHandler;
 import dev.scroopid.crafexEngine.util.FileManager;
 import dev.scroopid.crafexEngine.util.intPoint;
 
-public class Crafex extends View {
+public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 
 	public static int DEFAULT_COLOR;
 	
@@ -31,6 +33,10 @@ public class Crafex extends View {
 	public static intPoint WINDOW_DEFAULT;
 
 	public static Paint paint = new Paint();
+	
+	public static GameThread update;
+	
+	public static DrawThread draw;
 
 	/**
 	 * Game screen where update threads are.
@@ -54,18 +60,54 @@ public class Crafex extends View {
 		}else{
 			levelMan.setLevel(new Level());
 		}
+		
+		update = new GameThread(60) {
+			
+			@Override
+			public void threadStuff() {
+				update();
+			}
+		};
+		
+		draw = new DrawThread(this, 60);
+		
+		getHolder().addCallback(this);
+
+        setFocusable(true);
+	}
+	
+	public void init(){
+		update.start();
+		draw.start();
+	}
+	
+	public void update(){
+		levelMan.update();
 	}
 
-	@Override
-	protected void onDraw(Canvas canvas) {
+	public void draw(Canvas canvas) {
 		canvas.drawRect(0, 0, WINDOW_DIMENTIONS.getX(), WINDOW_DIMENTIONS.getY(), paint);
 		levelMan.draw(canvas);
-		super.onDraw(canvas);
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		return inputHandler.handleTouchInput(event);
+	}
+
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+		
+	}
+
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		init();
+	}
+
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
+		
 	}
 
 }

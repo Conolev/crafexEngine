@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.view.MotionEvent;
 import dev.scroopid.crafexEngine.Crafex;
+import dev.scroopid.crafexEngine.Touchable;
 import dev.scroopid.crafexEngine.Updatable;
 import dev.scroopid.crafexEngine.ui.Input.KeyBoard;
 import dev.scroopid.crafexEngine.util.intPoint;
@@ -41,26 +42,17 @@ public class InputHandler implements Updatable {
 	}
 
 	public boolean handleTouchInput(MotionEvent event) {
-		boolean touched = false;
-		CrafexTouchEvent touch =
-					new CrafexTouchEvent(event.getActionIndex(), new intPoint((int) event.getX(event.getActionIndex()), (int) event.getY(event.getActionIndex())), event.getActionMasked());
+		CrafexTouchEvent touch = new CrafexTouchEvent(event.getActionIndex(), 
+					new intPoint((int) event.getX(event.getActionIndex()), 
+								(int) event.getY(event.getActionIndex())), 
+								event.getAction());
+		
+		
 		if (Crafex.uiHandler != null) {
-			for (int i = 0; i < Crafex.uiHandler.getTouchables().length; ++i) {
-				if (Crafex.uiHandler.getTouchables()[i].isTouching(touch)) {
-					if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-						Crafex.uiHandler.getTouchables()[i].whenPressed(touch);
-					} else if (event.getActionMasked() == MotionEvent.ACTION_UP) {
-						Crafex.uiHandler.getTouchables()[i].whenReleased(touch);
-					} else if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
-						Crafex.uiHandler.getTouchables()[i].whenHeld(touch);
-					}
-				}
-			}
-			if (!touched) {
-				Crafex.uiHandler.touchScreen(touch);
-			}
+			Crafex.uiHandler.touchScreen(touch);
 		}
-		return false;
+		
+		return true;
 	}
 
 	@Override

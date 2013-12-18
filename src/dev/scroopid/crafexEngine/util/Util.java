@@ -17,11 +17,25 @@ public class Util {
 	public static boolean isBetween(int number, int min, int max) {
 		return number > min && number < max;
 	}
+	
+	public static boolean isBetween(intPoint point, intRectangle area) {
+		return Util.isBetween(point.getX(), area.getLeft(), area.getRight()) 
+					&& Util.isBetween(point.getY(), area.getTop(), area.getBottom());
+	}
 
 	public static floatPoint move(floatPoint location, floatPoint targetLocation, float speed) {
 		float distance = location.getDistance(targetLocation);
 		float dx = ((targetLocation.getX() - location.getX()) / distance) * speed;
 		float dy = ((targetLocation.getY() - location.getY()) / distance) * speed;
+		
+		if(Math.abs(dx) > Math.abs(targetLocation.getX() - location.getX())){
+			dx = targetLocation.getX() - location.getX();
+		}
+		
+		if(Math.abs(dy) > Math.abs(targetLocation.getY() - location.getY())){
+			dy = targetLocation.getY() - location.getY();
+		}
+		
 		location.addX(dx);
 		location.addY(dy);
 		return location;

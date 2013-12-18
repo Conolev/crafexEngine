@@ -54,7 +54,7 @@ public class LevelManager implements Updatable, Drawable{
 
 	@Override
 	public void update() {
-		
+		uiHandler.update();
 	}
 
 }

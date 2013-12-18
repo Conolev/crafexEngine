@@ -104,4 +104,9 @@ public class intPoint {
 	public intPoint subtractNew(intPoint target) {
 		return new intPoint(this.x - target.x, this.y - target.y);
 	}
+	
+	@Override
+	public String toString() {
+		return "X: " + x + ". Y:" + y + ".";
+	}
 }

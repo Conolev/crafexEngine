@@ -52,6 +52,14 @@ public class UIScreen implements Updatable, Touchable {
 	public ArrayList<UILayer> getUILayers() {
 		return this.uiLayers;
 	}
+	
+	public void removeLayer(){
+		if(uiLayers.size() > 1){
+			uiLayers.remove(uiLayers.size() - 1);
+		}else{
+			uiLayers.clear();
+		}
+	}
 
 	@Override
 	public float getUpdateTimeDelta() {
@@ -88,17 +96,25 @@ public class UIScreen implements Updatable, Touchable {
 
 	@Override
 	public void whenHeld(CrafexTouchEvent touch) {
-
+		if(uiLayers.size() > 0 && uiLayers.get(uiLayers.size() - 1).isTouching(touch)){
+			uiLayers.get(uiLayers.size() - 1).whenHeld(touch);
+		}
 	}
 
 	@Override
 	public void whenPressed(CrafexTouchEvent touch) {
-
+		if(uiLayers.size() > 0 && uiLayers.get(uiLayers.size() - 1).isTouching(touch)){
+			uiLayers.get(uiLayers.size() - 1).whenPressed(touch);
+		}else{
+			removeLayer();
+		}
 	}
 
 	@Override
 	public void whenReleased(CrafexTouchEvent touch) {
-
+		if(uiLayers.size() > 0 && uiLayers.get(uiLayers.size() - 1).isTouching(touch)){
+			uiLayers.get(uiLayers.size() - 1).whenReleased(touch);
+		}
 	}
 
 }

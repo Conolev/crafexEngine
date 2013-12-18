@@ -6,24 +6,16 @@ import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
 import dev.scroopid.crafexEngine.util.floatPoint;
 
 public class Button extends UIObject {
+	
+	protected Command command;
 
 	public Button(Bitmap image, floatPoint location, int layer) {
 		super(image, location, layer);
 	}
-
-	@Override
-	public void whenHeld(CrafexTouchEvent touch) {
-
+	
+	public Button(Bitmap image, floatPoint location, int layer, Command command) {
+		super(image, location, layer);
+		this.command = command;
 	}
-
-	@Override
-	public void whenPressed(CrafexTouchEvent touch) {
-
-	}
-
-	@Override
-	public void whenReleased(CrafexTouchEvent touch) {
-
-	}
-
+	
 }
