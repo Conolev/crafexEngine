@@ -16,24 +16,33 @@ import dev.scroopid.crafexEngine.util.intPoint;
 
 public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 
+	/**color of the background*/
 	public static int DEFAULT_COLOR;
 	
+	/**file manager of the crafex*/
 	public static FileManager fileMan;
 
+	/**input handler of the crafex*/
 	public static InputHandler inputHandler;
 
+	/**UI handler of the crafex*/
 	public static UIHandler uiHandler;
 
+	/**level manager of the crafex*/
 	public static LevelManager levelMan;
-
+	
+	/**Phone's screen resolution*/
 	public static intPoint WINDOW_DIMENTIONS;
-
+	
+	/**the expected resolution*/
 	public static intPoint WINDOW_DEFAULT;
 
 	public static Paint paint = new Paint();
 	
+	/**update thread*/
 	public static GameThread update;
 	
+	/**draw thread*/
 	public static DrawThread draw;
 
 	/**
@@ -74,15 +83,24 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
         setFocusable(true);
 	}
 	
+	/**
+	 * Initializes crafex
+	 */
 	public void init(){
 		update.start();
 		draw.start();
 	}
 	
+	/**
+	 * update of crafex
+	 */
 	public void update(){
 		levelMan.update();
 	}
-
+	
+	/**
+	 * draws the crafex to canvas
+	 */
 	public void draw(Canvas canvas) {
 		canvas.drawRect(0, 0, WINDOW_DIMENTIONS.getX(), WINDOW_DIMENTIONS.getY(), paint);
 		levelMan.draw(canvas);
@@ -107,5 +125,4 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		
 	}
-
 }

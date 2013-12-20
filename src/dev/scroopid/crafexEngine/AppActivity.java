@@ -14,28 +14,45 @@ public abstract class AppActivity extends Activity {
 	
 	public static final Logger LOGGER = new Logger(AppActivity.class);
 
+	/**touch style: none*/
 	public static final int TOUCH_STYLE_NONE = 0;
 
+	/**touch style: normal*/
 	public static final int TOUCH_STYLE_NORMAL = 1;
 
+	/**the apps crafex*/
 	public static Crafex crafex;
 
+	/**the expected resolution*/
 	private static intPoint defaultResolution = new intPoint(1920, 1080);
 
+	/**background color*/
 	private static int defaultColor = Color.BLACK;
 
 	private DisplayMetrics displaymetrics = new DisplayMetrics();
-
+	
+	/**resolution of the phone's screen*/
 	protected intPoint resolution;
-
+	
+	/**current touch style*/
 	private int touchStyle = 1;
 
+	/**default level*/
 	private Level level;;
-
+	
+	/**
+	 * method called after created.
+	 */
 	public abstract void afterCreated();
 
+	/**
+	 * methos called before creation.
+	 */
 	public abstract void beforeCreated();
-
+	
+	/**
+	 * sets touch style to return no touch
+	 */
 	public void disableTouch() {
 		this.touchStyle = TOUCH_STYLE_NONE;
 	}
@@ -134,10 +151,18 @@ public abstract class AppActivity extends Activity {
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 	
+	/**
+	 * gets the touch style of the app.
+	 * @return
+	 */
 	public int getTouchStyle() {
 		return touchStyle;
 	}
 
+	/**
+	 * sets the touch style of the app.
+	 * @param touchStyle
+	 */
 	public void setTouchStyle(int touchStyle) {
 		this.touchStyle = touchStyle;
 	}

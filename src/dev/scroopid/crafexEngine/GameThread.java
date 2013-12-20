@@ -2,32 +2,54 @@ package dev.scroopid.crafexEngine;
 
 public abstract class GameThread extends Thread {
 	
+	/**frames per second to limit the thread to*/
 	private long FPS;
 
+	/**does the thread exists*/
 	private boolean exists = false;
 
+	/**is the thread running*/
 	private boolean running = false;
 
+	/**
+	 * crafex thread.
+	 */
 	public GameThread() {
 		FPS = 10;
 	}
 	
+	/**
+	 * crafex thread.
+	 * @param fps to run at
+	 */
 	public GameThread(int fps) {
 		FPS = fps;
 	}
 
+	/**
+	 * creates the thread
+	 */
 	public void create() {
 		this.exists = true;
 	}
 
+	/**
+	 * kills the thread
+	 */
 	public void kill() {
 		this.exists = false;
 	}
 
+	/**
+	 * pauses the thread
+	 */
 	public void pause() {
 		this.running = false;
 	}
 
+	/**
+	 * plays the thread
+	 */
 	public void play() {
 		this.running = true;
 	}
@@ -71,6 +93,9 @@ public abstract class GameThread extends Thread {
 		super.start();
 	}
 
+	/**
+	 * stuff to do in thread.
+	 */
 	public abstract void threadStuff();
 
 }
