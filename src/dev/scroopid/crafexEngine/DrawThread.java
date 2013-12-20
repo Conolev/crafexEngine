@@ -3,7 +3,6 @@ package dev.scroopid.crafexEngine;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
-import android.view.View;
 
 public class DrawThread extends GameThread{
 	

@@ -46,4 +46,22 @@ public class CrafexTouchEvent {
 	public void setTouchLocation(intPoint touchLocation) {
 		this.touchLocation = touchLocation;
 	}
+	
+	@Override
+	public String toString() {
+		String data = "action: ";
+		
+		if(action == ACTION_DOWN){
+			data += "DOWN";
+		}else if(action == ACTION_MOVE){
+			data += "MOVE";
+		}else if(action == ACTION_UP){
+			data += "UP";
+		}
+		
+		data += ". pointer: " + pointer +  ". X: " + touchLocation.getX() 
+					+ ". Y:" + touchLocation.getY() + ".";
+		
+		return data;
+	}
 }

@@ -1,10 +1,8 @@
 package dev.scroopid.crafexEngine.ui;
 
 import java.util.ArrayList;
-import java.util.TooManyListenersException;
 
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import dev.scroopid.crafexEngine.Touchable;
 import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
 import dev.scroopid.crafexEngine.util.Util;
@@ -90,6 +88,7 @@ public class UILayer implements Touchable{
 
 	@Override
 	public void whenReleased(CrafexTouchEvent touch) {
+		System.out.println(touch);
 		for(int i = 0; i < uiObjects.size(); ++i){
 			if(uiObjects.get(i).isTouching(touch)){
 				uiObjects.get(i).whenReleased(touch);

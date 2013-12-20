@@ -19,7 +19,7 @@ public class Logger {
 
 	private String prefix;
 
-	public Logger(Class cls) {
+	public Logger(Class<?> cls) {
 		this.prefix = this.getName(cls) + " ";
 	}
 
@@ -38,7 +38,7 @@ public class Logger {
 	/**
 	 * This method return just the name of the class (i.e. without package).
 	 */
-	private String getName(Class cls) {
+	private String getName(Class<?> cls) {
 		String name = cls.getName();
 
 		return name.substring(name.lastIndexOf('.') + 1);

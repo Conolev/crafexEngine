@@ -3,12 +3,10 @@ package dev.scroopid.crafexEngine;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 import dev.scroopid.crafexEngine.input.InputHandler;
 import dev.scroopid.crafexEngine.level.Level;
 import dev.scroopid.crafexEngine.level.LevelManager;
@@ -53,7 +51,7 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 		fileMan = new FileManager(assets, files);
 		uiHandler = new UIHandler();
 		levelMan = new LevelManager(uiHandler);
-		inputHandler = new InputHandler(context);
+		inputHandler = new InputHandler();
 		paint.setColor(backGroundColor);
 		if(level != null){
 			levelMan.setLevel(level);

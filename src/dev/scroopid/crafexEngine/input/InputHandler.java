@@ -1,11 +1,7 @@
 package dev.scroopid.crafexEngine.input;
 
-import java.util.ArrayList;
-
-import android.content.Context;
 import android.view.MotionEvent;
 import dev.scroopid.crafexEngine.Crafex;
-import dev.scroopid.crafexEngine.Touchable;
 import dev.scroopid.crafexEngine.Updatable;
 import dev.scroopid.crafexEngine.ui.Input.KeyBoard;
 import dev.scroopid.crafexEngine.util.intPoint;
@@ -16,11 +12,9 @@ public class InputHandler implements Updatable {
 
 	private KeyBoard inputer;
 
-	private ArrayList<Integer> touchIndex;
 
-	public InputHandler(Context context) {
+	public InputHandler() {
 
-		this.touchIndex = new ArrayList<Integer>();
 	}
 
 	public void crafexKeyboardInput(CrafexKeyInputEvent event) {

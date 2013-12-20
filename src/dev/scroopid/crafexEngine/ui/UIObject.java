@@ -136,11 +136,6 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 		return this.location.isEqualTo(this.targetLocation);
 	}
 
-	@Override
-	public boolean isTouching(CrafexTouchEvent touch) {
-		return isActive() && Util.isBetween(touch.getTouchLocation(), getRectangle());
-	}
-
 	public void scrollX(int differance) {
 		if (this.scroll.getX() + this.size.getX() < this.realSize.getX() && differance > 0) {
 			if (this.realSize.getX() - (this.scroll.getX() + this.size.getX()) < differance) {
@@ -212,11 +207,17 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	@Override
 	public void update() {
+		System.out.println(location);
 		if (!this.location.isEqualTo(this.targetLocation)) {
 			this.location = Util.move(this.location, this.targetLocation.getFloatPoint(), 
 						this.speed * this.getUpdateTimeDelta());
 		}
 		this.setLastUpdateTime(System.currentTimeMillis());
+	}
+	
+	@Override
+	public boolean isTouching(CrafexTouchEvent touch) {
+		return isActive() && Util.isBetween(touch.getTouchLocation(), getRectangle());
 	}
 
 	@Override
@@ -232,6 +233,6 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	@Override
 	public void whenReleased(CrafexTouchEvent touch) {
-		touch = null;
+		this.touch = null;
 	}
 }

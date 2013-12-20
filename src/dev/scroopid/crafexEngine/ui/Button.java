@@ -2,7 +2,6 @@ package dev.scroopid.crafexEngine.ui;
 
 import android.graphics.Bitmap;
 import dev.scroopid.crafexEngine.console.Command;
-import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
 import dev.scroopid.crafexEngine.util.floatPoint;
 
 public class Button extends UIObject {

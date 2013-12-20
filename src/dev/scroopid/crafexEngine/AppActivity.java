@@ -5,7 +5,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 import dev.scroopid.crafexEngine.level.Level;
@@ -75,7 +74,7 @@ public abstract class AppActivity extends Activity {
 	}
 
 	/**
-	 * sets the default background color of the crafex
+	 * sets the default background color of the crafex.
 	 * @param color
 	 */
 	public void setDefaultColor(int color) {
@@ -86,7 +85,7 @@ public abstract class AppActivity extends Activity {
 	}
 
 	/**
-	 * sets the apps expected resolution
+	 * sets the apps expected resolution.
 	 * @param dimentions
 	 */
 	public void setDefaultResolution(intPoint dimentions) {
@@ -97,8 +96,8 @@ public abstract class AppActivity extends Activity {
 	}
 
 	/**
-	 * sets the app to fullscreen
-	 * @param fullscreen
+	 * sets the app to fullscreen.
+	 * @param isFullscreen?
 	 */
 	public void setFullScreen(boolean fullscreen) {
 		if (fullscreen) {
@@ -111,14 +110,14 @@ public abstract class AppActivity extends Activity {
 	}
 
 	/**
-	 * set app to landscape mode
+	 * set app to landscape mode.
 	 */
 	public void setLandscape() {
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 	}
 
 	/**
-	 * sets the level of crafex
+	 * sets the level of crafex.
 	 * @param level
 	 */
 	public void setLevel(Level level) {
@@ -129,9 +128,24 @@ public abstract class AppActivity extends Activity {
 	}
 	
 	/**
-	 * 
+	 * set app to portrait mode.
 	 */
 	public void setPortrait() {
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	}
+	
+	public int getTouchStyle() {
+		return touchStyle;
+	}
+
+	public void setTouchStyle(int touchStyle) {
+		this.touchStyle = touchStyle;
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		if(!hasFocus){
+			System.exit(0);
+		}
 	}
 }

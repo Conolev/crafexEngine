@@ -25,9 +25,20 @@ public class Util {
 
 	public static floatPoint move(floatPoint location, floatPoint targetLocation, float speed) {
 		float distance = location.getDistance(targetLocation);
-		float dx = ((targetLocation.getX() - location.getX()) / distance) * speed;
-		float dy = ((targetLocation.getY() - location.getY()) / distance) * speed;
 		
+		float dx;
+		float dy;
+		
+		if(distance != 0){
+			dx = ((targetLocation.getX() - location.getX()) / distance) * speed;
+			dy = ((targetLocation.getY() - location.getY()) / distance) * speed;
+		}else{
+			dx = 0;
+			dy = 0;
+		}
+		
+		System.out.println(dx);
+		System.out.println(dy);
 		if(Math.abs(dx) > Math.abs(targetLocation.getX() - location.getX())){
 			dx = targetLocation.getX() - location.getX();
 		}
