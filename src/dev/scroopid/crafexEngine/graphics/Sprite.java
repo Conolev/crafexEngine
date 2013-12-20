@@ -44,10 +44,17 @@ public class Sprite implements ISavable {
 	 */
 	private boolean _frameAnimation;
 
+	/**speed to change frame*/
 	private float frameSpeed;
 
+	/**last time sprite updated*/
 	private long lastUpdated = System.currentTimeMillis();
 
+	/**
+	 * sprite for an object.
+	 * @param srcImage image for sprite.
+	 * @param frameSpeed speed the frames change.
+	 */
 	public Sprite(Bitmap srcImage, float frameSpeed) {
 		this.setFullImage(srcImage);
 		this._frames = 1;
@@ -59,6 +66,16 @@ public class Sprite implements ISavable {
 		this.frameSpeed = frameSpeed;
 	}
 
+	/**
+	 * sprite for an object.
+	 * @param srcImage - image for sprite.
+	 * @param frames - amount of frames
+	 * @param cycles - amount of cycles
+	 * @param dstSize - size of the individual images on map.
+	 * @param defaultFrame index number
+	 * @param frameAnimation - is animated of sheet
+	 * @param frameSpeed speed the frames change.
+	 */
 	public Sprite(Bitmap srcImage, int frames, int cycles, intPoint dstSize, int defaultFrame, boolean frameAnimation, float frameSpeed) {
 		this.setFullImage(srcImage);
 		this._frames = frames;
@@ -70,6 +87,15 @@ public class Sprite implements ISavable {
 		this.frameSpeed = frameSpeed;
 	}
 
+	/**
+	 * sprite for an object.
+	 * @param srcImage - image for sprite.
+	 * @param frames - amount of frames
+	 * @param cycles - amount of cycles
+	 * @param dstSize - size of the individual images on map.
+	 * @param defaultFrame index number
+	 * @param frameSpeed speed the frames change.
+	 */
 	public Sprite(Bitmap srcImage, int frames, int cycles, intPoint dstSize, int defaultFrame, float frameSpeed) {
 		this.setFullImage(srcImage);
 		this._frames = frames;
@@ -81,6 +107,12 @@ public class Sprite implements ISavable {
 		this.frameSpeed = frameSpeed;
 	}
 
+	/**
+	 * sprite for an object.
+	 * @param srcImage - image for sprite.
+	 * @param dstSize - size of the individual images on map.
+	 * @param frameSpeed speed the frames change.
+	 */
 	public Sprite(Bitmap srcImage, intPoint dstSize, float frameSpeed) {
 		this.setFullImage(srcImage);
 		this._frames = 1;
@@ -92,6 +124,11 @@ public class Sprite implements ISavable {
 		this.frameSpeed = frameSpeed;
 	}
 
+	/**
+	 * draws the sprite to canvas at location
+	 * @param canvas
+	 * @param location
+	 */
 	public void draw(Canvas canvas, intPoint location) {
 		if (this._frameAnimation) {
 			this.frameDraw(canvas, location);
@@ -102,11 +139,9 @@ public class Sprite implements ISavable {
 
 	/**
 	 * draws the sprite with frames
-	 * 
-	 * @param canvas
-	 *        to draw to
+	 * !!! use draw(Canvas, intPoint) !!!
+	 * @param canvas 
 	 * @param location
-	 *        on the canvas to draw to
 	 */
 	public void frameDraw(Canvas canvas, intPoint location) {
 		if ((location.getX() + this._dstSize.getX()) - Crafex.levelMan.getLevel().getScroll().getX() >= 0
@@ -127,7 +162,6 @@ public class Sprite implements ISavable {
 
 	/**
 	 * updates the sprite(frames and cycles) used for frameAnimation
-	 * 
 	 * @param movement
 	 */
 	public void frameUpdate(floatPoint movement, float deltaTime) {
@@ -172,7 +206,6 @@ public class Sprite implements ISavable {
 
 	/**
 	 * gets the current cycle
-	 * 
 	 * @return cycle
 	 */
 	public int getCycle() {
@@ -181,21 +214,21 @@ public class Sprite implements ISavable {
 
 	/**
 	 * gets the current frame
-	 * 
 	 * @return frame
 	 */
 	public int getFrame() {
 		return this._frame;
 	}
 
-	/** gets the texture */
+	/** 
+	 * gets the texture 
+	 */
 	public Bitmap getFullImage() {
 		return this._image;
 	}
 
 	/**
 	 * gets the dentenation height
-	 * 
 	 * @return dstheight
 	 */
 	public int getHeight() {
@@ -204,7 +237,6 @@ public class Sprite implements ISavable {
 
 	/**
 	 * gets the dentenation width
-	 * 
 	 * @return dstwidth
 	 */
 	public int getWidth() {
@@ -232,11 +264,10 @@ public class Sprite implements ISavable {
 	}
 
 	/**
-	 * 
-	 * canvas to draw to
-	 * 
+	 * draws the sprite with rotation
+	 * !!! use draw(Canvas, intPoint) !!!
+	 * @param canvas
 	 * @param location
-	 *        on the canvas to draw to
 	 */
 	public void rotationDraw(Canvas canvas, intPoint location) {
 		if ((location.getX() + this._dstSize.getX()) - Crafex.levelMan.getLevel().getScroll().getX() >= 0
@@ -258,15 +289,26 @@ public class Sprite implements ISavable {
 		}
 	}
 
+	/**
+	 * updates values for rotation use.
+	 * @param movement
+	 */
 	public void rotationUpdate(floatPoint movement) {
 		this._rotationDegrees = (int) (Math.toDegrees(Math.atan2(movement.getY(), -movement.getX())));
 	}
 
-	/** sets the texture */
+	/** 
+	 * sets the texture 
+	 */
 	public void setFullImage(Bitmap image) {
 		this._image = image;
 	}
 
+	/**
+	 * updates values for the sprite
+	 * @param movement
+	 * @param deltaTime
+	 */
 	public void update(floatPoint movement, float deltaTime) {
 		if (this._frameAnimation) {
 			this.frameUpdate(movement, deltaTime);
@@ -293,6 +335,5 @@ public class Sprite implements ISavable {
 			}
 			this.lastUpdated = System.currentTimeMillis();
 		}
-
 	}
 }

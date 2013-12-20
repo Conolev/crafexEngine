@@ -19,16 +19,16 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 	/**color of the background*/
 	public static int DEFAULT_COLOR;
 	
-	/**file manager of the crafex*/
+	/**file manager of the {@link Crafex}*/
 	public static FileManager fileMan;
 
-	/**input handler of the crafex*/
+	/**input handler of the {@link Crafex}*/
 	public static InputHandler inputHandler;
 
-	/**UI handler of the crafex*/
+	/**UI handler of the {@link Crafex}*/
 	public static UIHandler uiHandler;
 
-	/**level manager of the crafex*/
+	/**level manager of the {@link Crafex}*/
 	public static LevelManager levelMan;
 	
 	/**Phone's screen resolution*/
@@ -39,14 +39,14 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 
 	public static Paint paint = new Paint();
 	
-	/**update thread*/
+	/**update {@link GameThread}*/
 	public static GameThread update;
 	
-	/**draw thread*/
+	/**draw {@link GameThread}*/
 	public static DrawThread draw;
 
 	/**
-	 * Game screen where update threads are.
+	 * Game screen where {@link GameThread}s are.
 	 * 
 	 * @param context
 	 *        of activity
@@ -84,7 +84,7 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 	}
 	
 	/**
-	 * Initializes crafex
+	 * Initializes {@link Crafex}
 	 */
 	public void init(){
 		update.start();
@@ -92,14 +92,14 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 	}
 	
 	/**
-	 * update of crafex
+	 * update of {@link Crafex}
 	 */
 	public void update(){
 		levelMan.update();
 	}
 	
 	/**
-	 * draws the crafex to canvas
+	 * draws the {@link Crafex} to {@link Canvas}
 	 */
 	public void draw(Canvas canvas) {
 		canvas.drawRect(0, 0, WINDOW_DIMENTIONS.getX(), WINDOW_DIMENTIONS.getY(), paint);

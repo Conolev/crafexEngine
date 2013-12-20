@@ -4,7 +4,7 @@ import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
 
 public interface Touchable {
 	/**
-	 * is the touch event touching
+	 * is the {@link CrafexTouchEvent} touching
 	 * @param touch
 	 * @return isTouching
 	 */

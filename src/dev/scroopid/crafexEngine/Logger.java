@@ -1,7 +1,7 @@
 package dev.scroopid.crafexEngine;
 
 /**
- * This class is used to dump informational messages.
+ * This {@link Class} is used to dump informational messages.
  */
 public class Logger {
 	/**debug level*/
@@ -18,7 +18,7 @@ public class Logger {
 	/** This member holds the current level to be output. */
 	private static int level = TRACE;
 
-	/**prefix of the logger*/
+	/**prefix of the {@link Logger}*/
 	private String prefix;
 
 	public Logger(Class<?> cls) {
@@ -51,7 +51,7 @@ public class Logger {
 	}
 
 	/**
-	 * This method return just the name of the class (i.e. without package).
+	 * This method return just the name of the {@link Class} (i.e. without package).
 	 */
 	private String getName(Class<?> cls) {
 		String name = cls.getName();

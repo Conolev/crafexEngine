@@ -3,7 +3,7 @@ package dev.scroopid.crafexEngine.ui.Input;
 import dev.scroopid.crafexEngine.Crafex;
 import dev.scroopid.crafexEngine.Logger;
 import dev.scroopid.crafexEngine.input.CrafexInputer;
-import dev.scroopid.crafexEngine.ui.Panel;
+import dev.scroopid.crafexEngine.ui.UIPanel;
 import dev.scroopid.crafexEngine.ui.UIObject;
 import dev.scroopid.crafexEngine.util.floatPoint;
 
@@ -12,30 +12,19 @@ public class KeyBoardCreator {
 	final Logger logger = new Logger(this.getClass());
 
 	public UIObject[] createASSCI(CrafexInputer input) {
-		Panel one = new Panel(null, new floatPoint(Crafex.WINDOW_DIMENTIONS.getX(), 0), 0) {
+		//TODO finish keyboard Creator
+		UIPanel one = new UIPanel(null, new floatPoint(Crafex.WINDOW_DIMENTIONS.getX(), 0), 0) {
 			@Override
 			public void setLayer(int layer) {
-				this.panelLayer = layer;
 				for (int i = 0; i < this.uiObjects.size(); ++i) {
-					if (this.panelLayer == 0) {
-						this.uiObjects.get(i).addTargetLocation(-Crafex.WINDOW_DIMENTIONS.getX(), 0);
-					} else if (this.panelLayer == 1) {
-						this.uiObjects.get(i).addTargetLocation(Crafex.WINDOW_DIMENTIONS.getX(), 0);
-					}
 				}
 			}
 		};
 
-		Panel two = new Panel(null, new floatPoint(Crafex.WINDOW_DIMENTIONS.getX(), 0), 1) {
+		UIPanel two = new UIPanel(null, new floatPoint(Crafex.WINDOW_DIMENTIONS.getX(), 0), 1) {
 			@Override
 			public void setLayer(int layer) {
-				this.panelLayer = layer;
 				for (int i = 0; i < this.uiObjects.size(); ++i) {
-					if (this.panelLayer == 0) {
-						this.uiObjects.get(i).addTargetLocation(-Crafex.WINDOW_DIMENTIONS.getX(), 0);
-					} else if (this.panelLayer == 1) {
-						this.uiObjects.get(i).addTargetLocation(Crafex.WINDOW_DIMENTIONS.getX(), 0);
-					}
 				}
 			}
 		};

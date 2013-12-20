@@ -6,13 +6,19 @@ import dev.scroopid.crafexEngine.util.floatPoint;
 
 public class JoyStick extends UIObject {
 
+	/**
+	 * a input system for getting a humans desired direction for something
+	 * @param image
+	 * @param location
+	 * @param layer
+	 */
 	public JoyStick(Bitmap image, floatPoint location, int layer) {
 		super(image, location, layer);
+		//TODO finish Joystick
 	}
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
 
 	}
 

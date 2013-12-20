@@ -5,21 +5,21 @@ public abstract class GameThread extends Thread {
 	/**frames per second to limit the thread to*/
 	private long FPS;
 
-	/**does the thread exists*/
+	/**does the {@link GameThread} exists*/
 	private boolean exists = false;
 
-	/**is the thread running*/
+	/**is the {@link GameThread} running*/
 	private boolean running = false;
 
 	/**
-	 * crafex thread.
+	 * {@link Crafex} {@link Thread}.
 	 */
 	public GameThread() {
 		FPS = 10;
 	}
 	
 	/**
-	 * crafex thread.
+	 * {@link Crafex} {@link Thread}.
 	 * @param fps to run at
 	 */
 	public GameThread(int fps) {
@@ -27,28 +27,28 @@ public abstract class GameThread extends Thread {
 	}
 
 	/**
-	 * creates the thread
+	 * creates the {@link GameThread}
 	 */
 	public void create() {
 		this.exists = true;
 	}
 
 	/**
-	 * kills the thread
+	 * kills the {@link GameThread}
 	 */
 	public void kill() {
 		this.exists = false;
 	}
 
 	/**
-	 * pauses the thread
+	 * pauses the {@link GameThread}
 	 */
 	public void pause() {
 		this.running = false;
 	}
 
 	/**
-	 * plays the thread
+	 * plays the {@link GameThread}
 	 */
 	public void play() {
 		this.running = true;
@@ -94,7 +94,7 @@ public abstract class GameThread extends Thread {
 	}
 
 	/**
-	 * stuff to do in thread.
+	 * stuff to do in {@link GameThread}.
 	 */
 	public abstract void threadStuff();
 

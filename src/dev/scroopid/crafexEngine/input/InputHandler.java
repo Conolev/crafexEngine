@@ -1,5 +1,6 @@
 package dev.scroopid.crafexEngine.input;
 
+import android.app.Activity;
 import android.view.MotionEvent;
 import dev.scroopid.crafexEngine.Crafex;
 import dev.scroopid.crafexEngine.Updatable;
@@ -8,19 +9,30 @@ import dev.scroopid.crafexEngine.util.intPoint;
 
 public class InputHandler implements Updatable {
 
+	/**input of keyboard*/
 	private Inputable input;
 
+	/**keyboard*/
 	private KeyBoard inputer;
 
-
+	/**
+	 * handles inputs
+	 */
 	public InputHandler() {
 
 	}
 
+	/**
+	 * handles a {@link Crafex} {@link KeyBoard} {@link CrafexKeyInputEvent}
+	 * @param event
+	 */
 	public void crafexKeyboardInput(CrafexKeyInputEvent event) {
 		this.input.setInput(CrafexKeyInputEvent.doInput(event.getValue(), this.input.getInput(), this.input.getInputingIndex()));
 	}
 
+	/**
+	 * ends input from {@link CrafexInputer}
+	 */
 	public void endInput() {
 		this.inputer = null;
 	}
@@ -35,6 +47,11 @@ public class InputHandler implements Updatable {
 		return 0;
 	}
 
+	/**
+	 * handles {@link MotionEvent}s from {@link Activity}
+	 * @param event
+	 * @return handled
+	 */
 	public boolean handleTouchInput(MotionEvent event) {
 		CrafexTouchEvent touch = new CrafexTouchEvent(event.getActionIndex(), 
 					new intPoint((int) event.getX(event.getActionIndex()), 
@@ -52,6 +69,11 @@ public class InputHandler implements Updatable {
 	@Override
 	public void setLastUpdateTime(long time) {}
 
+	/**
+	 * starts {@link CrafexInputer}
+	 * @param input
+	 * @param inputType
+	 */
 	public void startInput(Inputable input, int inputType) {
 		this.input = input;
 		if (inputType == CrafexInputer.INPUT_TYPE_ASSCI_KEYBOARD) {

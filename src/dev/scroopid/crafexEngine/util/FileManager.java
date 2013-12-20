@@ -14,6 +14,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import dev.scroopid.crafexEngine.Logger;
+import android.app.Activity;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,8 +22,10 @@ import android.graphics.BitmapFactory;
 public class FileManager {
 	private static final Logger LOGGER = new Logger(FileManager.class);
 
+	/**applications save file location*/
 	private String fileLocation;
 
+	/**{@link AssetManager} for the {@link Activity}*/
 	private AssetManager assets;
 	
 	static FileOutputStream f_out;
@@ -32,15 +35,31 @@ public class FileManager {
 	static BufferedWriter buf_writer;
 	static BufferedReader buf_reader;
 
+	/**
+	 * Manager of file shit
+	 * @param assets
+	 * @param files
+	 */
 	public FileManager(AssetManager assets, String files) {
 		this.assets = assets;
 		this.fileLocation = files;
 	}
 
+	/**
+	 * returns a {@link Bitmap} from desired location in the {@link AssetManager}
+	 * @param file
+	 * @return bitmap from desired location in the AssetManager
+	 * @throws IOException
+	 */
 	public Bitmap getAssestImage(String file) throws IOException {
 		return BitmapFactory.decodeStream(this.assets.open(file));
 	}
 	
+	/**
+	 * saves a {@link String}[] to a {@link File}
+	 * @param name
+	 * @param list
+	 */
 	public void saveStringArrayToFile(String name, String[] list){
 		String error = "";
 		File file = new File(fileLocation + name);
@@ -67,6 +86,11 @@ public class FileManager {
 		
 	}
 	
+	/**
+	 * loads a {@link String}[] from a {@link File}
+	 * @param name
+	 * @return
+	 */
 	public String[] loadStringArrayFromFile(String name){
 		String error = "";
 		File file = new File(fileLocation + name);
@@ -90,5 +114,4 @@ public class FileManager {
 		}
 		return null;
 	}
-	
 }

@@ -2,48 +2,48 @@ package dev.scroopid.crafexEngine.util;
 
 import android.graphics.Rect;
 
-public class intRectangle {
+public class floatRectangle {
 	
 	/**coordinates of the top Left of the rectangle*/
-	private intPoint topLeft;
+	private floatPoint topLeft;
 	/**coordinates of the bottom right of the rectangle*/
-	private intPoint bottomRight;
+	private floatPoint bottomRight;
 	
 	/**
-	 * a custom {@link Rect} {@link Class} using ints
+	 * a custom {@link Rect} {@link Class} using floats
 	 */
-	public intRectangle() {
-		topLeft = new intPoint();
-		bottomRight = new intPoint();
+	public floatRectangle() {
+		topLeft = new floatPoint();
+		bottomRight = new floatPoint();
 	}
 	
 	/**
-	 * a custom {@link Rect} {@link Class} using ints
+	 * a custom {@link Rect} {@link Class} using floats
 	 * @param topLeft
 	 * @param bottomRight
 	 */
-	public intRectangle(intPoint topLeft, intPoint bottomRight){
+	public floatRectangle(floatPoint topLeft, floatPoint bottomRight){
 		this.topLeft = topLeft;
 		this.bottomRight = bottomRight;
 	}
 	
 	/**
-	 * a custom {@link Rect} {@link Class} using ints
+	 * a custom {@link Rect} {@link Class} using floats
 	 * @param left
 	 * @param top
 	 * @param right
 	 * @param bottom
 	 */
-	public intRectangle(int left, int top, int right, int bottom){
-		topLeft = new intPoint(left, top);
-		bottomRight = new intPoint(right, bottom);
+	public floatRectangle(float left, float top, float right, float bottom){
+		topLeft = new floatPoint(left, top);
+		bottomRight = new floatPoint(right, bottom);
 	}
 	
 	/**
 	 * returns the left most X coordinate
 	 * @return
 	 */
-	public int getLeft(){
+	public float getLeft(){
 		return topLeft.getX();
 	}
 	
@@ -51,7 +51,7 @@ public class intRectangle {
 	 * returns the top most Y coordinate
 	 * @return
 	 */
-	public int getTop(){
+	public float getTop(){
 		return topLeft.getY();
 	}
 	
@@ -59,7 +59,7 @@ public class intRectangle {
 	 * returns the right most X coordinate
 	 * @return
 	 */
-	public int getRight(){
+	public float getRight(){
 		return bottomRight.getX();
 	}
 	
@@ -67,15 +67,15 @@ public class intRectangle {
 	 * returns the bottom most Y coordinate
 	 * @return
 	 */
-	public int getBottom(){
+	public float getBottom(){
 		return bottomRight.getY();
 	}
 
 	/**
-	 * returns the top left {@link intPoint}
+	 * returns the top left {@link floatPoint}
 	 * @return top left intPoint
 	 */
-	public intPoint getTopLeft() {
+	public floatPoint getTopLeft() {
 		return topLeft;
 	}
 
@@ -83,7 +83,7 @@ public class intRectangle {
 	 * sets the top left {@link intPoint}
 	 * @param topLeft
 	 */
-	public void setTopLeft(intPoint topLeft) {
+	public void setTopLeft(floatPoint topLeft) {
 		this.topLeft = topLeft;
 	}
 
@@ -91,7 +91,7 @@ public class intRectangle {
 	 * returns the bottom right {@link intPoint}
 	 * @return bottom right intPoint
 	 */
-	public intPoint getBottomRight() {
+	public floatPoint getBottomRight() {
 		return bottomRight;
 	}
 
@@ -99,12 +99,12 @@ public class intRectangle {
 	 * set the bottom right {@link intPoint}
 	 * @param bottomRight
 	 */
-	public void setBottomRight(intPoint bottomRight) {
+	public void setBottomRight(floatPoint bottomRight) {
 		this.bottomRight = bottomRight;
 	}
 	
-	public floatRectangle toFloatRectangle(){
-		return new floatRectangle(topLeft.toFloatPoint(), bottomRight.toFloatPoint());
+	public intRectangle toIntRectangle(){
+		return new intRectangle(topLeft.toIntPoint(), bottomRight.toIntPoint());
 	}
 	
 	/**
@@ -112,6 +112,7 @@ public class intRectangle {
 	 * @return
 	 */
 	public Rect getRect(){
-		return new Rect(topLeft.getX(), topLeft.getY(), bottomRight.getX(), bottomRight.getY());
+		return new Rect((int) topLeft.getX(), (int) topLeft.getY(),
+					(int) bottomRight.getX(), (int) bottomRight.getY());
 	}
 }

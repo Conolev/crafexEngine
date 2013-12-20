@@ -7,46 +7,63 @@ import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
 import dev.scroopid.crafexEngine.util.Util;
 import dev.scroopid.crafexEngine.util.floatPoint;
 
-public class Panel extends UIObject {
+public class UIPanel extends UIObject {
 
+	/**{@link UIObject} in the panel*/
 	protected ArrayList<UIObject> uiObjects;
-
+	/**index of object being used*/
 	private int index;
-
+	/**has scrolled at all*/
 	private boolean scrolled;
 
-	protected int panelLayer = 0;
-
-	public Panel(Bitmap image, floatPoint location, int layer) {
+	/**
+	 * a panel of {@link UIObject}s
+	 * @param image
+	 * @param location
+	 * @param layer
+	 */
+	public UIPanel(Bitmap image, floatPoint location, int layer) {
 		super(image, location, layer);
 		this.setUiObjects(new ArrayList<UIObject>());
 		this.setSelected(0);
 	}
 
-	public void addPanelLayer(int value) {
-		this.panelLayer += value;
-	}
-
+	/**
+	 * adds a {@link UIObject} to the {@link UIPanel}
+	 * @param uiobject
+	 */
 	public void addUIObject(UIObject uiobject) {
 		this.uiObjects.add(uiobject);
 	}
 
+	/**
+	 * get the index of the {@link UIObject} being used
+	 * @return
+	 */
 	public int getIndex() {
 		return this.index;
 	}
 
+	/**
+	 * returns the {@link UIObject}s of the {@link UIPanel}
+	 * @return UIObjects of the UIPanel
+	 */
 	public ArrayList<UIObject> getUiObjects() {
 		return this.uiObjects;
 	}
 
-	public void setPanelLayer(int layer) {
-		this.panelLayer = layer;
-	}
-
+	/**
+	 * sets the index of the selected {@link UIObject}
+	 * @param index
+	 */
 	public void setSelected(int index) {
 		this.index = index;
 	}
 
+	/**
+	 * sets the {@link UIObject}s
+	 * @param uiObjects
+	 */
 	public void setUiObjects(ArrayList<UIObject> uiObjects) {
 		this.uiObjects = uiObjects;
 	}
@@ -69,8 +86,7 @@ public class Panel extends UIObject {
 	@Override
 	public void whenPressed(CrafexTouchEvent touch) {
 		for (int i = 0; i < this.uiObjects.size(); ++i) {
-			if (this.uiObjects.get(i).getLayer() == this.panelLayer
-						&& Util.isBetween(touch.getTouchLocation().getX(), this.uiObjects.get(i).getX(), this.uiObjects.get(i).getSize().getX()
+			if (Util.isBetween(touch.getTouchLocation().getX(), this.uiObjects.get(i).getX(), this.uiObjects.get(i).getSize().getX()
 									+ this.uiObjects.get(i).getX())
 						&& Util.isBetween(touch.getTouchLocation().getY(), this.uiObjects.get(i).getY(), this.uiObjects.get(i).getSize().getY()
 									+ this.uiObjects.get(i).getY())) {

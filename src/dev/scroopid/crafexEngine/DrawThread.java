@@ -6,15 +6,15 @@ import android.view.SurfaceHolder;
 
 public class DrawThread extends GameThread{
 	
-	/**screen to draw to*/
+	/**{@link SurfaceHolder} to draw to*/
 	private SurfaceHolder view;
-	/**crafex of thread*/
+	/**{@link Crafex} of thread*/
 	private Crafex crafex;
 	
 	public Paint paint = new Paint();
 	
 	/**
-	 * a thread to handle the drawing of a crafex.
+	 * a {@link GameThread} to handle the drawing of a {@link Crafex}.
 	 * @param view to draw
 	 */
 	public DrawThread(Crafex view){
@@ -24,7 +24,7 @@ public class DrawThread extends GameThread{
 	}
 	
 	/**
-	 * a thread to handle the drawing of a crafex.
+	 * a {@link GameThread} to handle the drawing of a {@link Crafex}.
 	 * @param view to draw
 	 * @param fps lock
 	 */

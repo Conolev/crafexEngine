@@ -20,7 +20,7 @@ public interface Updatable {
 	public void setLastUpdateTime(long time);
 
 	/**
-	 * updates the object.
+	 * updates the {@link Object}.
 	 */
 	public void update();
 }

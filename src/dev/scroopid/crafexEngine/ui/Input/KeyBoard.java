@@ -6,22 +6,31 @@ import android.graphics.Bitmap;
 import dev.scroopid.crafexEngine.Crafex;
 import dev.scroopid.crafexEngine.input.CrafexInputer;
 import dev.scroopid.crafexEngine.input.CrafexKeyInputEvent;
-import dev.scroopid.crafexEngine.ui.Panel;
+import dev.scroopid.crafexEngine.input.InputHandler;
+import dev.scroopid.crafexEngine.ui.UIPanel;
 import dev.scroopid.crafexEngine.util.floatPoint;
 
-public class KeyBoard extends Panel implements CrafexInputer {
+public class KeyBoard extends UIPanel implements CrafexInputer {
 
+	/**height of keyboard*/
 	public static int KEYBOARD_HEIGHT = 300;
-
+	/**Key set: assci*/
 	public static int KEYSET_ASSCI = 1;
 
+	/**{@link CrafexKeyInputEvent} to be handled by {@link InputHandler}*/
 	public static ArrayList<CrafexKeyInputEvent> inputs;
 
+	/**
+	 * a keyboard for human input in text form
+	 * @param image
+	 * @param layer
+	 * @param keyset
+	 */
 	public KeyBoard(Bitmap image, int layer, int keyset) {
 		super(image, new floatPoint(Crafex.WINDOW_DIMENTIONS.getX() - KEYBOARD_HEIGHT, 0), layer);
 		inputs = new ArrayList<CrafexKeyInputEvent>();
 		this.createKeyBoard(keyset);
-
+		//TODO finish keyboards
 	}
 
 	@Override
@@ -29,18 +38,10 @@ public class KeyBoard extends Panel implements CrafexInputer {
 		inputs.add(event);
 	}
 
-	@Override
-	public void addPanelLayer(int value) {
-		for (int i = 0; i < this.uiObjects.size(); ++i) {
-			if (this.uiObjects.get(i).getLayer() == this.panelLayer) {
-				this.uiObjects.get(i).setTargetLocation(Crafex.WINDOW_DIMENTIONS);
-			} else if (this.uiObjects.get(i).getLayer() == this.panelLayer + value) {
-				this.uiObjects.get(i).setTargetLocation(Crafex.WINDOW_DIMENTIONS.subtractNew(this.size));
-			}
-		}
-		this.panelLayer += value;
-	}
-
+	/**
+	 * creates keyboard from key set
+	 * @param keyset
+	 */
 	public void createKeyBoard(int keyset) {
 		if (keyset == KEYSET_ASSCI) {
 
@@ -60,18 +61,6 @@ public class KeyBoard extends Panel implements CrafexInputer {
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public void setPanelLayer(int layer) {
-		for (int i = 0; i < this.uiObjects.size(); ++i) {
-			if (this.uiObjects.get(i).getLayer() == this.panelLayer) {
-				this.uiObjects.get(i).setTargetLocation(Crafex.WINDOW_DIMENTIONS);
-			} else if (this.uiObjects.get(i).getLayer() == layer) {
-				this.uiObjects.get(i).setTargetLocation(Crafex.WINDOW_DIMENTIONS.subtractNew(this.size));
-			}
-		}
-		this.panelLayer = layer;
 	}
 
 }

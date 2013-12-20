@@ -2,7 +2,9 @@ package dev.scroopid.crafexEngine.graphics;
 
 import java.io.IOException;
 import java.util.Hashtable;
+import java.util.Locale;
 
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -10,10 +12,16 @@ import dev.scroopid.crafexEngine.Crafex;
 import dev.scroopid.crafexEngine.util.intPoint;
 
 public class GraphicsUtil {
-
+//TODO link entitys to entity class
 	/** direction for the entitys to move */
 	public static Hashtable<String, Integer> directions;
 
+	/**
+	 * combines to {@link Bitmap}s
+	 * @param firstlayer
+	 * @param secondlayer
+	 * @return combined bitmap
+	 */
 	public static Bitmap add(Bitmap firstlayer, Bitmap secondlayer) {
 		Bitmap data = Bitmap.createBitmap(secondlayer.getWidth(), secondlayer.getHeight(), secondlayer.getConfig());
 		Canvas temp = new Canvas(data);
@@ -25,10 +33,9 @@ public class GraphicsUtil {
 	}
 
 	/**
-	 * compines images the first images in array being the bottom
-	 * 
-	 * @param images
-	 * @return
+	 * combines to {@link Bitmap}s
+	 * @param Images to be combine
+	 * @return combined bitmap
 	 */
 	public static Bitmap add(Bitmap[] images) {
 		Bitmap data = Bitmap.createBitmap(images[0].getWidth(), images[0].getHeight(), images[0].getConfig());
@@ -42,7 +49,7 @@ public class GraphicsUtil {
 	}
 	
 	/**
-	 * loads bitmap from assets
+	 * loads {@link Bitmap} from {@link AssetManager}
 	 * @param file in assets to load
 	 * @return bitmap
 	 */
@@ -64,8 +71,19 @@ public class GraphicsUtil {
 		return null;
 	}
 
+	/**
+	 * creates a button {@link Bitmap} with provided {@link String}
+	 * from provide char chart and {@link Bitmap} template.
+	 * @param text to be on button
+	 * @param Buttonimage or button template
+	 * @param letters or char chart
+	 * @param grid of char chart (ex. 6x6)
+	 * @param scale or to streach the button template to text size
+	 * @return button image with text
+	 */
 	public static Bitmap makeTextButtonImage(String text, Bitmap Buttonimage, 
 				Bitmap letters, intPoint grid, boolean scale) {
+		text.toLowerCase(Locale.ENGLISH);
 		char[] newtext = text.toCharArray();
 		Bitmap data = null;
 		Bitmap textmap = Bitmap.createBitmap((letters.getWidth() / grid.getX()) * newtext.length,
@@ -95,7 +113,7 @@ public class GraphicsUtil {
 		}
 
 		if (scale) {
-			Buttonimage = strechImage(Buttonimage, textmap.getWidth(), textmap.getHeight());
+			Buttonimage = cutStrechImage(Buttonimage, textmap.getWidth(), textmap.getHeight());
 			data = Bitmap.createBitmap(Buttonimage.getWidth(), Buttonimage.getHeight(), 
 						Buttonimage.getConfig());
 			temp = new Canvas(data);
@@ -113,7 +131,7 @@ public class GraphicsUtil {
 	}
 	
 	/**
-	 * scales image to a decimal
+	 * scales {@link Bitmap} to a decimal
 	 * @param image to scale
 	 * @param scale amount
 	 * @return scaled image
@@ -128,7 +146,13 @@ public class GraphicsUtil {
 		return data;
 	}
 	
-	@Deprecated
+	/**
+	 * Stretches {@link Bitmap} to a scale in each direction.
+	 * @param image
+	 * @param xscale
+	 * @param yscale
+	 * @return
+	 */
 	public static Bitmap strechImage(Bitmap image, float xscale, float yscale){
 		Bitmap data = Bitmap.createBitmap((int) (image.getWidth() * xscale), 
 					(int) (image.getHeight() * yscale), image.getConfig());
@@ -139,7 +163,14 @@ public class GraphicsUtil {
 		return data;
 	}
 	
-	public static Bitmap strechImage(Bitmap image, int xsize, int ysize){
+	/**
+	 * cuts the {@link Bitmap} into four corners and stretches the space between them.
+	 * @param image
+	 * @param xsize
+	 * @param ysize
+	 * @return
+	 */
+	public static Bitmap cutStrechImage(Bitmap image, int xsize, int ysize){
 		Bitmap data = Bitmap.createBitmap((int) (xsize), 
 					(int) (ysize), image.getConfig());
 		Canvas canvas = new Canvas(data);
@@ -164,6 +195,10 @@ public class GraphicsUtil {
 		return data;
 	}
 
+	/**
+	 * contains graphics shit. 
+	 * !!! use constructor before using this class please !!!
+	 */
 	public GraphicsUtil() {
 		directions = new Hashtable<String, Integer>();
 		directions.put("down", new Integer(0));

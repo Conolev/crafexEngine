@@ -1,5 +1,7 @@
 package dev.scroopid.crafexEngine;
 
+import java.lang.reflect.Method;
+
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -20,13 +22,13 @@ public abstract class AppActivity extends Activity {
 	/**touch style: normal*/
 	public static final int TOUCH_STYLE_NORMAL = 1;
 
-	/**the apps crafex*/
+	/**the applications {@link Crafex}*/
 	public static Crafex crafex;
 
 	/**the expected resolution*/
 	private static intPoint defaultResolution = new intPoint(1920, 1080);
 
-	/**background color*/
+	/**background {@link Color}*/
 	private static int defaultColor = Color.BLACK;
 
 	private DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -37,16 +39,16 @@ public abstract class AppActivity extends Activity {
 	/**current touch style*/
 	private int touchStyle = 1;
 
-	/**default level*/
+	/**default {@link Level}*/
 	private Level level;;
 	
 	/**
-	 * method called after created.
+	 * {@link Method} called after created.
 	 */
 	public abstract void afterCreated();
 
 	/**
-	 * methos called before creation.
+	 * {@link Method} called before creation.
 	 */
 	public abstract void beforeCreated();
 	
@@ -84,14 +86,14 @@ public abstract class AppActivity extends Activity {
 	}
 	
 	/**
-	 * removes the apps title on the top.
+	 * removes the applications title on the top.
 	 */
 	public void removeTitle() {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	}
 
 	/**
-	 * sets the default background color of the crafex.
+	 * sets the default background {@link Color} of the {@link Crafex}.
 	 * @param color
 	 */
 	public void setDefaultColor(int color) {
@@ -102,7 +104,7 @@ public abstract class AppActivity extends Activity {
 	}
 
 	/**
-	 * sets the apps expected resolution.
+	 * sets the applications expected resolution.
 	 * @param dimentions
 	 */
 	public void setDefaultResolution(intPoint dimentions) {
@@ -113,7 +115,7 @@ public abstract class AppActivity extends Activity {
 	}
 
 	/**
-	 * sets the app to fullscreen.
+	 * sets the application to full screen.
 	 * @param isFullscreen?
 	 */
 	public void setFullScreen(boolean fullscreen) {
@@ -127,14 +129,14 @@ public abstract class AppActivity extends Activity {
 	}
 
 	/**
-	 * set app to landscape mode.
+	 * set application to landscape mode.
 	 */
 	public void setLandscape() {
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 	}
 
 	/**
-	 * sets the level of crafex.
+	 * sets the level of {@link Crafex}.
 	 * @param level
 	 */
 	public void setLevel(Level level) {
@@ -145,14 +147,14 @@ public abstract class AppActivity extends Activity {
 	}
 	
 	/**
-	 * set app to portrait mode.
+	 * set application to portrait mode.
 	 */
 	public void setPortrait() {
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 	
 	/**
-	 * gets the touch style of the app.
+	 * gets the touch style of the application.
 	 * @return
 	 */
 	public int getTouchStyle() {
@@ -160,7 +162,7 @@ public abstract class AppActivity extends Activity {
 	}
 
 	/**
-	 * sets the touch style of the app.
+	 * sets the touch style of the application.
 	 * @param touchStyle
 	 */
 	public void setTouchStyle(int touchStyle) {
