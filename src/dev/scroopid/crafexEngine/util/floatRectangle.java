@@ -78,6 +78,39 @@ public class floatRectangle {
 	public floatPoint getTopLeft() {
 		return topLeft;
 	}
+	
+	/**
+	 * sets the rectangle to new values
+	 * @param rectangle
+	 */
+	public void set(floatRectangle rectangle){
+		topLeft = rectangle.getTopLeft().clone();
+		bottomRight = rectangle.getBottomRight().clone();
+	}
+	
+	/**
+	 * sets the rectangle to new values
+	 * @param topLeft
+	 * @param bottomRight
+	 */
+	public void set(floatPoint topLeft, floatPoint bottomRight){
+		this.topLeft = topLeft;
+		this.bottomRight = bottomRight;
+	}
+	
+	/**
+	 * sets the rectangle to new values
+	 * @param left
+	 * @param top
+	 * @param right
+	 * @param bottom
+	 */
+	public void set(float left, float top, float right, float bottom){
+		setLeft(left);
+		setTop(top);
+		setRight(right);
+		setBottom(bottom);
+	}
 
 	/**
 	 * sets the top left {@link intPoint}
@@ -101,6 +134,34 @@ public class floatRectangle {
 	 */
 	public void setBottomRight(floatPoint bottomRight) {
 		this.bottomRight = bottomRight;
+	}
+	
+	/**
+	 * sets the left most value
+	 */
+	public void setLeft(float value){
+		topLeft.setX(value);
+	}
+	
+	/**
+	 * sets the bottom most value
+	 */
+	public void setTop(float value){
+		topLeft.setY(value);
+	}
+	
+	/**
+	 * sets the bottom most value
+	 */
+	public void setRight(float value){
+		bottomRight.setX(value);
+	}
+	
+	/**
+	 * sets the bottom most value
+	 */
+	public void setBottom(float value){
+		bottomRight.setY(value);
 	}
 	
 	public intRectangle toIntRectangle(){

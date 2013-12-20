@@ -1,7 +1,6 @@
 package dev.scroopid.crafexEngine.util;
 
 import android.graphics.Point;
-import android.media.audiofx.Equalizer;
 
 public class floatPoint {
 	
@@ -167,6 +166,14 @@ public class floatPoint {
 	 */
 	public void setY(float y) {
 		this.y = y;
+	}
+	
+	/**
+	 * sets coordinates to 0,0
+	 */
+	public void reset(){
+		x = 0;
+		y = 0;
 	}
 
 	/**

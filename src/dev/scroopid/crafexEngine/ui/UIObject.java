@@ -46,7 +46,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	 * @param layer of object
 	 */
 	public UIObject(Bitmap image, floatPoint location, int layer) {
-		this.sprite = new Sprite(image, 0);
+		this.sprite = new Sprite(image);
 		this.setLocation(location);
 		this.setTargetLocation(location.toIntPoint());
 		this.setLayer(layer);

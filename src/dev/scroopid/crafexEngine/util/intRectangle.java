@@ -4,6 +4,8 @@ import android.graphics.Rect;
 
 public class intRectangle {
 	
+	//TODO make rotatable rectangles
+	
 	/**coordinates of the top Left of the rectangle*/
 	private intPoint topLeft;
 	/**coordinates of the bottom right of the rectangle*/
@@ -78,6 +80,39 @@ public class intRectangle {
 	public intPoint getTopLeft() {
 		return topLeft;
 	}
+	
+	/**
+	 * sets the rectangle to new values
+	 * @param rectangle
+	 */
+	public void set(intRectangle rectangle){
+		topLeft = rectangle.getTopLeft().clone();
+		bottomRight = rectangle.getBottomRight().clone();
+	}
+	
+	/**
+	 * sets the rectangle to new values
+	 * @param topLeft
+	 * @param bottomRight
+	 */
+	public void set(intPoint topLeft, intPoint bottomRight){
+		this.topLeft = topLeft;
+		this.bottomRight = bottomRight;
+	}
+	
+	/**
+	 * sets the rectangle to new values
+	 * @param left
+	 * @param top
+	 * @param right
+	 * @param bottom
+	 */
+	public void set(int left, int top, int right, int bottom){
+		setLeft(left);
+		setTop(top);
+		setRight(right);
+		setBottom(bottom);
+	}
 
 	/**
 	 * sets the top left {@link intPoint}
@@ -101,6 +136,34 @@ public class intRectangle {
 	 */
 	public void setBottomRight(intPoint bottomRight) {
 		this.bottomRight = bottomRight;
+	}
+	
+	/**
+	 * sets the left most value
+	 */
+	public void setLeft(int value){
+		topLeft.setX(value);
+	}
+	
+	/**
+	 * sets the bottom most value
+	 */
+	public void setTop(int value){
+		topLeft.setY(value);
+	}
+	
+	/**
+	 * sets the bottom most value
+	 */
+	public void setRight(int value){
+		bottomRight.setX(value);
+	}
+	
+	/**
+	 * sets the bottom most value
+	 */
+	public void setBottom(int value){
+		bottomRight.setY(value);
 	}
 	
 	public floatRectangle toFloatRectangle(){
