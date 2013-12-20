@@ -9,8 +9,17 @@ import java.util.List;
 import java.util.Map;
 
 import dev.scroopid.crafexEngine.Logger;
-
+/**
+ * This class handles the saving of classes within the crafexEngine
+ * TODO: Optimize the handling of primitive types, boilerplate code between Arrays and single fields
+ * TODO: Check runtime of code
+ * TODO: Test
+ * @author jameswomack
+ *
+ */
 public class SaveManager {
+	private static final String ARRAY_DATA_SEPERATOR = " ,";
+
 	private static final String ARRAY = "Array";
 	
 	private static final SaveManager instance = new SaveManager();
@@ -78,7 +87,6 @@ public class SaveManager {
 			
 			saveArrayField(object, field, fieldType);
 			
-			
 
 		} else if (Collection.class.isAssignableFrom(fieldType)) {
 
@@ -95,7 +103,6 @@ public class SaveManager {
 
 	private void saveArrayField(ISavable object, Field field, Class<?> fieldType) {
 		
-		// TODO: Array, save it
 		// Lets get how many demensions the array is!
 		// And get its component Type!
 		// Create List for data
@@ -118,47 +125,97 @@ public class SaveManager {
 		LOGGER.trace("Array header: " + arrayHeader);
 		arrayData.add(arrayHeader);
 		
-		// Lets go through the wormhole! (Dimensions)
-		int curDimension = 1;
-		arrayData.addAll(walkArray(object, field,curDimension));
-		
-	}
-
-	private List<String> walkArray(ISavable object, Field field, int curDimension) {
-		List<String> arrayData = new ArrayList<String>();
+		// Lets get the base array object
+		Object array = null;
 		
 		try {
 			
-			// Add opening {
-			arrayData.add(SaveUtils.addMultipleString(TAB, curDimension - 1) + DATA_START);
-			
-			Object arrayObject = field.get(object);
-			if (arrayObject == null){
-				LOGGER.debug(String.format("Null array in dimension %d on field %s", curDimension, field.getName()));
-				// Write null token
-				 arrayData.add(SaveUtils.addMultipleString(TAB, curDimension) + NULL);
-			} else {
-				// Lets walk this beotch
-				int length = Array.getLength(arrayObject);
-			}
-			
-			// Add Closing }
-			arrayData.add(SaveUtils.addMultipleString(TAB, curDimension - 1) + DATA_END);
+			// Lets try to get it...
+			array = field.get(object);
 			
 		} catch (IllegalArgumentException e) {
 			
-			// Was unable to get the array, illegal arguement
-			LOGGER.error("Unable to retrieve array", e);
-			throw new SaveException("Unable to save, could not retrieve aray from " + field.getName());
-			
+			// Unable to get the Array...
+			LOGGER.error("Unable to retrieve array from field: " + field.getName(), e);
+			throw new SaveException("Unable to retrieve array from field: " + field.getName());
+
 		} catch (IllegalAccessException e) {
 			
-			// Was unable to get the array, illegal access
-			LOGGER.error("Unable to retrieve array", e);
-			throw new SaveException("Unable to save, could not retrieve aray from " + field.getName());
+			LOGGER.error("Unable to retrieve array from field: " + field.getName(), e);
+			throw new SaveException("Unable to retrieve array from field: " + field.getName());
 			
 		}
 		
+		// Lets go through the wormhole! (Dimensions)
+		int curDimension = 1;
+		arrayData.addAll(walkArray(array, baseType, curDimension));
+		
+	}
+
+	private List<String> walkArray(Object object, Class<?> baseType, int curDimension) {
+		List<String> arrayData = new ArrayList<String>();
+		
+		// Add opening {
+		arrayData.add(SaveUtils.addMultipleString(TAB, curDimension - 1) + DATA_START);
+		
+		if (object == null || Array.getLength(object) < 1){
+			
+			// TODO: Seperate conditions based on Zero Length/Null Array?
+			// Array is null or Zero Length
+			LOGGER.debug(String.format("Null array in dimension %d", curDimension));
+			
+			// Write null token
+			 arrayData.add(SaveUtils.addMultipleString(TAB, curDimension) + NULL);
+			 
+		} else {
+			
+			// Lets walk this beotch
+			int length = Array.getLength(object);
+			if (Array.get(object, 0).getClass().isArray()){
+				
+				// Array within array...
+				LOGGER.trace("Going walking an Array of an Array");
+				for (int i = 0; i < length; ++i){
+					// Walk the array at index i
+					walkArray(Array.get(object, i), baseType, curDimension + 1);
+				}
+				
+			} else {
+				
+
+				// Lets save the data
+				LOGGER.trace("Saving data from an Array");
+				if (baseType.isPrimitive()){
+					
+					
+				} else if (ISavable.class.isAssignableFrom(baseType) || ISaveHandler.class.isAssignableFrom(baseType)){
+					
+					// For every element in the array, save it.
+					for (int i = 0; i < length; ++i){
+						// Save each object in the array and then add a , if needed
+						List<String> data = saveObject(Array.get(object, i));
+						String needSeperator = i == length - 1 ? "" : ARRAY_DATA_SEPERATOR;
+						arrayData.add(SaveUtils.addMultipleString(TAB, curDimension) + needSeperator);
+					}
+					
+				} else if (Collection.class.isAssignableFrom(baseType)){
+					
+					// IF you really did this....
+					
+				} else if (Map.class.isAssignableFrom(baseType)){
+					
+					// IF you really did this...
+					
+					
+				}
+				
+			}
+			
+		}
+		
+		// Add Closing }
+		arrayData.add(SaveUtils.addMultipleString(TAB, curDimension - 1) + DATA_END);
+	
 		// Return the data
 		return arrayData;
 	}
@@ -209,7 +266,7 @@ public class SaveManager {
 		LOGGER.trace("Calling object postSave");
 		object.postSave();
 	}
-
+	
 	/**
 	 * Saves an object of type ISavable or ISaveHandler
 	 * @param object the object to save
