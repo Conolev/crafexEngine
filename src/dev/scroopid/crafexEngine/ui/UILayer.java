@@ -124,7 +124,6 @@ public class UILayer implements Touchable, Drawable{
 
 	@Override
 	public void whenReleased(CrafexTouchEvent touch) {
-		System.out.println(touch);
 		for(int i = 0; i < uiObjects.size(); ++i){
 			if(uiObjects.get(i).isTouching(touch)){
 				uiObjects.get(i).whenReleased(touch);

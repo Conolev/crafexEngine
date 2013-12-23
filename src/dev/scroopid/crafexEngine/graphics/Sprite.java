@@ -8,6 +8,7 @@ import dev.scroopid.crafexEngine.save.ISavable;
 import dev.scroopid.crafexEngine.save.Ignore;
 import dev.scroopid.crafexEngine.util.floatPoint;
 import dev.scroopid.crafexEngine.util.intPoint;
+import dev.scroopid.crafexEngine.util.intRectangle;
 
 public class Sprite implements ISavable {
 	
@@ -74,23 +75,21 @@ public class Sprite implements ISavable {
 	 * @param canvas
 	 * @param location
 	 */
-	public void draw(Canvas canvas, intPoint location) {
-		if ((location.getX() + this.image.getWidth()) - Crafex.levelMan.getLevel().getScroll().getX() >= 0
-					&& location.getX() - Crafex.levelMan.getLevel().getScroll().getX() <= Crafex.WINDOW_DIMENTIONS.getX()
-					&& (location.getY() + this.image.getHeight()) - Crafex.levelMan.getLevel().getScroll().getY() >= 0
-					&& location.getY() - Crafex.levelMan.getLevel().getScroll().getY() <= Crafex.WINDOW_DIMENTIONS.getY()) {
+	public void draw(Canvas canvas, intRectangle location) {
+		if ((location.getRight()) - Crafex.levelMan.getLevel().getScroll().getX() >= 0
+					&& location.getLeft() - Crafex.levelMan.getLevel().getScroll().getX() <= Crafex.WINDOW_DIMENTIONS.getX()
+					&& (location.getBottom()) - Crafex.levelMan.getLevel().getScroll().getY() >= 0
+					&& location.getTop() - Crafex.levelMan.getLevel().getScroll().getY() <= Crafex.WINDOW_DIMENTIONS.getY()) {
 			
 			int srcX = this.frame * this.frameSize.getX();
 			int srcY = this.frameSize.getY() * this.cycle;
 			
 			Rect src = new Rect(srcX, srcY, srcX + this.frameSize.getX(), srcY + this.frameSize.getY());
-			Rect dst = new Rect(location.getX() - Crafex.levelMan.getLevel().getScroll().getX(), location.getY()
-									- Crafex.levelMan.getLevel().getScroll().getY(), location.getX()
-									+ this.image.getWidth() - Crafex.levelMan.getLevel().getScroll().getX(), location.getY()
-									+ this.image.getHeight() - Crafex.levelMan.getLevel().getScroll().getY());
+			intRectangle tempdst = location.clone();
+			tempdst.getCenter().subtract(Crafex.levelMan.getLevel().getScroll());
+			Rect dst = tempdst.getRect();
 			
 			canvas.drawBitmap(this.image, src, dst, null);
-			
 		}
 	}
 
@@ -99,31 +98,33 @@ public class Sprite implements ISavable {
 	 * @param canvas
 	 * @param location
 	 */
-	public void draw(Canvas canvas, intPoint location, float rotation) {
-		float temp = (float) Math.toDegrees(rotation);
-		
-		if ((location.getX() + this.image.getWidth()) - Crafex.levelMan.getLevel().getScroll().getX() >= 0
-					&& location.getX() - Crafex.levelMan.getLevel().getScroll().getX() <= Crafex.WINDOW_DIMENTIONS.getX()
-					&& (location.getY() + this.image.getHeight()) - Crafex.levelMan.getLevel().getScroll().getY() >= 0
-					&& location.getY() - Crafex.levelMan.getLevel().getScroll().getY() <= Crafex.WINDOW_DIMENTIONS.getY()) {
+	public void draw(Canvas canvas, intRectangle location, boolean rotate) {
+		if ((location.getRight()) - Crafex.levelMan.getLevel().getScroll().getX() >= 0
+					&& location.getLeft() - Crafex.levelMan.getLevel().getScroll().getX() <= Crafex.WINDOW_DIMENTIONS.getX()
+					&& (location.getBottom()) - Crafex.levelMan.getLevel().getScroll().getY() >= 0
+					&& location.getTop() - Crafex.levelMan.getLevel().getScroll().getY() <= Crafex.WINDOW_DIMENTIONS.getY()) {
 			
-			canvas.rotate(temp, (int) (location.getX() - Crafex.levelMan.getLevel().getScroll().getX() + (this.image.getWidth() * .5)), (int) (location.getY()
-						- Crafex.levelMan.getLevel().getScroll().getY() + (this.image.getHeight() * .5)));
+			if(rotate){
+				canvas.rotate(location.getRotation(), 
+							(int) (location.getX() - Crafex.levelMan.getLevel().getScroll().getX()),
+							(int) (location.getY() - Crafex.levelMan.getLevel().getScroll().getY()));
+			}
 			
 			int srcX = this.frame * this.frameSize.getX();
 			int srcY = this.frameSize.getY() * this.cycle;
 			
 			Rect src = new Rect(srcX, srcY, srcX + this.frameSize.getX(), srcY + this.frameSize.getY());
-			Rect dst = new Rect(location.getX() - Crafex.levelMan.getLevel().getScroll().getX(), location.getY()
-									- Crafex.levelMan.getLevel().getScroll().getY(), location.getX()
-									+ this.image.getWidth() - Crafex.levelMan.getLevel().getScroll().getX(), location.getY()
-									+ this.image.getHeight() - Crafex.levelMan.getLevel().getScroll().getY());
+			intRectangle tempdst = location.clone();
+			tempdst.getCenter().subtract(Crafex.levelMan.getLevel().getScroll());
+			Rect dst = tempdst.getRect();
 			
 			canvas.drawBitmap(this.image, src, dst, null);
 			
-			canvas.rotate(-temp, (int) (location.getX()
-						- Crafex.levelMan.getLevel().getScroll().getX() + (this.image.getWidth() * .5)), (int) (location.getY()
-						- Crafex.levelMan.getLevel().getScroll().getY() + (this.image.getHeight() * .5)));
+			if(rotate){
+				canvas.rotate(-location.getRotation(), 
+							(int) (location.getX() - Crafex.levelMan.getLevel().getScroll().getX()),
+							(int) (location.getY() - Crafex.levelMan.getLevel().getScroll().getY()));
+			}
 		}
 	}
 

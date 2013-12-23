@@ -1,5 +1,7 @@
 package dev.scroopid.crafexEngine.util;
 
+import dev.scroopid.crafexEngine.Crafex;
+
 public class Util {
 
 	/**
@@ -56,8 +58,8 @@ public class Util {
 	 * @return is a number is between two others
 	 */
 	public static boolean isBetween(intPoint point, intRectangle area) {
-		return Util.isBetween(point.getX(), area.getLeft(), area.getRight()) 
-					&& Util.isBetween(point.getY(), area.getTop(), area.getBottom());
+		return Util.isBetween(point.getX(), area.getX(), area.getWidth()) 
+					&& Util.isBetween(point.getY(), area.getY(), area.getHeight());
 	}
 	
 	/**
@@ -93,8 +95,6 @@ public class Util {
 			dy = 0;
 		}
 		
-		System.out.println(dx);
-		System.out.println(dy);
 		if(Math.abs(dx) > Math.abs(targetLocation.getX() - location.getX())){
 			dx = targetLocation.getX() - location.getX();
 		}
@@ -106,5 +106,59 @@ public class Util {
 		location.addX(dx);
 		location.addY(dy);
 		return location;
+	}
+	
+	/**
+	 * returns the area of a triangle
+	 * @param A
+	 * @param B
+	 * @param C
+	 * @return area of a triangle
+	 */
+	public float getArea(floatPoint A, floatPoint B, floatPoint C){
+		Math.abs((A.getX() * (B.getY()  - C.getY()) + B.getX() * (C.getY() - A.getY()) + C.getX() * (A.getY() - B.getY())) / 2);
+		return 0f;
+	}
+	
+	/**
+	 * checks if a {@link intPoint} is inside of a polygon of {@link intPoint}s
+	 * @param point
+	 * @param points
+	 * @return if a point is inside of a polygon.
+	 */
+	public static boolean isInsidePolygon(intPoint point, intPoint[] points){
+		int i;
+		int j;
+		boolean result = false;
+		for (i = 0, j = points.length - 1; i < points.length; j = i++) {
+			if ((points[i].getY() > point.getY()) != (points[j].getY() > point.getY()) &&
+						(point.getX() < (points[j].getX() - points[i].getX()) * (point.getY() - points[i].getY()) / (points[j].getY() - points[i].getY()) + points[i].getX())) {
+				result = !result;
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * checks if a {@link floatPoint} is inside of a polygon of {@link floatPoint}s
+	 * @param point
+	 * @param points
+	 * @return if a point is inside of a polygon.
+	 */
+	public static boolean isInsidePolygon(floatPoint point, floatPoint[] points){
+		int i;
+		int j;
+		boolean result = false;
+		for (i = 0, j = points.length - 1; i < points.length; j = i++) {
+			if ((points[i].getY() > point.getY()) != (points[j].getY() > point.getY()) &&
+						(point.getX() < (points[j].getX() - points[i].getX()) * (point.getY() - points[i].getY()) / (points[j].getY() - points[i].getY()) + points[i].getX())) {
+				result = !result;
+			}
+		}
+		return result;
+	}
+	
+	public static float pixelScale(float number){
+		return number * Crafex.SCALE;
 	}
 }

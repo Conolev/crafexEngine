@@ -47,6 +47,17 @@ public class intPoint {
 	}
 	
 	/**
+	 * adds the values of another {@link intPoint} to this one
+	 * @param target
+	 * @return result of addition
+	 */
+	public intPoint add(int x, int y) {
+		this.x += x;
+		this.y += y;
+		return this;
+	}
+	
+	/**
 	 * adds to the X coordinate
 	 * @param value
 	 */
@@ -142,6 +153,15 @@ public class intPoint {
 	public void negateY() {
 		this.y = -this.y;
 	}
+	
+	/**
+	 * sets the {@link intPoint} to another
+	 * @param point
+	 */
+	public void set(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 
 	/**
 	 * sets the {@link intPoint} to another
@@ -184,6 +204,29 @@ public class intPoint {
 	public intPoint subtract(intPoint target) {
 		this.x -= target.x;
 		this.y -= target.y;
+		return this;
+	}
+	
+	/**
+	 * multiplys the coordinates by the given number
+	 * @param multiplier
+	 * @return this
+	 */
+	public intPoint multiply(int multiplier){
+		this.x *= multiplier;
+		this.y *= multiplier;
+		return this;
+	}
+	
+	/**
+	 * multiplys the coordinates by the given numbers
+	 * @param multiplierX
+	 * @param multiplierY
+	 * @return this
+	 */
+	public intPoint multiply(int multiplierX, int multiplierY){
+		this.x *= multiplierX;
+		this.y *= multiplierY;
 		return this;
 	}
 

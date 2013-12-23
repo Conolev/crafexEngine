@@ -23,7 +23,7 @@ public class UIPanel extends UIObject {
 	 * @param layer
 	 */
 	public UIPanel(Bitmap image, floatPoint location, int layer) {
-		super(image, location, layer);
+		super(image, location, 0, layer);
 		this.setUiObjects(new ArrayList<UIObject>());
 		this.setSelected(0);
 	}
@@ -71,11 +71,11 @@ public class UIPanel extends UIObject {
 	@Override
 	public void whenHeld(CrafexTouchEvent touch) {
 		if (touch.getTouchLocation().getDistance(touch.getTouchLocation()) > this.DRAG_DISTANCE) {
-			if (this.realSize.getX() != this.size.getX()) {
+			if (this.realSize.getX() != getRectangle().getWidth()) {
 				this.scrollX(this.touch.getTouchLocation().getX() - touch.getTouchLocation().getX());
 				this.scrolled = true;
 			}
-			if (this.realSize.getY() != this.size.getY()) {
+			if (this.realSize.getY() != getRectangle().getHeight()) {
 				this.scrollY(this.touch.getTouchLocation().getY() - touch.getTouchLocation().getY());
 				this.scrolled = true;
 			}

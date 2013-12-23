@@ -37,6 +37,9 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 	/**the expected resolution*/
 	public static intPoint WINDOW_DEFAULT;
 
+	/**scale of the pixels*/
+	public static float SCALE;
+	
 	public static Paint paint = new Paint();
 	
 	/**update {@link GameThread}*/
@@ -67,7 +70,7 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 		}else{
 			levelMan.setLevel(new Level());
 		}
-		
+		SCALE = (float) (Crafex.WINDOW_DIMENTIONS.getY()) / Crafex.WINDOW_DEFAULT.getY();
 		update = new GameThread(60) {
 			
 			@Override

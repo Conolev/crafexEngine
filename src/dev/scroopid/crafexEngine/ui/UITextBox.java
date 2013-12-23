@@ -23,7 +23,7 @@ public class UITextBox extends UIObject {
 	 * @param layer
 	 */
 	public UITextBox(Bitmap image, floatPoint location, int layer) {
-		super(image, location, layer);
+		super(image, location, 0, layer);
 		//TODO finish textbox
 	}
 

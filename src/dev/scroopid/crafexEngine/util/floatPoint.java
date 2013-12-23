@@ -47,6 +47,17 @@ public class floatPoint {
 	}
 	
 	/**
+	 * adds the values of another {@link floatPoint} to this one
+	 * @param target
+	 * @return result of addition
+	 */
+	public floatPoint add(float x, float y) {
+		this.x += x;
+		this.y += y;
+		return this;
+	}
+	
+	/**
 	 * adds to the X coordinate
 	 * @param value
 	 */
@@ -61,7 +72,7 @@ public class floatPoint {
 	public void addY(float value) {
 		this.y += value;
 	}
-
+	
 	/**
 	 * clones this {@link floatPoint}
 	 */
@@ -151,6 +162,15 @@ public class floatPoint {
 		this.x = point.x;
 		this.y = point.y;
 	}
+	
+	/**
+	 * sets the {@link floatPoint} to another
+	 * @param point
+	 */
+	public void set(float x, float y) {
+		this.x = x;
+		this.y = y;
+	}
 
 	/**
 	 * sets the X coordinate value
@@ -184,6 +204,29 @@ public class floatPoint {
 	public floatPoint subtract(floatPoint target) {
 		this.x -= target.x;
 		this.y -= target.y;
+		return this;
+	}
+	
+	/**
+	 * multiplys the coordinates by the given number
+	 * @param multiplier
+	 * @return this
+	 */
+	public floatPoint multiply(float multiplier){
+		this.x *= multiplier;
+		this.y *= multiplier;
+		return this;
+	}
+	
+	/**
+	 * Multiplys the coordinates by the given numbers
+	 * @param multiplierX
+	 * @param multiplierY
+	 * @return this
+	 */
+	public floatPoint multiply(float multiplierX, float multiplierY){
+		this.x *= multiplierX;
+		this.y *= multiplierY;
 		return this;
 	}
 

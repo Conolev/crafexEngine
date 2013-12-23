@@ -20,17 +20,20 @@ public class Entity implements Updatable, Drawable{
 	/** the current movement of the entity for this loop cycle */
 	protected floatPoint movement;
 	
-	/**rotation of the entity*/
+	/**Desired rotation to apply*/
 	protected float rotation;
 	
 	/** the movement applied to movement every loop */
 	protected floatPoint repeatedMovement;
 	
-	/** the coordinates of the entity in the world */
-	protected floatPoint coordinates;
+	/** the coordinates, rotation and size of the {@link Entity} in the world */
+	protected floatRectangle rectangle;
 	
 	/** the amount of pixels the entity can travel in one cycle */
 	protected float speed;
+	
+	/**the speed this entity rotates at*/
+	private float rotationSpeed;
 	
 	/** the health of the entity */
 	protected float health;
@@ -41,9 +44,6 @@ public class Entity implements Updatable, Drawable{
 	
 	/** the {@link Entity} {@link Sprite} */
 	protected Sprite sprite;
-	
-	/**the rectangle around the {@link Entity}*/
-	protected floatRectangle myRect = new floatRectangle();
 
 	/**
 	 * an entity for the world
@@ -73,8 +73,8 @@ public class Entity implements Updatable, Drawable{
 	 */
 	public Entity(Bitmap image, float x, float y, int id) {
 		start();
-		coordinates = new floatPoint(x, y);
 		setSprite(new Sprite(image));
+		rectangle = new floatRectangle(x, y, sprite.getWidth(), sprite.getHeight(), id);
 		this.id = id;
 	}
 
@@ -87,8 +87,8 @@ public class Entity implements Updatable, Drawable{
 	 */
 	public Entity(Bitmap image, int frames, int cycles, int id) {
 		start();
-		coordinates = new floatPoint();
 		setSprite(new Sprite(image, frames, cycles, .2f));
+		rectangle = new floatRectangle(0, 0, sprite.getWidth(), sprite.getHeight(), id);
 		this.id = id;
 	}
 
@@ -103,8 +103,8 @@ public class Entity implements Updatable, Drawable{
 	 */
 	public Entity(Bitmap image, int frames, int cycles, float x, float y, int id) {
 		start();
-		coordinates = new floatPoint(x, y);
 		setSprite(new Sprite(image, frames, cycles, .2f));
+		rectangle = new floatRectangle(x, y, sprite.getWidth(), sprite.getHeight(), id);
 		this.id = id;
 	}
 
@@ -121,7 +121,7 @@ public class Entity implements Updatable, Drawable{
 	 * resets the entity 
 	 */
 	public void reset() {
-		coordinates = new floatPoint();
+		rectangle = new floatRectangle();
 		movement = new floatPoint();
 		repeatedMovement = new floatPoint();
 	}
@@ -247,7 +247,7 @@ public class Entity implements Updatable, Drawable{
 	 * @return coordinates
 	 */
 	public floatPoint getCoordinates() {
-		return coordinates;
+		return rectangle.getCenter();
 	}
 
 	/**
@@ -255,15 +255,23 @@ public class Entity implements Updatable, Drawable{
 	 * @param coordinates
 	 */
 	public void setCoordinates(floatPoint coordinates) {
-		this.coordinates = coordinates;
+		rectangle.setCenter(coordinates);
 	}
 
 	/**
 	 * returns the rectangle surrounding the entity
 	 * @return
 	 */
-	public floatRectangle getMyRect() {
-		return myRect;
+	public floatRectangle getMyRectangle() {
+		return rectangle;
+	}
+
+	public float getRotationSpeed() {
+		return rotationSpeed;
+	}
+
+	public void setRotationSpeed(float rotationSpeed) {
+		this.rotationSpeed = rotationSpeed;
 	}
 
 	/**
@@ -274,8 +282,8 @@ public class Entity implements Updatable, Drawable{
 			movement.addX(repeatedMovement.getX() * getUpdateTimeDelta());
 			movement.addY(repeatedMovement.getY() * getUpdateTimeDelta());
 		}
-		coordinates.addX(movement.getX() * getUpdateTimeDelta());
-		coordinates.addY(movement.getY() * getUpdateTimeDelta());
+		rectangle.getCenter().addX(movement.getX() * getUpdateTimeDelta());
+		rectangle.getCenter().addY(movement.getY() * getUpdateTimeDelta());
 		if (movement.getX() != 0 && movement.getY() != 0) {
 			lastMovement = new floatPoint(movement.getX(), movement.getY());
 		}
@@ -291,9 +299,9 @@ public class Entity implements Updatable, Drawable{
 
 		move();
 		
-		myRect.set((int) coordinates.getX(), (int) coordinates.getY(),
-				(int) coordinates.getX() + getSprite().getWidth(),
-				(int) coordinates.getY() + getSprite().getHeight());
+		rectangle.set((int) rectangle.getX(), (int) rectangle.getY(),
+				(int) rectangle.getX() + getSprite().getWidth(),
+				(int) rectangle.getY() + getSprite().getHeight());
 	}
 
 	/**
@@ -303,7 +311,7 @@ public class Entity implements Updatable, Drawable{
 	 */
 	public void draw(Canvas canvas) {
 		if (sprite != null) {
-			sprite.draw(canvas, coordinates.toIntPoint(), rotation);
+			sprite.draw(canvas, rectangle.toIntRectangle(), true);
 		}
 	}
 

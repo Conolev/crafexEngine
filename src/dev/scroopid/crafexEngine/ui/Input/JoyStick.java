@@ -13,7 +13,7 @@ public class JoyStick extends UIObject {
 	 * @param layer
 	 */
 	public JoyStick(Bitmap image, floatPoint location, int layer) {
-		super(image, location, layer);
+		super(image, location, 0, layer);
 		//TODO finish Joystick
 	}
 

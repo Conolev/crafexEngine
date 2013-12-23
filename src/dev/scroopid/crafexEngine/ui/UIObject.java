@@ -9,6 +9,7 @@ import dev.scroopid.crafexEngine.graphics.Sprite;
 import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
 import dev.scroopid.crafexEngine.util.Util;
 import dev.scroopid.crafexEngine.util.floatPoint;
+import dev.scroopid.crafexEngine.util.floatRectangle;
 import dev.scroopid.crafexEngine.util.intPoint;
 import dev.scroopid.crafexEngine.util.intRectangle;
 
@@ -20,14 +21,14 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	protected int DRAG_DISTANCE;
 	/**layer of {@link UIObject} is in*/
 	private int layer;
+	/**speed the {@link UIObject} rotates*/
+	private int rotationSpeed;
 	/**speed the {@link UIObject} when moving*/
 	private int speed;
-	/**location of the {@link UIObject}*/
-	private floatPoint location;
+	/**location of the {@link UIObject} with size of the {@link UIObject} being displayed*/
+	private floatRectangle location;
 	/**target location of {@link UIObject}*/
-	private intPoint targetLocation;
-	/**size of the {@link UIObject} being displayed*/
-	protected intPoint size;
+	private intRectangle targetLocation;
 	/**real size of the {@link UIObject}*/
 	protected intPoint realSize;
 	/**amount the screen is "scrolled over"*/
@@ -45,12 +46,12 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	 * @param location
 	 * @param layer of object
 	 */
-	public UIObject(Bitmap image, floatPoint location, int layer) {
+	public UIObject(Bitmap image, floatPoint location, float rotation,  int layer) {
 		this.sprite = new Sprite(image);
-		this.setLocation(location);
-		this.setTargetLocation(location.toIntPoint());
+		this.targetLocation = new intRectangle(location.toIntPoint(), 
+					new intPoint(sprite.getWidth(), sprite.getHeight()), (int) rotation);
 		this.setLayer(layer);
-		this.generateSize();
+		this.generateRect(location, rotation);
 	}
 
 	/**
@@ -59,8 +60,8 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	 * @param y value
 	 */
 	public void addTargetLocation(int x, int y) {
-		this.targetLocation.addX(x);
-		this.targetLocation.addY(y);
+		this.targetLocation.getCenter().addX(x);
+		this.targetLocation.getCenter().addY(y);
 	}
 
 	/**
@@ -68,28 +69,28 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	 * @param values
 	 */
 	public void addTargetLocation(intPoint values) {
-		this.targetLocation.add(values);
+		this.targetLocation.getCenter().add(values);
 	}
 
 	@Override
 	public void draw(Canvas canvas) {
-		sprite.draw(canvas, location.toIntPoint());
+		sprite.draw(canvas, location.toIntRectangle(), true);
 	}
 	
 	/**
 	 * generates size of the {@link UIObject}
 	 */
-	public void generateSize() {
-		size = new intPoint(sprite.getWidth(), sprite.getHeight());
+	public void generateRect(floatPoint location, float rotation) {
+		this.location = new floatRectangle(location, 
+					new floatPoint(sprite.getWidth(), sprite.getHeight()), rotation);
 	}
 	
 	/**
 	 * returns the {@link intRectangle} of the {@link UIObject}
 	 * @return rectangle of the object
 	 */
-	public intRectangle getRectangle(){
-		return new intRectangle((int) location.getX(), (int) location.getY(), 
-					(int) location.getX() + size.getX(), (int) location.getY() + size.getY());
+	public floatRectangle getRectangle(){
+		return location;
 	}
 
 	@Override
@@ -110,7 +111,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	 * @return location of the object
 	 */
 	public floatPoint getLocation() {
-		return this.location;
+		return this.location.getCenter();
 	}
 
 	/**
@@ -125,8 +126,8 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	 * returns the size of the {@link UIObject}
 	 * @return size of the object
 	 */
-	public intPoint getSize() {
-		return this.size;
+	public floatPoint getSize() {
+		return this.location.getSize();
 	}
 
 	/**
@@ -142,7 +143,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	 * @return target location of the object
 	 */
 	public intPoint getTargetLocation() {
-		return this.targetLocation;
+		return this.targetLocation.getCenter();
 	}
 
 	/**
@@ -182,12 +183,20 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 		return this.location.getY();
 	}
 
+	public int getRotationSpeed() {
+		return rotationSpeed;
+	}
+
+	public void setRotationSpeed(int rotationSpeed) {
+		this.rotationSpeed = rotationSpeed;
+	}
+
 	/**
 	 * is the {@link UIObject} active
 	 * @return isActive?
 	 */
 	public boolean isActive() {
-		return this.location.isEqualTo(this.targetLocation);
+		return this.location.getCenter().isEqualTo(this.targetLocation.getCenter());
 	}
 
 	/**
@@ -195,9 +204,9 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	 * @param differance
 	 */
 	public void scrollX(int differance) {
-		if (this.scroll.getX() + this.size.getX() < this.realSize.getX() && differance > 0) {
-			if (this.realSize.getX() - (this.scroll.getX() + this.size.getX()) < differance) {
-				this.scroll.setX(this.realSize.getX() - this.size.getX());
+		if (this.scroll.getX() + this.location.getSize().getX() < this.realSize.getX() && differance > 0) {
+			if (this.realSize.getX() - (this.scroll.getX() + this.location.getSize().getX()) < differance) {
+				this.scroll.setX(this.realSize.getX() - (int) this.location.getSize().getX());
 			} else {
 				this.scroll.addX(differance);
 			}
@@ -215,9 +224,9 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	 * @param differance
 	 */
 	public void scrollY(int differance) {
-		if (this.scroll.getY() + this.size.getY() < this.realSize.getY() && differance > 0) {
-			if (this.realSize.getY() - (this.scroll.getY() + this.size.getY()) < differance) {
-				this.scroll.setY(this.realSize.getY() - this.size.getY());
+		if (this.scroll.getY() + this.location.getSize().getY() < this.realSize.getY() && differance > 0) {
+			if (this.realSize.getY() - (this.scroll.getY() + this.location.getSize().getY()) < differance) {
+				this.scroll.setY(this.realSize.getY() - (int) this.location.getSize().getY());
 			} else {
 				this.scroll.addY(differance);
 			}
@@ -249,7 +258,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	 * @param y
 	 */
 	public void setLocation(float x, float y) {
-		this.location = new floatPoint(x, y);
+		this.location.setCenter(new floatPoint(x, y));
 	}
 
 	/**
@@ -257,7 +266,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	 * @param location
 	 */
 	public void setLocation(floatPoint location) {
-		this.location = location;
+		this.location.setCenter(location);
 	}
 
 	/**
@@ -273,7 +282,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	 * @param size
 	 */
 	public void setSize(intPoint size) {
-		this.size = size;
+		this.location.setSize(size.toFloatPoint());
 	}
 
 	/**
@@ -290,7 +299,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	 * @param y
 	 */
 	public void setTargetLocation(int x, int y) {
-		this.targetLocation = new intPoint(x, y);
+		this.targetLocation.setCenter(new intPoint(x, y));
 	}
 
 	/**
@@ -298,22 +307,21 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	 * @param loction
 	 */
 	public void setTargetLocation(intPoint loction) {
-		this.targetLocation = loction;
+		this.targetLocation.setCenter(loction);
 	}
 
 	@Override
 	public void update() {
-		System.out.println(location);
-		if (!this.location.isEqualTo(this.targetLocation)) {
-			this.location = Util.move(this.location, this.targetLocation.toFloatPoint(), 
-						this.speed * this.getUpdateTimeDelta());
+		if (!this.location.getCenter().isEqualTo(this.targetLocation.getCenter())) {
+			this.location.setCenter(Util.move(this.location.getCenter(), 
+						this.targetLocation.getCenter().toFloatPoint(), this.speed * this.getUpdateTimeDelta()));
 		}
 		this.setLastUpdateTime(System.currentTimeMillis());
 	}
 	
 	@Override
 	public boolean isTouching(CrafexTouchEvent touch) {
-		return isActive() && Util.isBetween(touch.getTouchLocation(), getRectangle());
+		return isActive() && location.isInside(touch.getTouchLocation());
 	}
 
 	@Override

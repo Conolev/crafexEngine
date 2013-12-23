@@ -62,10 +62,8 @@ public class GraphicsUtil {
 			e.printStackTrace();
 		}
 		
-		float scale = (float) (Crafex.WINDOW_DIMENTIONS.getY()) / Crafex.WINDOW_DEFAULT.getY();
-
 		if (temp != null) {
-			data = scaleImage(temp, scale);
+			data = scaleImage(temp, Crafex.SCALE);
 			return data;
 		}
 		return null;
