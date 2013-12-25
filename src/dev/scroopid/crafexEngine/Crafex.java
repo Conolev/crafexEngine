@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import dev.scroopid.crafexEngine.graphics.GraphicsManager;
 import dev.scroopid.crafexEngine.input.InputHandler;
 import dev.scroopid.crafexEngine.level.Level;
 import dev.scroopid.crafexEngine.level.LevelManager;
@@ -32,6 +33,9 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 
 	/**level manager of the {@link Crafex}*/
 	public static LevelManager levelMan;
+	
+	/**contains and manages bitmaps*/
+	public static GraphicsManager graphicsMan;
 	
 	/**Phone's screen resolution*/
 	public static intPoint WINDOW_DIMENTIONS;
@@ -60,6 +64,7 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 				intPoint defaultResalution, intPoint screenResalution, String files) {
 		super(context);
 		Crafex.CONTEXT = context;
+		graphicsMan = new GraphicsManager();
 		WINDOW_DIMENTIONS = screenResalution;
 		WINDOW_DEFAULT = defaultResalution;
 		DEFAULT_COLOR = backGroundColor;

@@ -53,6 +53,20 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 		this.setLayer(layer);
 		this.generateRect(location, rotation);
 	}
+	
+	/**
+	 * object used for UI
+	 * @param image
+	 * @param location
+	 * @param layer of object
+	 */
+	public UIObject(String imageKey, floatPoint location, float rotation,  int layer) {
+		this.sprite = new Sprite(imageKey);
+		this.targetLocation = new intRectangle(location.toIntPoint(), 
+					new intPoint(sprite.getWidth(), sprite.getHeight()), (int) rotation);
+		this.setLayer(layer);
+		this.generateRect(location, rotation);
+	}
 
 	/**
 	 * adds a value or values to target location

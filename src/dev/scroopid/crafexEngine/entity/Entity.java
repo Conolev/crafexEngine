@@ -1,15 +1,17 @@
 package dev.scroopid.crafexEngine.entity;
 
+import dev.scroopid.crafexEngine.Crafex;
 import dev.scroopid.crafexEngine.Drawable;
 import dev.scroopid.crafexEngine.Updatable;
 import dev.scroopid.crafexEngine.graphics.Sprite;
+import dev.scroopid.crafexEngine.save.ISavable;
 import dev.scroopid.crafexEngine.save.Ignore;
 import dev.scroopid.crafexEngine.util.floatPoint;
 import dev.scroopid.crafexEngine.util.floatRectangle;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-public class Entity implements Updatable, Drawable{
+public class Entity implements Updatable, Drawable, ISavable{
 
 	/**id*/
 	protected int id;
@@ -58,9 +60,9 @@ public class Entity implements Updatable, Drawable{
 	 * @param image
 	 * @param id
 	 */
-	public Entity(Bitmap image, int id) {
+	public Entity(String imageKey, int id) {
 		start();
-		setSprite(new Sprite(image));
+		setSprite(new Sprite(imageKey));
 		this.id = id;
 	}
 	
@@ -71,9 +73,9 @@ public class Entity implements Updatable, Drawable{
 	 * @param y
 	 * @param id
 	 */
-	public Entity(Bitmap image, float x, float y, int id) {
+	public Entity(String imageKey, float x, float y, int id) {
 		start();
-		setSprite(new Sprite(image));
+		setSprite(new Sprite(imageKey));
 		rectangle = new floatRectangle(x, y, sprite.getWidth(), sprite.getHeight(), id);
 		this.id = id;
 	}
@@ -85,9 +87,9 @@ public class Entity implements Updatable, Drawable{
 	 * @param cycles
 	 * @param id
 	 */
-	public Entity(Bitmap image, int frames, int cycles, int id) {
+	public Entity(String imageKey, int frames, int cycles, int id) {
 		start();
-		setSprite(new Sprite(image, frames, cycles, .2f));
+		setSprite(new Sprite(imageKey, frames, cycles, .2f));
 		rectangle = new floatRectangle(0, 0, sprite.getWidth(), sprite.getHeight(), id);
 		this.id = id;
 	}
@@ -101,9 +103,9 @@ public class Entity implements Updatable, Drawable{
 	 * @param y
 	 * @param id
 	 */
-	public Entity(Bitmap image, int frames, int cycles, float x, float y, int id) {
+	public Entity(String imageKey, int frames, int cycles, float x, float y, int id) {
 		start();
-		setSprite(new Sprite(image, frames, cycles, .2f));
+		setSprite(new Sprite(imageKey, frames, cycles, .2f));
 		rectangle = new floatRectangle(x, y, sprite.getWidth(), sprite.getHeight(), id);
 		this.id = id;
 	}
@@ -328,5 +330,25 @@ public class Entity implements Updatable, Drawable{
 	@Override
 	public void setLastUpdateTime(long time) {
 		LastTimeUpdated = time;
+	}
+
+	@Override
+	public void postLoad() {
+		LastTimeUpdated = System.currentTimeMillis();
+	}
+
+	@Override
+	public void postSave() {
+		
+	}
+
+	@Override
+	public void preLoad() {
+		
+	}
+
+	@Override
+	public void preSave() {
+		
 	}
 }
