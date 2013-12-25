@@ -54,7 +54,6 @@ public class UIEditableTextBox extends UITextBox implements Inputable {
 	@Override
 	public void startInput() {
 		this.index = this.Text.length();
-		Crafex.inputHandler.startInput(this, CrafexInputer.INPUT_TYPE_ASSCI_KEYBOARD);
 	}
 
 	@Override

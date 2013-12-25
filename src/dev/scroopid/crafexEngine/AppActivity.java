@@ -175,4 +175,11 @@ public abstract class AppActivity extends Activity {
 			System.exit(0);
 		}
 	}
+	
+	@Override
+	public void onBackPressed() {
+		if(!crafex.onBackPressed()){
+			super.onBackPressed();
+		}
+	}
 }

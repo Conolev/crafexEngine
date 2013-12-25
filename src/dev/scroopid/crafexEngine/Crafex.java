@@ -16,6 +16,8 @@ import dev.scroopid.crafexEngine.util.intPoint;
 
 public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 
+	public static Context CONTEXT;
+	
 	/**color of the background*/
 	public static int DEFAULT_COLOR;
 	
@@ -57,6 +59,7 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 	public Crafex(Level level, AssetManager assets, Context context, int backGroundColor, 
 				intPoint defaultResalution, intPoint screenResalution, String files) {
 		super(context);
+		Crafex.CONTEXT = context;
 		WINDOW_DIMENTIONS = screenResalution;
 		WINDOW_DEFAULT = defaultResalution;
 		DEFAULT_COLOR = backGroundColor;
@@ -109,6 +112,16 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 		levelMan.draw(canvas);
 	}
 
+	/**
+	 * activates when back is pressed
+	 */
+	public boolean onBackPressed(){
+		if(inputHandler != null){
+			return inputHandler.onBackPressed();
+		}else
+			return false;
+	}
+	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		return inputHandler.handleTouchInput(event);

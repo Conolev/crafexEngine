@@ -1,7 +1,10 @@
 package dev.scroopid.crafexEngine.input;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.MotionEvent;
+import android.view.inputmethod.InputMethodManager;
+import dev.scroopid.crafexEngine.AppActivity;
 import dev.scroopid.crafexEngine.Crafex;
 import dev.scroopid.crafexEngine.Updatable;
 import dev.scroopid.crafexEngine.ui.Input.KeyBoard;
@@ -13,13 +16,13 @@ public class InputHandler implements Updatable {
 	private Inputable input;
 
 	/**keyboard*/
-	private KeyBoard inputer;
-
+	private static InputMethodManager imm;
+    
 	/**
 	 * handles inputs
 	 */
 	public InputHandler() {
-
+		imm = (InputMethodManager) Crafex.CONTEXT.getSystemService(Context.INPUT_METHOD_SERVICE);
 	}
 
 	/**
@@ -28,13 +31,6 @@ public class InputHandler implements Updatable {
 	 */
 	public void crafexKeyboardInput(CrafexKeyInputEvent event) {
 		this.input.setInput(CrafexKeyInputEvent.doInput(event.getValue(), this.input.getInput(), this.input.getInputingIndex()));
-	}
-
-	/**
-	 * ends input from {@link CrafexInputer}
-	 */
-	public void endInput() {
-		this.inputer = null;
 	}
 
 	@Override
@@ -70,28 +66,26 @@ public class InputHandler implements Updatable {
 	public void setLastUpdateTime(long time) {}
 
 	/**
-	 * starts {@link CrafexInputer}
-	 * @param input
-	 * @param inputType
+	 * shows the android keyboard
 	 */
-	public void startInput(Inputable input, int inputType) {
-		this.input = input;
-		if (inputType == CrafexInputer.INPUT_TYPE_ASSCI_KEYBOARD) {
-			this.inputer = new KeyBoard(null, 0, KeyBoard.KEYSET_ASSCI);// TODO Change this
-			Crafex.uiHandler.setOverlay(this.inputer);
-		}
+	public static void showKeyBoard(){
+		imm.showSoftInput(AppActivity.crafex, 0);
+	}
+	
+	/**
+	 * hides the android keyboard
+	 */
+	public static void hideKeyBoard(){
+		imm.hideSoftInputFromWindow(AppActivity.crafex.getApplicationWindowToken(), 0);
+	}
+	
+	public boolean onBackPressed(){
+		return false;
 	}
 
 	@Override
 	public void update() {
-		if (this.inputer.isActive()) {
-			CrafexKeyInputEvent[] inputs = this.inputer.getInputs();
-			for (int i = 0; i < inputs.length; ++i) {
-				this.crafexKeyboardInput(inputs[i]);
-			}
-		} else {
-			this.endInput();
-		}
+		
 	}
 
 }
