@@ -19,8 +19,6 @@ import dev.scroopid.crafexEngine.Logger;
  * 
  */
 class SaveUtils {
-	private static final String PRIMITIVE_TYPE_FORMAT = "<%s : %s : \"%s\">";
-
 	static final Logger log = new Logger(SaveUtils.class);
 
 	static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss a", Locale.US);
@@ -106,7 +104,7 @@ class SaveUtils {
 	 * @return The formatted field data
 	 */
 	static String formatPrimitive(String fieldName, String type, String data) {
-		return String.format(PRIMITIVE_TYPE_FORMAT, fieldName, type, data);
+		return String.format(SaveConstants.PRIMITIVE_TYPE_FORMAT, fieldName, type, data);
 	}
 
 	/**

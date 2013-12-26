@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import dev.scroopid.crafexEngine.Logger;
@@ -18,29 +19,9 @@ import dev.scroopid.crafexEngine.Logger;
  *
  */
 public class SaveManager {
-	private static final String ARRAY_DATA_SEPERATOR = " ,";
-
-	private static final String ARRAY = "Array";
+	private static final Logger LOGGER = new Logger(SaveManager.class);
 	
 	private static final SaveManager instance = new SaveManager();
-	
-	private static final String DATA_END = "}";
-
-	private static final String DATA_START = "{";
-
-	private static final String SAVE_TYPE_FORMAT = "(%s : %s : %s)";
-	
-	private static final String ARRAY_TYPE_FORMAT = "[%s : %s : %s : %d]";
-
-	private static final String I_SAVE_HANDLER = "ISaveHandler";
-
-	private static final String I_SAVABLE = "ISavable";
-
-	private static final Logger LOGGER = new Logger(SaveManager.class);
-
-	private static final String TAB = "    ";
-	
-	private static final String NULL = "$NULL$";
 
 	private static final Class<? extends Annotation> IGNORE = Ignore.class;
 
@@ -71,7 +52,7 @@ public class SaveManager {
 
 			// Primitive Type, save it!
 			String data = this.savePrimitiveField(object, field, fieldType);
-			objectData.add(SaveUtils.addMultipleString(TAB, callsDeep) + data);
+			objectData.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep) + data);
 
 		} else if (ISavable.class.isAssignableFrom(fieldType) || ISaveHandler.class.isAssignableFrom(fieldType)) {
 
@@ -81,7 +62,7 @@ public class SaveManager {
 		} else if (String.class.isAssignableFrom(fieldType)) {
 
 			String data = this.saveStringField(object, field, fieldType);
-			objectData.add(SaveUtils.addMultipleString(TAB, callsDeep) + data);
+			objectData.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep) + data);
 
 		} else if (fieldType.isArray()) {
 			
@@ -121,7 +102,7 @@ public class SaveManager {
 		LOGGER.trace(String.format("Dealing with a %d demension array of type %s", dimensions, baseType.getName()));
 		
 		// Create the array header
-		String arrayHeader = String.format(ARRAY_TYPE_FORMAT, field.getName(), ARRAY,baseType.getName(), dimensions);
+		String arrayHeader = String.format(Locale.US, SaveConstants.ARRAY_TYPE_FORMAT, field.getName(), SaveConstants.ARRAY,baseType.getName(), dimensions);
 		LOGGER.trace("Array header: " + arrayHeader);
 		arrayData.add(arrayHeader);
 		
@@ -156,7 +137,7 @@ public class SaveManager {
 		List<String> arrayData = new ArrayList<String>();
 		
 		// Add opening {
-		arrayData.add(SaveUtils.addMultipleString(TAB, curDimension - 1) + DATA_START);
+		arrayData.add(SaveUtils.addMultipleString(SaveConstants.TAB, curDimension - 1) + SaveConstants.DATA_START);
 		
 		if (object == null || Array.getLength(object) < 1){
 			
@@ -165,7 +146,7 @@ public class SaveManager {
 			LOGGER.debug(String.format("Null array in dimension %d", curDimension));
 			
 			// Write null token
-			 arrayData.add(SaveUtils.addMultipleString(TAB, curDimension) + NULL);
+			 arrayData.add(SaveUtils.addMultipleString(SaveConstants.TAB, curDimension) + SaveConstants.NULL);
 			 
 		} else {
 			
@@ -194,8 +175,14 @@ public class SaveManager {
 					for (int i = 0; i < length; ++i){
 						// Save each object in the array and then add a , if needed
 						List<String> data = saveObject(Array.get(object, i));
-						String needSeperator = i == length - 1 ? "" : ARRAY_DATA_SEPERATOR;
-						arrayData.add(SaveUtils.addMultipleString(TAB, curDimension) + needSeperator);
+						
+						// Add each line to the array data
+						for (String line : data){
+							arrayData.add(SaveUtils.addMultipleString(SaveConstants.TAB, curDimension) + line);
+						}
+						
+						String needSeperator = i == length - 1 ? "" : SaveConstants.ARRAY_DATA_SEPERATOR;
+						arrayData.add(SaveUtils.addMultipleString(SaveConstants.TAB, curDimension) + needSeperator);
 					}
 					
 				} else if (Collection.class.isAssignableFrom(baseType)){
@@ -214,7 +201,7 @@ public class SaveManager {
 		}
 		
 		// Add Closing }
-		arrayData.add(SaveUtils.addMultipleString(TAB, curDimension - 1) + DATA_END);
+		arrayData.add(SaveUtils.addMultipleString(SaveConstants.TAB, curDimension - 1) + SaveConstants.DATA_END);
 	
 		// Return the data
 		return arrayData;
@@ -241,12 +228,12 @@ public class SaveManager {
 
 		// Get class name and uuid hash.
 		String objectHeader =
-					String.format(SAVE_TYPE_FORMAT, klass.getName(), I_SAVABLE, SaveUtils.uuidObjectHash(klass));
+					String.format(SaveConstants.SAVE_TYPE_FORMAT, klass.getName(), SaveConstants.I_SAVABLE, SaveUtils.uuidObjectHash(klass));
 		LOGGER.trace("Created objectHeader: " + objectHeader);
 
 		// Add it to the file header along with {
-		objectData.add(SaveUtils.addMultipleString(TAB, callsDeep - 1) + objectHeader);
-		objectData.add(SaveUtils.addMultipleString(TAB, callsDeep - 1) + DATA_START);
+		objectData.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep - 1) + objectHeader);
+		objectData.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep - 1) + SaveConstants.DATA_START);
 
 		// Lets save the fields!
 		for (Field field : klass.getDeclaredFields()) {
@@ -260,7 +247,7 @@ public class SaveManager {
 		}
 
 		// Add Closing }
-		objectData.add(SaveUtils.addMultipleString(TAB, callsDeep - 1) + DATA_END);
+		objectData.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep - 1) + SaveConstants.DATA_END);
 
 		// We are done saving, call postSave
 		LOGGER.trace("Calling object postSave");
@@ -305,9 +292,9 @@ public class SaveManager {
 				// Get its Type introspection info and create object header
 				Class<?> klass = object.getClass();
 				String objectHeader =
-							String.format(SAVE_TYPE_FORMAT, klass.getName(), I_SAVE_HANDLER, SaveUtils.uuidObjectHash(klass));
-				objectData.add(SaveUtils.addMultipleString(TAB, callsDeep - 1) + objectHeader);
-				objectData.add(SaveUtils.addMultipleString(TAB, callsDeep - 1) + DATA_START);
+							String.format(SaveConstants.SAVE_TYPE_FORMAT, klass.getName(), SaveConstants.I_SAVE_HANDLER, SaveUtils.uuidObjectHash(klass));
+				objectData.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep - 1) + objectHeader);
+				objectData.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep - 1) + SaveConstants.DATA_START);
 
 				// Get the object's SaveData
 				List<String> saveData = ((ISaveHandler) object).save();
