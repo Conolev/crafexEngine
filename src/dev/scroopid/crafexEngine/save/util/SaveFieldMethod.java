@@ -27,6 +27,8 @@ public class SaveFieldMethod {
 	 * @throws SaveException If the method is null or invalid
 	 */
 	public SaveFieldMethod(Method method){
+		LOGGER.trace("Creating a new SaveMethod, checking validity");
+		
 		if (method == null){
 			
 			SaveException sEx = new SaveException("Method is null");
@@ -55,6 +57,8 @@ public class SaveFieldMethod {
 			throw sEx;
 			
 		}
+		
+		LOGGER.trace("Validity passes checked, assigning variables");
 		
 		// Save full qualified name
 		name = saveMethod.getDeclaringClass().getName() + saveMethod.getName();
