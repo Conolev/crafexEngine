@@ -5,6 +5,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Map;
 import dev.scroopid.crafexEngine.Logger;
 import dev.scroopid.crafexEngine.save.util.SaveConstants;
 import dev.scroopid.crafexEngine.save.util.SaveException;
+import dev.scroopid.crafexEngine.save.util.SaveFieldMethod;
 import dev.scroopid.crafexEngine.save.util.SaveUtils;
 /**
  * This class handles the saving of classes within the crafexEngine
@@ -27,9 +29,28 @@ public class SaveManager {
 	private static final SaveManager instance = new SaveManager();
 
 	private static final Class<? extends Annotation> IGNORE = Ignore.class;
+	
+	private static Map<String, SaveFieldMethod> fieldMap;
 
+	static{
+		fieldMap = new HashMap<String, SaveFieldMethod>();
+	}
+	
 	public static SaveManager getInstance(){
 		return instance;
+	}
+	
+	public List<String> saveISavable(ISavable object){
+		return saveISavable(object, 1);
+	}
+	
+	private List<String> saveISavable(ISavable object, int callsDeep){
+		List<String> data = new ArrayList<String>();
+		
+		
+		
+		
+		return data;
 	}
 	
 	/**

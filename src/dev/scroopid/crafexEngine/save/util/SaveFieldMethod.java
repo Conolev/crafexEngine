@@ -19,14 +19,18 @@ public class SaveFieldMethod {
 	
 	private Method saveMethod;
 	
-	private String name;
+	private String methodName;
+	
+	private String typeName;
+	
+	private Class<?> type;
 	
 	/**
 	 * Creates a new SaveMethod with the specified method
 	 * @param method The method to base around
 	 * @throws SaveException If the method is null or invalid
 	 */
-	public SaveFieldMethod(Method method){
+	public SaveFieldMethod(Method method, Class<?> type){
 		LOGGER.trace("Creating a new SaveMethod, checking validity");
 		
 		if (method == null){
@@ -58,10 +62,27 @@ public class SaveFieldMethod {
 			
 		}
 		
+		LOGGER.trace("Let's make sure that the Type is valid");
+		
+		if (type == null){
+			
+			// Really only have to make sure that it isn't null
+			SaveException sEx = new SaveException("field is null");
+			LOGGER.error("Invalid type... null");
+			throw sEx;
+			
+		}
+		
 		LOGGER.trace("Validity passes checked, assigning variables");
 		
 		// Save full qualified name
-		name = saveMethod.getDeclaringClass().getName() + saveMethod.getName();
+		methodName = saveMethod.getDeclaringClass().getName() + saveMethod.getName();
+		
+		// Save type name
+		typeName = type.getName();
+		
+		// Save type
+		this.type = type;
 		
 		// Lets set the method now
 		saveMethod = method;
@@ -91,6 +112,13 @@ public class SaveFieldMethod {
 		return !(arguements[0].equals(Object.class) || arguements[1].equals(Field.class) || arguements[2].equals(int.class));
 	}
 	
+	/**
+	 * Saves the field with the given parameters
+	 * @param target The object to use
+	 * @param field The field
+	 * @param callsDeep How many calls deep we are
+	 * @return The data, in a {@link List} of type {@link String}
+	 */
 	public List<String> save(Object target, Field field, int callsDeep){
 		String[] result = new String[0];
 		
@@ -101,21 +129,21 @@ public class SaveFieldMethod {
 			
 			 // This should not happen... haha... sEx
 			SaveException sEx = new SaveException("Illegal Arguements");
-			LOGGER.error(String.format("Method %s has illegal arguements?", name),sEx);
+			LOGGER.error(String.format("Method %s has illegal arguements?", methodName),sEx);
 			throw sEx;
 			
 		} catch (IllegalAccessException e) {
 
 			 // This should not happen also... lmao... sEx
 			SaveException sEx = new SaveException("Illegal Access");
-			LOGGER.error(String.format("Method %s cannot be accessed", name),sEx);
+			LOGGER.error(String.format("Method %s cannot be accessed", methodName),sEx);
 			throw sEx;
 			
 		} catch (InvocationTargetException e) {
 
 			 // The method cannot be invoked... sEx
-			SaveException sEx = new SaveException("Cannot invoke the method: " + name);
-			LOGGER.error(String.format("Method %s cannot be invoked", name), sEx);
+			SaveException sEx = new SaveException("Cannot invoke the method: " + methodName);
+			LOGGER.error(String.format("Method %s cannot be invoked", methodName), sEx);
 			throw sEx;
 			
 		}
@@ -134,8 +162,24 @@ public class SaveFieldMethod {
 	 * Gets the name of the save method
 	 * @return The name of the SaveMethod
 	 */
-	public String getName(){
-		return name;
+	public String getMethodName(){
+		return methodName;
+	}
+	
+	/**
+	 * Gets the typeName of the saveMethod
+	 * @return The type supported by the saving
+	 */
+	public String getTypeName(){
+		return typeName;
+	}
+	
+	/**
+	 * Gets the type of the saveMethod;
+	 * @return The type supported
+	 */
+	public Class<?> getType(){
+		return type;
 	}
 	
 }
