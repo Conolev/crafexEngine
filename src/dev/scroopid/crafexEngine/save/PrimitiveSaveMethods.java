@@ -8,6 +8,12 @@ import dev.scroopid.crafexEngine.save.util.SaveConstants;
 import dev.scroopid.crafexEngine.save.util.SaveException;
 import dev.scroopid.crafexEngine.save.util.SaveUtils;
 
+/**
+ * Saves primitive types:
+ * int, float, double, boolean, short, long, byte, char
+ * @author jameswomack
+ *
+ */
 public class PrimitiveSaveMethods {
 	private static final String SAVE_PRIMITIVE = "savePrimitive";
 
