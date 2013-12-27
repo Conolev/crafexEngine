@@ -37,6 +37,20 @@ public class SaveUtils {
 	}
 
 	/**
+	 * Can the object be cast to another?
+	 * @param castee The object being cast
+	 * @param castTo The object type desired
+	 * @return If it can happen.
+	 */
+	public static boolean canCastTo(Class<?> castee, Class<?> castTo){
+		if (castee == null || castTo == null){
+			log.error("NULL Arguements!");
+			throw new IllegalArgumentException("Null Arguements");
+		}
+		return castTo.isAssignableFrom(castee);
+	}
+	
+	/**
 	 * Returns the string multiplied by the amount so if str is equal to aba and amount is equal to 2, result is abaaba
 	 * 
 	 * @param str

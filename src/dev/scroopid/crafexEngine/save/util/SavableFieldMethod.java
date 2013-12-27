@@ -14,8 +14,8 @@ import dev.scroopid.crafexEngine.Logger;
  * @author jameswomack
  *
  */
-public class SaveFieldMethod {
-	public static final Logger LOGGER = new Logger(SaveFieldMethod.class);
+public class SavableFieldMethod {
+	public static final Logger LOGGER = new Logger(SavableFieldMethod.class);
 	
 	private Method saveMethod;
 	
@@ -30,7 +30,7 @@ public class SaveFieldMethod {
 	 * @param method The method to base around
 	 * @throws SaveException If the method is null or invalid
 	 */
-	public SaveFieldMethod(Method method, Class<?> type){
+	public SavableFieldMethod(Method method, Class<?> type){
 		LOGGER.trace("Creating a new SaveMethod, checking validity");
 		
 		if (method == null){

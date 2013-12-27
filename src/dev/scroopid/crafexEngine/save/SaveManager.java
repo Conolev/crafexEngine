@@ -5,7 +5,6 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -13,7 +12,7 @@ import java.util.Map;
 import dev.scroopid.crafexEngine.Logger;
 import dev.scroopid.crafexEngine.save.util.SaveConstants;
 import dev.scroopid.crafexEngine.save.util.SaveException;
-import dev.scroopid.crafexEngine.save.util.SaveFieldMethod;
+import dev.scroopid.crafexEngine.save.util.SavableFieldMethod;
 import dev.scroopid.crafexEngine.save.util.SaveUtils;
 /**
  * This class handles the saving of classes within the crafexEngine
@@ -30,10 +29,10 @@ public class SaveManager {
 
 	private static final Class<? extends Annotation> IGNORE = Ignore.class;
 	
-	private static Map<String, SaveFieldMethod> fieldMap;
+	private static List<SavableFieldMethod> saveMethods;
 
 	static{
-		fieldMap = new HashMap<String, SaveFieldMethod>();
+		saveMethods = new ArrayList<SavableFieldMethod>();
 	}
 	
 	public static SaveManager getInstance(){
@@ -47,8 +46,49 @@ public class SaveManager {
 	private List<String> saveISavable(ISavable object, int callsDeep){
 		List<String> data = new ArrayList<String>();
 		
+		LOGGER.trace("Saving ISavable Object");
 		
+		// Can we save this?
+		if (callsDeep < 1){
+			LOGGER.error("Calls deep is less than 1: " + callsDeep);
+			throw new IllegalArgumentException("Cannot save a 0 or less deep called ISavable");
+		} else if (object == null && callsDeep == 1){
+			LOGGER.error("Object is null when we are on the first call!");
+			throw new IllegalArgumentException("Object is null on first call!");
+		}
 		
+		// If the object is null, then add null tag and return that!
+		if (object == null){
+			LOGGER.trace("Dealing with null object");
+			data.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep - 1) + SaveConstants.NULL);
+		} else {
+			
+			// Lets save all of its fields, that are not ignored.
+			for (Field field : object.getClass().getDeclaredFields()){
+				// if the ignore annotation is present, igore it
+				if (field.isAnnotationPresent(IGNORE)){
+					// Logger trace statement
+					LOGGER.trace("Ignoring field: " + field.getName());
+				} else {
+					// The field data from the SFM
+					List<String> fieldData = new ArrayList<String>();
+					
+					// Save its ass and add it to the data
+					for (SavableFieldMethod sfm : saveMethods){
+						if (SaveUtils.canCastTo(field.getType(), sfm.getClass())){
+							// Save that shit
+							fieldData.addAll(sfm.save(object, field, callsDeep));
+						}
+					}
+					
+					// If the fieldData is still empty, we did not find a compatable SFM
+					if (fieldData.isEmpty()){
+						LOGGER.debug("No compatable SFM for: " + field.getName());
+					}
+				}
+			}
+			
+		}
 		
 		return data;
 	}
