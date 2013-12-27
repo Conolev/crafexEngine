@@ -70,6 +70,17 @@ public class SaveUtils {
 
 		return val;
 	}
+	
+	/**
+	 * Adds tabs to the given string and returns it.
+	 * I got bored of doing addMultipleString(SaveConstants.TAB, callsDeep) + data
+	 * @param str The string to add tabs to
+	 * @param tabs The amount of tabs
+	 * @return The tabified string
+	 */
+	public static String tabify(String str, int tabs){
+		return addMultipleString(SaveConstants.TAB, tabs) + str;
+	}
 
 	/**
 	 * Creates a comment for the save files

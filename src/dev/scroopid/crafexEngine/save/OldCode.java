@@ -42,7 +42,7 @@ public class OldCode {
 
 			// Primitive Type, save it!
 			String data = this.savePrimitiveField(object, field, fieldType);
-			objectData.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep) + data);
+			objectData.add(SaveUtils.tabify(data, callsDeep));
 
 		} else if (ISavable.class.isAssignableFrom(fieldType) || ISaveHandler.class.isAssignableFrom(fieldType)) {
 
@@ -52,7 +52,7 @@ public class OldCode {
 		} else if (String.class.isAssignableFrom(fieldType)) {
 
 			String data = this.saveStringField(object, field, fieldType);
-			objectData.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep) + data);
+			objectData.add(SaveUtils.tabify(data, callsDeep));
 
 		} else if (fieldType.isArray()) {
 

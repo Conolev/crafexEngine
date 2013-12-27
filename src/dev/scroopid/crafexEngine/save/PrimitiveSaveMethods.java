@@ -134,6 +134,6 @@ public class PrimitiveSaveMethods {
 
 		}
 
-		return new String[] { SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep) + data };
+		return new String[] { SaveUtils.tabify(data, callsDeep) };
 	}
 }

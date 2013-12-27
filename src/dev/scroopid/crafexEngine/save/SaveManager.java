@@ -76,7 +76,7 @@ public class SaveManager {
 		// If the object is null, then add null tag and return that!
 		if (object == null) {
 			LOGGER.trace("Dealing with null object");
-			data.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep - 1) + SaveConstants.NULL);
+			data.add(SaveUtils.tabify(SaveConstants.NULL, callsDeep - 1));
 		} else {
 
 			// Call preSave
@@ -85,8 +85,8 @@ public class SaveManager {
 			String objectHeader = createISavableHeader(object);
 
 			// Add it to the file header along with {
-			data.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep - 1) + objectHeader);
-			data.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep - 1) + SaveConstants.DATA_START);
+			data.add(SaveUtils.tabify(objectHeader, callsDeep - 1));
+			data.add(SaveUtils.tabify(SaveConstants.DATA_START, callsDeep - 1));
 
 
 			// Lets save all of its fields, that are not ignored.
@@ -108,7 +108,7 @@ public class SaveManager {
 			}
 			
 			// Add closing }
-			data.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep - 1) + SaveConstants.DATA_END);
+			data.add(SaveUtils.tabify(SaveConstants.DATA_END, callsDeep - 1));
 
 			LOGGER.trace("Calling post save, calls deep: " + callsDeep);
 
