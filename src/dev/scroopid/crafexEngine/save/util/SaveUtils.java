@@ -176,7 +176,7 @@ public class SaveUtils {
 	 *        The type of SFM
 	 * @return The SFM
 	 */
-	public static SavableFieldMethod getSavableFieldMethod(String methodName, Class<?> inferFrom, Class<?> sfmType) {
+	public static SavableFieldMethod getSFM(String methodName, Class<?> inferFrom, Class<?> sfmType) {
 		Method method = null;
 
 		try {

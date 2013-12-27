@@ -15,22 +15,14 @@ public class PrimitiveSaveMethods {
 
 	static {
 		// Add all of the save handlers for each primitive Type
-		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,
-					int.class));
-		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,
-					short.class));
-		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,
-					long.class));
-		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,
-					byte.class));
-		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,
-					double.class));
-		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,
-					float.class));
-		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,
-					boolean.class));
-		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,
-					char.class));
+		SaveManager.addSFM(SaveUtils.getSFM(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, int.class));
+		SaveManager.addSFM(SaveUtils.getSFM(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, short.class));
+		SaveManager.addSFM(SaveUtils.getSFM(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, long.class));
+		SaveManager.addSFM(SaveUtils.getSFM(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, byte.class));
+		SaveManager.addSFM(SaveUtils.getSFM(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, double.class));
+		SaveManager.addSFM(SaveUtils.getSFM(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, float.class));
+		SaveManager.addSFM(SaveUtils.getSFM(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,	boolean.class));
+		SaveManager.addSFM(SaveUtils.getSFM(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, char.class));
 	}
 
 	/**

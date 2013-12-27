@@ -81,6 +81,13 @@ public class SaveManager {
 
 			// Call preSave
 			object.preSave();
+			
+			String objectHeader = createISavableHeader(object);
+
+			// Add it to the file header along with {
+			data.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep - 1) + objectHeader);
+			data.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep - 1) + SaveConstants.DATA_START);
+
 
 			// Lets save all of its fields, that are not ignored.
 			for (Field field : object.getClass().getDeclaredFields()) {
@@ -94,35 +101,25 @@ public class SaveManager {
 				} else {
 					LOGGER.trace("Saving field");
 
-					// The field data from the SFM
-					List<String> fieldData = new ArrayList<String>();
-
-					// Save its ass and add it to the data
-					for (SavableFieldMethod sfm : saveMethods) {
-						if (SaveUtils.canCastTo(field.getType(), sfm.getClass())) {
-							// Save that shit
-							fieldData.addAll(sfm.save(object, field, callsDeep));
-						}
-					}
-
-					// If the fieldData is still empty, we did not find a compatable SFM
-					if (fieldData.isEmpty()) {
-						LOGGER.debug("No compatable SFM for: " + field.getName());
-					}
+					List<String> fieldData = saveField(object, callsDeep, field);
 
 					data.addAll(fieldData);
 				}
 			}
+			
+			// Add closing }
+			data.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep - 1) + SaveConstants.DATA_END);
 
 			LOGGER.trace("Calling post save, calls deep: " + callsDeep);
 
 			// Call postSave
 			object.postSave();
-
 		}
 
 		return data;
 	}
+
+	
 
 	/**
 	 * Simply calls save method of saveHandler object
@@ -147,7 +144,7 @@ public class SaveManager {
 	 * @param sfm
 	 *        The sfm to add.
 	 */
-	public static void addSavableFieldMethod(SavableFieldMethod sfm) {
+	public static void addSFM(SavableFieldMethod sfm) {
 		// sfm cannot be null, be existant...
 		if (sfm == null) {
 			LOGGER.error("SFM is null!");
@@ -171,5 +168,49 @@ public class SaveManager {
 
 		// Add it to the saveMethods if sanity checks are passed.
 		saveMethods.add(sfm);
+	}
+	
+	/**
+	 * Creates the ISavable header using a UUID hash (SHA-256 Hash) and the type info.
+	 * @param object The object to create the UUID hash from
+	 * @return The header
+	 */
+	private String createISavableHeader(ISavable object) {
+		// Create type introspection and reflection variable
+		Class<?> klass = object.getClass();
+
+		// Get class name and uuid hash.
+		String objectHeader =
+					String.format(SaveConstants.SAVE_TYPE_FORMAT, klass.getName(), SaveConstants.I_SAVABLE,
+								SaveUtils.uuidObjectHash(klass));
+		LOGGER.trace("Created objectHeader: " + objectHeader);
+		
+		return objectHeader;
+	}
+
+	/**
+	 * Tries to save the field given using one of the SFM (SavableFieldMethods)
+	 * @param object The object being saved
+	 * @param callsDeep How many calls deep we currently are
+	 * @param field The field to save.
+	 * @return The data of the fields in list form
+	 */
+	private List<String> saveField(ISavable object, int callsDeep, Field field) {
+		// The field data from the SFM
+		List<String> fieldData = new ArrayList<String>();
+
+		// Save its ass and add it to the data
+		for (SavableFieldMethod sfm : saveMethods) {
+			if (SaveUtils.canCastTo(field.getType(), sfm.getClass())) {
+				// Save that shit
+				fieldData.addAll(sfm.save(object, field, callsDeep));
+			}
+		}
+
+		// If the fieldData is still empty, we did not find a compatable SFM
+		if (fieldData.isEmpty()) {
+			LOGGER.debug("No compatable SFM for: " + field.getName());
+		}
+		return fieldData;
 	}
 }
