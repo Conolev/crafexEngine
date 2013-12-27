@@ -9,22 +9,24 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-public class Item implements ISavable{
-	
+public class Item implements ISavable {
+
 	private String name;
+
 	private String imageKey;
+
 	private String type;
+
 	@Ignore
 	private Bitmap image;
-	
-	
-	public Item(String imageKey, String name, String type){
+
+	public Item(String imageKey, String name, String type) {
 		this.imageKey = imageKey;
 		this.name = name;
 		this.type = type;
 		image = Crafex.graphicsMan.getImageFromKey(imageKey);
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -41,11 +43,12 @@ public class Item implements ISavable{
 		this.image = image;
 	}
 
-	public void draw(Canvas canvas, intRectangle location){
-		if(image != null && (location.getRight()) - Crafex.levelMan.getLevel().getScroll().getX() >= 0
+	public void draw(Canvas canvas, intRectangle location) {
+		if (image != null
+					&& (location.getRight()) - Crafex.levelMan.getLevel().getScroll().getX() >= 0
 					&& location.getLeft() - Crafex.levelMan.getLevel().getScroll().getX() <= Crafex.WINDOW_DIMENTIONS.getX()
 					&& (location.getBottom()) - Crafex.levelMan.getLevel().getScroll().getY() >= 0
-					&& location.getTop() - Crafex.levelMan.getLevel().getScroll().getY() <= Crafex.WINDOW_DIMENTIONS.getY()){
+					&& location.getTop() - Crafex.levelMan.getLevel().getScroll().getY() <= Crafex.WINDOW_DIMENTIONS.getY()) {
 			Rect src = new Rect(0, 0, image.getWidth(), image.getHeight());
 			canvas.drawBitmap(image, src, location.getRect(), null);
 		}
@@ -58,16 +61,16 @@ public class Item implements ISavable{
 
 	@Override
 	public void postSave() {
-		
+
 	}
 
 	@Override
 	public void preLoad() {
-		
+
 	}
 
 	@Override
 	public void preSave() {
-		
+
 	}
 }

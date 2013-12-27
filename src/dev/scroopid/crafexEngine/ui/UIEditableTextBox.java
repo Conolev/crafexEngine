@@ -9,11 +9,12 @@ import dev.scroopid.crafexEngine.util.floatPoint;
 import dev.scroopid.crafexEngine.util.intPoint;
 
 public class UIEditableTextBox extends UITextBox implements Inputable {
-	/**index of input*/
+	/** index of input */
 	private int index = -1;
 
 	/**
 	 * {@link UITextBox} that can have human input
+	 * 
 	 * @param image
 	 * @param location
 	 * @param layer

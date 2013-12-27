@@ -9,15 +9,18 @@ import dev.scroopid.crafexEngine.util.floatPoint;
 
 public class UIPanel extends UIObject {
 
-	/**{@link UIObject} in the panel*/
+	/** {@link UIObject} in the panel */
 	protected ArrayList<UIObject> uiObjects;
-	/**index of object being used*/
+
+	/** index of object being used */
 	private int index;
-	/**has scrolled at all*/
+
+	/** has scrolled at all */
 	private boolean scrolled;
 
 	/**
 	 * a panel of {@link UIObject}s
+	 * 
 	 * @param image
 	 * @param location
 	 * @param layer
@@ -30,6 +33,7 @@ public class UIPanel extends UIObject {
 
 	/**
 	 * adds a {@link UIObject} to the {@link UIPanel}
+	 * 
 	 * @param uiobject
 	 */
 	public void addUIObject(UIObject uiobject) {
@@ -38,6 +42,7 @@ public class UIPanel extends UIObject {
 
 	/**
 	 * get the index of the {@link UIObject} being used
+	 * 
 	 * @return
 	 */
 	public int getIndex() {
@@ -46,6 +51,7 @@ public class UIPanel extends UIObject {
 
 	/**
 	 * returns the {@link UIObject}s of the {@link UIPanel}
+	 * 
 	 * @return UIObjects of the UIPanel
 	 */
 	public ArrayList<UIObject> getUiObjects() {
@@ -54,6 +60,7 @@ public class UIPanel extends UIObject {
 
 	/**
 	 * sets the index of the selected {@link UIObject}
+	 * 
 	 * @param index
 	 */
 	public void setSelected(int index) {
@@ -62,6 +69,7 @@ public class UIPanel extends UIObject {
 
 	/**
 	 * sets the {@link UIObject}s
+	 * 
 	 * @param uiObjects
 	 */
 	public void setUiObjects(ArrayList<UIObject> uiObjects) {
@@ -86,10 +94,10 @@ public class UIPanel extends UIObject {
 	@Override
 	public void whenPressed(CrafexTouchEvent touch) {
 		for (int i = 0; i < this.uiObjects.size(); ++i) {
-			if (Util.isBetween(touch.getTouchLocation().getX(), this.uiObjects.get(i).getX(), this.uiObjects.get(i).getSize().getX()
-									+ this.uiObjects.get(i).getX())
-						&& Util.isBetween(touch.getTouchLocation().getY(), this.uiObjects.get(i).getY(), this.uiObjects.get(i).getSize().getY()
-									+ this.uiObjects.get(i).getY())) {
+			if (Util.isBetween(touch.getTouchLocation().getX(), this.uiObjects.get(i).getX(),
+						this.uiObjects.get(i).getSize().getX() + this.uiObjects.get(i).getX())
+						&& Util.isBetween(touch.getTouchLocation().getY(), this.uiObjects.get(i).getY(),
+									this.uiObjects.get(i).getSize().getY() + this.uiObjects.get(i).getY())) {
 				touch.getTouchLocation().subtract(this.uiObjects.get(i).getLocation().toIntPoint());
 				this.uiObjects.get(i).whenPressed(touch);
 				this.index = i;
@@ -100,8 +108,10 @@ public class UIPanel extends UIObject {
 	@Override
 	public void whenReleased(CrafexTouchEvent touch) {
 		if (!this.scrolled
-					&& Util.isBetween(touch.getTouchLocation().getX(), this.uiObjects.get(this.index).getX(), this.uiObjects.get(this.index).getSize().getX())
-					&& Util.isBetween(touch.getTouchLocation().getY(), this.uiObjects.get(this.index).getY(), this.uiObjects.get(this.index).getSize().getY())) {
+					&& Util.isBetween(touch.getTouchLocation().getX(), this.uiObjects.get(this.index).getX(),
+								this.uiObjects.get(this.index).getSize().getX())
+					&& Util.isBetween(touch.getTouchLocation().getY(), this.uiObjects.get(this.index).getY(),
+								this.uiObjects.get(this.index).getSize().getY())) {
 			touch.getTouchLocation().subtract(this.uiObjects.get(this.index).getLocation().toIntPoint());
 			this.uiObjects.get(this.index).whenPressed(touch);
 		}

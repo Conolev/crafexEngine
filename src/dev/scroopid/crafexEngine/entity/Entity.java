@@ -11,52 +11,53 @@ import dev.scroopid.crafexEngine.util.floatRectangle;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-public class Entity implements Updatable, Drawable, ISavable{
+public class Entity implements Updatable, Drawable, ISavable {
 
-	/**id*/
+	/** id */
 	protected int id;
-	
+
 	/** the last movement by the entity */
 	protected floatPoint lastMovement = new floatPoint(0, 0);
-	
+
 	/** the current movement of the entity for this loop cycle */
 	protected floatPoint movement;
-	
-	/**Desired rotation to apply*/
+
+	/** Desired rotation to apply */
 	protected float rotation;
-	
+
 	/** the movement applied to movement every loop */
 	protected floatPoint repeatedMovement;
-	
+
 	/** the coordinates, rotation and size of the {@link Entity} in the world */
 	protected floatRectangle rectangle;
-	
+
 	/** the amount of pixels the entity can travel in one cycle */
 	protected float speed;
-	
-	/**the speed this entity rotates at*/
+
+	/** the speed this entity rotates at */
 	private float rotationSpeed;
-	
+
 	/** the health of the entity */
 	protected float health;
-	
-	/**last time entity was updated*/
+
+	/** last time entity was updated */
 	@Ignore
 	protected long LastTimeUpdated;
-	
+
 	/** the {@link Entity} {@link Sprite} */
 	protected Sprite sprite;
 
 	/**
 	 * an entity for the world
 	 */
-	public Entity(){
+	public Entity() {
 		start();
 		this.id = 0;
 	}
 
 	/**
 	 * an entity for the world
+	 * 
 	 * @param image
 	 * @param id
 	 */
@@ -65,9 +66,10 @@ public class Entity implements Updatable, Drawable, ISavable{
 		setSprite(new Sprite(imageKey));
 		this.id = id;
 	}
-	
+
 	/**
 	 * an entity for the world
+	 * 
 	 * @param image
 	 * @param x
 	 * @param y
@@ -82,6 +84,7 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	/**
 	 * an entity for the world
+	 * 
 	 * @param image
 	 * @param frames
 	 * @param cycles
@@ -96,6 +99,7 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	/**
 	 * an entity for the world
+	 * 
 	 * @param image
 	 * @param frames
 	 * @param cycles
@@ -110,7 +114,7 @@ public class Entity implements Updatable, Drawable, ISavable{
 		this.id = id;
 	}
 
-	/** 
+	/**
 	 * Initializes the entity
 	 */
 	public void start() {
@@ -119,8 +123,8 @@ public class Entity implements Updatable, Drawable, ISavable{
 		repeatedMovement = new floatPoint();
 	}
 
-	/** 
-	 * resets the entity 
+	/**
+	 * resets the entity
 	 */
 	public void reset() {
 		rectangle = new floatRectangle();
@@ -130,6 +134,7 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	/**
 	 * returns the entity's id
+	 * 
 	 * @return
 	 */
 	public int getId() {
@@ -138,18 +143,19 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	/**
 	 * get the pixel location in the center of the entity
+	 * 
 	 * @return center pixel
 	 */
 	public floatPoint getCenter() {
-		floatPoint data = new floatPoint(this.getCoordinates().getX()
-				+ (int) (this.getSprite().getWidth() * .5), this
-				.getCoordinates().getY()
-				+ (int) (this.getSprite().getHeight() * .5));
+		floatPoint data =
+					new floatPoint(this.getCoordinates().getX() + (int) (this.getSprite().getWidth() * .5),
+								this.getCoordinates().getY() + (int) (this.getSprite().getHeight() * .5));
 		return data;
 	}
 
 	/**
 	 * gets the amount of pixels the entity can move per cycle
+	 * 
 	 * @return entity speed
 	 */
 	public float getSpeed() {
@@ -158,6 +164,7 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	/**
 	 * sets the amount of pixels the entity can move per cycle
+	 * 
 	 * @param speed
 	 */
 	public void setSpeed(float speed) {
@@ -166,6 +173,7 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	/**
 	 * gets the sprite of the entity
+	 * 
 	 * @return entity sprite
 	 */
 	public Sprite getSprite() {
@@ -174,6 +182,7 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	/**
 	 * sets the entity's sprite
+	 * 
 	 * @param sprite
 	 */
 	private void setSprite(Sprite sprite) {
@@ -182,6 +191,7 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	/**
 	 * sets the last movement
+	 * 
 	 * @param lastMovement
 	 */
 	protected void setLastMovement(floatPoint lastMovement) {
@@ -190,6 +200,7 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	/**
 	 * gets the movement for this cycle
+	 * 
 	 * @return movement
 	 */
 	public floatPoint getMovement() {
@@ -198,6 +209,7 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	/**
 	 * sets the amount of movement the entity will do this cycle
+	 * 
 	 * @param movement
 	 */
 	public void setMovement(floatPoint movement) {
@@ -206,6 +218,7 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	/**
 	 * returns the last movement made by this entity
+	 * 
 	 * @return last movement made by this entity
 	 */
 	public floatPoint getLastMovement() {
@@ -214,6 +227,7 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	/**
 	 * gets the entity's health
+	 * 
 	 * @return health
 	 */
 	public float getHealth() {
@@ -222,6 +236,7 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	/**
 	 * sets the amount of health the entity has
+	 * 
 	 * @param health
 	 */
 	public void setHealth(float health) {
@@ -230,14 +245,17 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	/**
 	 * adds the amount provided to the entitys health (use negative to subtract)
-	 * @param amount to add
+	 * 
+	 * @param amount
+	 *        to add
 	 */
 	public void addToHealth(float health) {
 		this.health += health;
 	}
-	
+
 	/**
 	 * updates values for rotation use.
+	 * 
 	 * @param movement
 	 */
 	public void rotationUpdate(floatPoint movement) {
@@ -246,6 +264,7 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	/**
 	 * gets the entity's coordinates
+	 * 
 	 * @return coordinates
 	 */
 	public floatPoint getCoordinates() {
@@ -254,6 +273,7 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	/**
 	 * sets the entity's coordinates
+	 * 
 	 * @param coordinates
 	 */
 	public void setCoordinates(floatPoint coordinates) {
@@ -262,6 +282,7 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	/**
 	 * returns the rectangle surrounding the entity
+	 * 
 	 * @return
 	 */
 	public floatRectangle getMyRectangle() {
@@ -300,15 +321,14 @@ public class Entity implements Updatable, Drawable, ISavable{
 		sprite.update(movement);
 
 		move();
-		
-		rectangle.set((int) rectangle.getX(), (int) rectangle.getY(),
-				(int) rectangle.getX() + getSprite().getWidth(),
-				(int) rectangle.getY() + getSprite().getHeight());
+
+		rectangle.set((int) rectangle.getX(), (int) rectangle.getY(), (int) rectangle.getX() + getSprite().getWidth(),
+					(int) rectangle.getY() + getSprite().getHeight());
 	}
 
 	/**
-	 * holds default drawing methods for Entity. and should not be overriddin.
-	 * use drawFirst() or drawLast()
+	 * holds default drawing methods for Entity. and should not be overriddin. use drawFirst() or drawLast()
+	 * 
 	 * @param canvas
 	 */
 	public void draw(Canvas canvas) {
@@ -324,7 +344,7 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	@Override
 	public float getUpdateTimeDelta() {
-		return (System.currentTimeMillis() - LastTimeUpdated)/1000;
+		return (System.currentTimeMillis() - LastTimeUpdated) / 1000;
 	}
 
 	@Override
@@ -339,16 +359,16 @@ public class Entity implements Updatable, Drawable, ISavable{
 
 	@Override
 	public void postSave() {
-		
+
 	}
 
 	@Override
 	public void preLoad() {
-		
+
 	}
 
 	@Override
 	public void preSave() {
-		
+
 	}
 }

@@ -16,8 +16,9 @@ import dev.scroopid.crafexEngine.save.util.SaveUtils;
 
 public class OldCode {
 	private static final Logger LOGGER = new Logger(OldCode.class);
+
 	private static final Class<? extends Annotation> IGNORE = Ignore.class;
-	
+
 	/**
 	 * Saves a field from the object.
 	 * 
@@ -33,7 +34,7 @@ public class OldCode {
 	private void saveField(ISavable object, int callsDeep, List<String> objectData, Field field) {
 		LOGGER.trace("Saving field: " + field.getName());
 		Class<?> fieldType = field.getType();
-		
+
 		// Set field to accessible if not
 		field.setAccessible(true);
 
@@ -54,9 +55,8 @@ public class OldCode {
 			objectData.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep) + data);
 
 		} else if (fieldType.isArray()) {
-			
+
 			saveArrayField(object, field, fieldType);
-			
 
 		} else if (Collection.class.isAssignableFrom(fieldType)) {
 
@@ -72,126 +72,125 @@ public class OldCode {
 	}
 
 	private void saveArrayField(ISavable object, Field field, Class<?> fieldType) {
-		
+
 		// Lets get how many demensions the array is!
 		// And get its component Type!
 		// Create List for data
 		int dimensions = 1;
 		Class<?> baseType = fieldType.getComponentType();
 		List<String> arrayData = new ArrayList<String>();
-		
+
 		// Desend Type Hiarchy, used insted of lastIndexOf because we need to know
 		// The declaring type.
-		while (baseType.isArray()){
+		while (baseType.isArray()) {
 			// Add one to deminsions and get the array componentType
 			dimensions++;
 			baseType = fieldType.getComponentType();
 		}
-		
+
 		LOGGER.trace(String.format("Dealing with a %d demension array of type %s", dimensions, baseType.getName()));
-		
+
 		// Create the array header
-		String arrayHeader = String.format(Locale.US, SaveConstants.ARRAY_TYPE_FORMAT, field.getName(), SaveConstants.ARRAY,baseType.getName(), dimensions);
+		String arrayHeader =
+					String.format(Locale.US, SaveConstants.ARRAY_TYPE_FORMAT, field.getName(), SaveConstants.ARRAY,
+								baseType.getName(), dimensions);
 		LOGGER.trace("Array header: " + arrayHeader);
 		arrayData.add(arrayHeader);
-		
+
 		// Lets get the base array object
 		Object array = null;
-		
+
 		try {
-			
+
 			// Lets try to get it...
 			array = field.get(object);
-			
+
 		} catch (IllegalArgumentException e) {
-			
+
 			// Unable to get the Array...
 			LOGGER.error("Unable to retrieve array from field: " + field.getName(), e);
 			throw new SaveException("Unable to retrieve array from field: " + field.getName());
 
 		} catch (IllegalAccessException e) {
-			
+
 			LOGGER.error("Unable to retrieve array from field: " + field.getName(), e);
 			throw new SaveException("Unable to retrieve array from field: " + field.getName());
-			
+
 		}
-		
+
 		// Lets go through the wormhole! (Dimensions)
 		int curDimension = 1;
 		arrayData.addAll(walkArray(array, baseType, curDimension));
-		
+
 	}
 
 	private List<String> walkArray(Object object, Class<?> baseType, int curDimension) {
 		List<String> arrayData = new ArrayList<String>();
-		
+
 		// Add opening {
 		arrayData.add(SaveUtils.addMultipleString(SaveConstants.TAB, curDimension - 1) + SaveConstants.DATA_START);
-		
-		if (object == null || Array.getLength(object) < 1){
-			
+
+		if (object == null || Array.getLength(object) < 1) {
+
 			// TODO: Seperate conditions based on Zero Length/Null Array?
 			// Array is null or Zero Length
 			LOGGER.debug(String.format("Null array in dimension %d", curDimension));
-			
+
 			// Write null token
-			 arrayData.add(SaveUtils.addMultipleString(SaveConstants.TAB, curDimension) + SaveConstants.NULL);
-			 
+			arrayData.add(SaveUtils.addMultipleString(SaveConstants.TAB, curDimension) + SaveConstants.NULL);
+
 		} else {
-			
+
 			// Lets walk this beotch
 			int length = Array.getLength(object);
-			if (Array.get(object, 0).getClass().isArray()){
-				
+			if (Array.get(object, 0).getClass().isArray()) {
+
 				// Array within array...
 				LOGGER.trace("Going walking an Array of an Array");
-				for (int i = 0; i < length; ++i){
+				for (int i = 0; i < length; ++i) {
 					// Walk the array at index i
 					walkArray(Array.get(object, i), baseType, curDimension + 1);
 				}
-				
+
 			} else {
-				
 
 				// Lets save the data
 				LOGGER.trace("Saving data from an Array");
-				if (baseType.isPrimitive()){
-					
-					
-				} else if (ISavable.class.isAssignableFrom(baseType) || ISaveHandler.class.isAssignableFrom(baseType)){
-					
+				if (baseType.isPrimitive()) {
+
+				} else if (ISavable.class.isAssignableFrom(baseType) || ISaveHandler.class.isAssignableFrom(baseType)) {
+
 					// For every element in the array, save it.
-					for (int i = 0; i < length; ++i){
+					for (int i = 0; i < length; ++i) {
 						// Save each object in the array and then add a , if needed
 						List<String> data = saveObject(Array.get(object, i));
-						
+
 						// Add each line to the array data
-						for (String line : data){
+						for (String line : data) {
 							arrayData.add(SaveUtils.addMultipleString(SaveConstants.TAB, curDimension) + line);
 						}
-						
+
 						String needSeperator = i == length - 1 ? "" : SaveConstants.ARRAY_DATA_SEPERATOR;
 						arrayData.add(SaveUtils.addMultipleString(SaveConstants.TAB, curDimension) + needSeperator);
 					}
-					
-				} else if (Collection.class.isAssignableFrom(baseType)){
-					
+
+				} else if (Collection.class.isAssignableFrom(baseType)) {
+
 					// IF you really did this....
-					
-				} else if (Map.class.isAssignableFrom(baseType)){
-					
+
+				} else if (Map.class.isAssignableFrom(baseType)) {
+
 					// IF you really did this...
-					
-					
+
 				}
-				
+
 			}
-			
+
 		}
-		
+
 		// Add Closing }
 		arrayData.add(SaveUtils.addMultipleString(SaveConstants.TAB, curDimension - 1) + SaveConstants.DATA_END);
-	
+
 		// Return the data
 		return arrayData;
 	}
@@ -217,7 +216,8 @@ public class OldCode {
 
 		// Get class name and uuid hash.
 		String objectHeader =
-					String.format(SaveConstants.SAVE_TYPE_FORMAT, klass.getName(), SaveConstants.I_SAVABLE, SaveUtils.uuidObjectHash(klass));
+					String.format(SaveConstants.SAVE_TYPE_FORMAT, klass.getName(), SaveConstants.I_SAVABLE,
+								SaveUtils.uuidObjectHash(klass));
 		LOGGER.trace("Created objectHeader: " + objectHeader);
 
 		// Add it to the file header along with {
@@ -242,16 +242,18 @@ public class OldCode {
 		LOGGER.trace("Calling object postSave");
 		object.postSave();
 	}
-	
+
 	/**
 	 * Saves an object of type ISavable or ISaveHandler
-	 * @param object the object to save
+	 * 
+	 * @param object
+	 *        the object to save
 	 * @return The file
 	 */
-	public List<String> saveObject(Object object){
+	public List<String> saveObject(Object object) {
 		return saveObject(object, 1);
 	}
-	
+
 	/**
 	 * Saves an object of type ISavable or ISaveHandler
 	 * 
@@ -281,7 +283,8 @@ public class OldCode {
 				// Get its Type introspection info and create object header
 				Class<?> klass = object.getClass();
 				String objectHeader =
-							String.format(SaveConstants.SAVE_TYPE_FORMAT, klass.getName(), SaveConstants.I_SAVE_HANDLER, SaveUtils.uuidObjectHash(klass));
+							String.format(SaveConstants.SAVE_TYPE_FORMAT, klass.getName(),
+										SaveConstants.I_SAVE_HANDLER, SaveUtils.uuidObjectHash(klass));
 				objectData.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep - 1) + objectHeader);
 				objectData.add(SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep - 1) + SaveConstants.DATA_START);
 

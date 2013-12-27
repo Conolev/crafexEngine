@@ -10,11 +10,13 @@ import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
 
 public class UIScreen implements Drawable, Updatable, Touchable {
 
-	/**{@link UILayer} of the {@link UIScreen}*/
+	/** {@link UILayer} of the {@link UIScreen} */
 	private ArrayList<UILayer> uiLayers;
-	/**overlay {@link UIObject}*/
+
+	/** overlay {@link UIObject} */
 	private UIObject overlay;
-	/**last time updated*/
+
+	/** last time updated */
 	private long lastUpdateTime;
 
 	/**
@@ -26,6 +28,7 @@ public class UIScreen implements Drawable, Updatable, Touchable {
 
 	/**
 	 * adds a {@link UILayer} of {@link UIObject} to the {@link UIScreen}
+	 * 
 	 * @param {@link UIObject}
 	 */
 	public void addUILayer(UILayer uiobject) {
@@ -34,12 +37,13 @@ public class UIScreen implements Drawable, Updatable, Touchable {
 
 	/**
 	 * adds a {@link UIObject} to the current {@link UILayer}
+	 * 
 	 * @param object
 	 */
 	public void addUIObject(UIObject object) {
 		this.uiLayers.get(this.uiLayers.size() - 1).addUIObject(object);
 	}
-	
+
 	@Override
 	public void draw(Canvas canvas) {
 		for (int i = 0; i < this.uiLayers.size(); ++i) {
@@ -54,17 +58,19 @@ public class UIScreen implements Drawable, Updatable, Touchable {
 	public long getLastUpdateTime() {
 		return this.lastUpdateTime;
 	}
-	
+
 	/**
 	 * returns the current {@link UILayer} of the {@link UIScreen}
+	 * 
 	 * @return
 	 */
-	public int getLayer(){
+	public int getLayer() {
 		return uiLayers.size() - 1;
 	}
 
 	/**
 	 * returns the overlay of the {@link UIScreen}
+	 * 
 	 * @return
 	 */
 	public UIObject getOverlay() {
@@ -73,19 +79,20 @@ public class UIScreen implements Drawable, Updatable, Touchable {
 
 	/**
 	 * returns the {@link UILayer}
+	 * 
 	 * @return UILayers
 	 */
 	public ArrayList<UILayer> getUILayers() {
 		return this.uiLayers;
 	}
-	
+
 	/**
 	 * removes the current {@link UILayer} from {@link UIScreen} if possible
 	 */
-	public void removeLayer(){
-		if(uiLayers.size() > 1){
+	public void removeLayer() {
+		if (uiLayers.size() > 1) {
 			uiLayers.remove(uiLayers.size() - 1);
-		}else{
+		} else {
 			uiLayers.clear();
 		}
 	}
@@ -97,6 +104,7 @@ public class UIScreen implements Drawable, Updatable, Touchable {
 
 	/**
 	 * does the {@link UIScreen} have an overlay
+	 * 
 	 * @return
 	 */
 	public boolean hasOverlay() {
@@ -115,6 +123,7 @@ public class UIScreen implements Drawable, Updatable, Touchable {
 
 	/**
 	 * sets the overlay of the {@link UIScreen}
+	 * 
 	 * @param overlay
 	 */
 	public void setOverlay(UIObject overlay) {
@@ -133,23 +142,23 @@ public class UIScreen implements Drawable, Updatable, Touchable {
 
 	@Override
 	public void whenHeld(CrafexTouchEvent touch) {
-		if(uiLayers.size() > 0 && uiLayers.get(uiLayers.size() - 1).isTouching(touch)){
+		if (uiLayers.size() > 0 && uiLayers.get(uiLayers.size() - 1).isTouching(touch)) {
 			uiLayers.get(uiLayers.size() - 1).whenHeld(touch);
 		}
 	}
 
 	@Override
 	public void whenPressed(CrafexTouchEvent touch) {
-		if(uiLayers.size() > 0 && uiLayers.get(uiLayers.size() - 1).isTouching(touch)){
+		if (uiLayers.size() > 0 && uiLayers.get(uiLayers.size() - 1).isTouching(touch)) {
 			uiLayers.get(uiLayers.size() - 1).whenPressed(touch);
-		}else{
+		} else {
 			removeLayer();
 		}
 	}
 
 	@Override
 	public void whenReleased(CrafexTouchEvent touch) {
-		if(uiLayers.size() > 0 && uiLayers.get(uiLayers.size() - 1).isTouching(touch)){
+		if (uiLayers.size() > 0 && uiLayers.get(uiLayers.size() - 1).isTouching(touch)) {
 			uiLayers.get(uiLayers.size() - 1).whenReleased(touch);
 		}
 	}

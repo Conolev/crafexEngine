@@ -12,11 +12,12 @@ import dev.scroopid.crafexEngine.util.floatPoint;
 
 public class KeyBoard implements CrafexInputer {
 
-	/**{@link CrafexKeyInputEvent} to be handled by {@link InputHandler}*/
+	/** {@link CrafexKeyInputEvent} to be handled by {@link InputHandler} */
 	public static ArrayList<CrafexKeyInputEvent> inputs;
 
 	/**
 	 * a keyboard for human input in text form
+	 * 
 	 * @param image
 	 * @param layer
 	 * @param keyset

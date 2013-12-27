@@ -13,35 +13,35 @@ import dev.scroopid.crafexEngine.level.Level;
 import dev.scroopid.crafexEngine.util.intPoint;
 
 public abstract class AppActivity extends Activity {
-	
+
 	public static final Logger LOGGER = new Logger(AppActivity.class);
 
-	/**touch style: none*/
+	/** touch style: none */
 	public static final int TOUCH_STYLE_NONE = 0;
 
-	/**touch style: normal*/
+	/** touch style: normal */
 	public static final int TOUCH_STYLE_NORMAL = 1;
 
-	/**the applications {@link Crafex}*/
+	/** the applications {@link Crafex} */
 	public static Crafex crafex;
 
-	/**the expected resolution*/
+	/** the expected resolution */
 	private static intPoint defaultResolution = new intPoint(1920, 1080);
 
-	/**background {@link Color}*/
+	/** background {@link Color} */
 	private static int defaultColor = Color.BLACK;
 
 	private DisplayMetrics displaymetrics = new DisplayMetrics();
-	
-	/**resolution of the phone's screen*/
+
+	/** resolution of the phone's screen */
 	protected intPoint resolution;
-	
-	/**current touch style*/
+
+	/** current touch style */
 	private int touchStyle = 1;
 
-	/**default {@link Level}*/
+	/** default {@link Level} */
 	private Level level;;
-	
+
 	/**
 	 * {@link Method} called after created.
 	 */
@@ -51,7 +51,7 @@ public abstract class AppActivity extends Activity {
 	 * {@link Method} called before creation.
 	 */
 	public abstract void beforeCreated();
-	
+
 	/**
 	 * sets touch style to return no touch
 	 */
@@ -62,29 +62,30 @@ public abstract class AppActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		LOGGER.debug("Started App");
-		
+
 		this.beforeCreated();
-		
+
 		LOGGER.debug("Starting Creation");
-		
+
 		this.getWindowManager().getDefaultDisplay().getMetrics(this.displaymetrics);
 		int height = this.displaymetrics.heightPixels;
 		int width = this.displaymetrics.widthPixels;
 		this.resolution = new intPoint(width, height);
 
-		crafex = new Crafex(this.level, this.getAssets(), this, defaultColor, defaultResolution, 
-					this.resolution, this.getFilesDir().toString());
+		crafex =
+					new Crafex(this.level, this.getAssets(), this, defaultColor, defaultResolution, this.resolution,
+								this.getFilesDir().toString());
 		this.setContentView(crafex);
 
 		LOGGER.debug("Finished Creation");
-		
+
 		this.afterCreated();
-		
+
 		LOGGER.info("Crafex Started");
 	}
-	
+
 	/**
 	 * removes the applications title on the top.
 	 */
@@ -94,10 +95,11 @@ public abstract class AppActivity extends Activity {
 
 	/**
 	 * sets the default background {@link Color} of the {@link Crafex}.
+	 * 
 	 * @param color
 	 */
 	public void setDefaultColor(int color) {
-		if(crafex != null)
+		if (crafex != null)
 			Crafex.DEFAULT_COLOR = color;
 		else
 			defaultColor = color;
@@ -105,10 +107,11 @@ public abstract class AppActivity extends Activity {
 
 	/**
 	 * sets the applications expected resolution.
+	 * 
 	 * @param dimentions
 	 */
 	public void setDefaultResolution(intPoint dimentions) {
-		if(crafex != null)
+		if (crafex != null)
 			Crafex.WINDOW_DEFAULT = dimentions;
 		else
 			defaultResolution = dimentions;
@@ -116,14 +119,16 @@ public abstract class AppActivity extends Activity {
 
 	/**
 	 * sets the application to full screen.
-	 * @param isFullscreen?
+	 * 
+	 * @param isFullscreen
+	 *        ?
 	 */
 	public void setFullScreen(boolean fullscreen) {
 		if (fullscreen) {
-			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 						WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		} else {
-			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, 
+			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,
 						WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		}
 	}
@@ -137,24 +142,26 @@ public abstract class AppActivity extends Activity {
 
 	/**
 	 * sets the level of {@link Crafex}.
+	 * 
 	 * @param level
 	 */
 	public void setLevel(Level level) {
-		if(crafex != null)
+		if (crafex != null)
 			Crafex.levelMan.setLevel(level);
 		else
 			this.level = level;
 	}
-	
+
 	/**
 	 * set application to portrait mode.
 	 */
 	public void setPortrait() {
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
-	
+
 	/**
 	 * gets the touch style of the application.
+	 * 
 	 * @return
 	 */
 	public int getTouchStyle() {
@@ -163,6 +170,7 @@ public abstract class AppActivity extends Activity {
 
 	/**
 	 * sets the touch style of the application.
+	 * 
 	 * @param touchStyle
 	 */
 	public void setTouchStyle(int touchStyle) {
@@ -171,14 +179,14 @@ public abstract class AppActivity extends Activity {
 
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
-		if(!hasFocus){
+		if (!hasFocus) {
 			System.exit(0);
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed() {
-		if(!crafex.onBackPressed()){
+		if (!crafex.onBackPressed()) {
 			super.onBackPressed();
 		}
 	}

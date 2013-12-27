@@ -8,13 +8,14 @@ public class JoyStick extends UIObject {
 
 	/**
 	 * a input system for getting a humans desired direction for something
+	 * 
 	 * @param image
 	 * @param location
 	 * @param layer
 	 */
 	public JoyStick(Bitmap image, floatPoint location, int layer) {
 		super(image, location, 0, layer);
-		//TODO finish Joystick
+		// TODO finish Joystick
 	}
 
 	@Override

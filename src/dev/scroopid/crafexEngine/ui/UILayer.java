@@ -9,11 +9,12 @@ import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
 import dev.scroopid.crafexEngine.util.Util;
 import dev.scroopid.crafexEngine.util.intRectangle;
 
-public class UILayer implements Touchable, Drawable{
+public class UILayer implements Touchable, Drawable {
 
-	/**{@link UIObject} in the layer*/
+	/** {@link UIObject} in the layer */
 	private ArrayList<UIObject> uiObjects = new ArrayList<UIObject>();
-	/**area of the screen touch doesn't remove this layer*/
+
+	/** area of the screen touch doesn't remove this layer */
 	private intRectangle touchArea;
 
 	/**
@@ -22,10 +23,12 @@ public class UILayer implements Touchable, Drawable{
 	public UILayer() {
 		uiObjects = new ArrayList<UIObject>();
 	}
-	
+
 	/**
 	 * a layer of {@link UIObject} for a {@link UIScreen}
-	 * @param touchArea where layer doesn't get removed
+	 * 
+	 * @param touchArea
+	 *        where layer doesn't get removed
 	 */
 	public UILayer(intRectangle touchArea) {
 		uiObjects = new ArrayList<UIObject>();
@@ -34,6 +37,7 @@ public class UILayer implements Touchable, Drawable{
 
 	/**
 	 * adds an {@link UIObject} to the layer
+	 * 
 	 * @param uiObject
 	 */
 	public void addUIObject(UIObject uiObject) {
@@ -49,6 +53,7 @@ public class UILayer implements Touchable, Drawable{
 
 	/**
 	 * gets the {@link UIObject} at index number provided
+	 * 
 	 * @param index
 	 * @return {@link UIObject} at index number provided
 	 */
@@ -58,6 +63,7 @@ public class UILayer implements Touchable, Drawable{
 
 	/**
 	 * returns the amount of {@link UIObject}s in layer
+	 * 
 	 * @return amount of {@link UIObject}s in layer
 	 */
 	public int getSize() {
@@ -66,6 +72,7 @@ public class UILayer implements Touchable, Drawable{
 
 	/**
 	 * returns {@link Touchable} objects
+	 * 
 	 * @return touchable objects
 	 */
 	public Touchable[] getTouchables() {
@@ -74,6 +81,7 @@ public class UILayer implements Touchable, Drawable{
 
 	/**
 	 * returns all {@link UIObject} of the layer
+	 * 
 	 * @return all {@link UIObject} of the layer
 	 */
 	public ArrayList<UIObject> getUiObjects() {
@@ -82,6 +90,7 @@ public class UILayer implements Touchable, Drawable{
 
 	/**
 	 * sets the {@link UIObject} of the layer
+	 * 
 	 * @param uiObjects
 	 */
 	public void setUiObjects(ArrayList<UIObject> uiObjects) {
@@ -90,24 +99,24 @@ public class UILayer implements Touchable, Drawable{
 
 	@Override
 	public boolean isTouching(CrafexTouchEvent touch) {
-		
-		for(int i = 0; i < uiObjects.size(); ++i){
-			if(uiObjects.get(i).isTouching(touch)){
+
+		for (int i = 0; i < uiObjects.size(); ++i) {
+			if (uiObjects.get(i).isTouching(touch)) {
 				return true;
 			}
 		}
-		
-		if(touchArea != null && Util.isBetween(touch.getTouchLocation(), touchArea)){
+
+		if (touchArea != null && Util.isBetween(touch.getTouchLocation(), touchArea)) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public void whenHeld(CrafexTouchEvent touch) {
-		for(int i = 0; i < uiObjects.size(); ++i){
-			if(uiObjects.get(i).isTouching(touch)){
+		for (int i = 0; i < uiObjects.size(); ++i) {
+			if (uiObjects.get(i).isTouching(touch)) {
 				uiObjects.get(i).whenHeld(touch);
 			}
 		}
@@ -115,8 +124,8 @@ public class UILayer implements Touchable, Drawable{
 
 	@Override
 	public void whenPressed(CrafexTouchEvent touch) {
-		for(int i = 0; i < uiObjects.size(); ++i){
-			if(uiObjects.get(i).isTouching(touch)){
+		for (int i = 0; i < uiObjects.size(); ++i) {
+			if (uiObjects.get(i).isTouching(touch)) {
 				uiObjects.get(i).whenPressed(touch);
 			}
 		}
@@ -124,8 +133,8 @@ public class UILayer implements Touchable, Drawable{
 
 	@Override
 	public void whenReleased(CrafexTouchEvent touch) {
-		for(int i = 0; i < uiObjects.size(); ++i){
-			if(uiObjects.get(i).isTouching(touch)){
+		for (int i = 0; i < uiObjects.size(); ++i) {
+			if (uiObjects.get(i).isTouching(touch)) {
 				uiObjects.get(i).whenReleased(touch);
 			}
 		}

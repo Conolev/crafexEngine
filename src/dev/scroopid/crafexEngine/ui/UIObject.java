@@ -15,63 +15,83 @@ import dev.scroopid.crafexEngine.util.intRectangle;
 
 public abstract class UIObject implements Updatable, Touchable, Drawable {
 
-	/**sprite of the {@link UIObject}*/
+	/** sprite of the {@link UIObject} */
 	protected Sprite sprite;
-	/**distance before the object is "dragging"(moving with the finder movement)*/
+
+	/** distance before the object is "dragging"(moving with the finder movement) */
 	protected int DRAG_DISTANCE;
-	/**layer of {@link UIObject} is in*/
+
+	/** layer of {@link UIObject} is in */
 	private int layer;
-	/**speed the {@link UIObject} rotates*/
+
+	/** speed the {@link UIObject} rotates */
 	private int rotationSpeed;
-	/**speed the {@link UIObject} when moving*/
+
+	/** speed the {@link UIObject} when moving */
 	private int speed;
-	/**location of the {@link UIObject} with size of the {@link UIObject} being displayed*/
+
+	/** location of the {@link UIObject} with size of the {@link UIObject} being displayed */
 	private floatRectangle location;
-	/**target location of {@link UIObject}*/
+
+	/** target location of {@link UIObject} */
 	private intRectangle targetLocation;
-	/**real size of the {@link UIObject}*/
+
+	/** real size of the {@link UIObject} */
 	protected intPoint realSize;
-	/**amount the screen is "scrolled over"*/
+
+	/** amount the screen is "scrolled over" */
 	protected intPoint scroll;
-	/**time {@link CrafexTouchEvent} started*/
+
+	/** time {@link CrafexTouchEvent} started */
 	protected long touchTime;
-	/**last time was updated*/
+
+	/** last time was updated */
 	protected long lastUpdateTime;
-	/**last {@link CrafexTouchEvent} to effect this {@link UIObject}*/
+
+	/** last {@link CrafexTouchEvent} to effect this {@link UIObject} */
 	protected CrafexTouchEvent touch;
 
 	/**
 	 * object used for UI
+	 * 
 	 * @param image
 	 * @param location
-	 * @param layer of object
+	 * @param layer
+	 *        of object
 	 */
-	public UIObject(Bitmap image, floatPoint location, float rotation,  int layer) {
+	public UIObject(Bitmap image, floatPoint location, float rotation, int layer) {
 		this.sprite = new Sprite(image);
-		this.targetLocation = new intRectangle(location.toIntPoint(), 
-					new intPoint(sprite.getWidth(), sprite.getHeight()), (int) rotation);
+		this.targetLocation =
+					new intRectangle(location.toIntPoint(), new intPoint(sprite.getWidth(), sprite.getHeight()),
+								(int) rotation);
 		this.setLayer(layer);
 		this.generateRect(location, rotation);
 	}
-	
+
 	/**
 	 * object used for UI
+	 * 
 	 * @param image
 	 * @param location
-	 * @param layer of object
+	 * @param layer
+	 *        of object
 	 */
-	public UIObject(String imageKey, floatPoint location, float rotation,  int layer) {
+	public UIObject(String imageKey, floatPoint location, float rotation, int layer) {
 		this.sprite = new Sprite(imageKey);
-		this.targetLocation = new intRectangle(location.toIntPoint(), 
-					new intPoint(sprite.getWidth(), sprite.getHeight()), (int) rotation);
+		this.targetLocation =
+					new intRectangle(location.toIntPoint(), new intPoint(sprite.getWidth(), sprite.getHeight()),
+								(int) rotation);
 		this.setLayer(layer);
 		this.generateRect(location, rotation);
 	}
 
 	/**
 	 * adds a value or values to target location
-	 * @param x value
-	 * @param y value
+	 * 
+	 * @param x
+	 *        value
+	 * @param y
+	 *        value
 	 */
 	public void addTargetLocation(int x, int y) {
 		this.targetLocation.getCenter().addX(x);
@@ -80,6 +100,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * adds a value or values to target location
+	 * 
 	 * @param values
 	 */
 	public void addTargetLocation(intPoint values) {
@@ -90,20 +111,20 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	public void draw(Canvas canvas) {
 		sprite.draw(canvas, location.toIntRectangle(), true);
 	}
-	
+
 	/**
 	 * generates size of the {@link UIObject}
 	 */
 	public void generateRect(floatPoint location, float rotation) {
-		this.location = new floatRectangle(location, 
-					new floatPoint(sprite.getWidth(), sprite.getHeight()), rotation);
+		this.location = new floatRectangle(location, new floatPoint(sprite.getWidth(), sprite.getHeight()), rotation);
 	}
-	
+
 	/**
 	 * returns the {@link intRectangle} of the {@link UIObject}
+	 * 
 	 * @return rectangle of the object
 	 */
-	public floatRectangle getRectangle(){
+	public floatRectangle getRectangle() {
 		return location;
 	}
 
@@ -114,6 +135,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * returns the layer of the object
+	 * 
 	 * @return
 	 */
 	public int getLayer() {
@@ -122,6 +144,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * returns the location of the {@link UIObject}
+	 * 
 	 * @return location of the object
 	 */
 	public floatPoint getLocation() {
@@ -130,6 +153,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * returns the real size of the {@link UIObject}
+	 * 
 	 * @return realSize of the object
 	 */
 	public intPoint getRealSize() {
@@ -138,6 +162,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * returns the size of the {@link UIObject}
+	 * 
 	 * @return size of the object
 	 */
 	public floatPoint getSize() {
@@ -146,6 +171,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * returns the speed of the {@link UIObject}
+	 * 
 	 * @return speed of the object
 	 */
 	public int getSpeed() {
@@ -154,6 +180,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * returns the target location of the {@link UIObject}
+	 * 
 	 * @return target location of the object
 	 */
 	public intPoint getTargetLocation() {
@@ -162,6 +189,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * returns the target locations X coordinate
+	 * 
 	 * @return target locations X coordinate
 	 */
 	public int getTargetX() {
@@ -170,6 +198,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * returns the target locations Y coordinate
+	 * 
 	 * @return target locations Y coordinate
 	 */
 	public int getTargetY() {
@@ -183,6 +212,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * returns the locations X coordinate
+	 * 
 	 * @return locations X coordinate
 	 */
 	public float getX() {
@@ -191,6 +221,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * returns the locations Y coordinate
+	 * 
 	 * @return locations Y coordinate
 	 */
 	public float getY() {
@@ -207,6 +238,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * is the {@link UIObject} active
+	 * 
 	 * @return isActive?
 	 */
 	public boolean isActive() {
@@ -215,6 +247,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * scrolls the x coordinate
+	 * 
 	 * @param differance
 	 */
 	public void scrollX(int differance) {
@@ -235,6 +268,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * scrolls the Y coordinate
+	 * 
 	 * @param differance
 	 */
 	public void scrollY(int differance) {
@@ -260,6 +294,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * sets the layer of the {@link UIObject}
+	 * 
 	 * @param layer
 	 */
 	public void setLayer(int layer) {
@@ -268,6 +303,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * sets the location of the {@link UIObject}
+	 * 
 	 * @param x
 	 * @param y
 	 */
@@ -277,6 +313,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * sets the location of the {@link UIObject}
+	 * 
 	 * @param location
 	 */
 	public void setLocation(floatPoint location) {
@@ -285,6 +322,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * sets the real size of the {@link UIObject}
+	 * 
 	 * @param realSize
 	 */
 	public void setRealSize(intPoint realSize) {
@@ -293,6 +331,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * sets the size of the {@link UIObject}
+	 * 
 	 * @param size
 	 */
 	public void setSize(intPoint size) {
@@ -301,6 +340,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * sets the speed of the {@link UIObject}
+	 * 
 	 * @param speed
 	 */
 	public void setSpeed(int speed) {
@@ -309,6 +349,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * sets the target location of the {@link UIObject}
+	 * 
 	 * @param x
 	 * @param y
 	 */
@@ -318,6 +359,7 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 
 	/**
 	 * sets the target location of the {@link UIObject}
+	 * 
 	 * @param loction
 	 */
 	public void setTargetLocation(intPoint loction) {
@@ -327,12 +369,12 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	@Override
 	public void update() {
 		if (!this.location.getCenter().isEqualTo(this.targetLocation.getCenter())) {
-			this.location.setCenter(Util.move(this.location.getCenter(), 
+			this.location.setCenter(Util.move(this.location.getCenter(),
 						this.targetLocation.getCenter().toFloatPoint(), this.speed * this.getUpdateTimeDelta()));
 		}
 		this.setLastUpdateTime(System.currentTimeMillis());
 	}
-	
+
 	@Override
 	public boolean isTouching(CrafexTouchEvent touch) {
 		return isActive() && location.isInside(touch.getTouchLocation());

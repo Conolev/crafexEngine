@@ -10,10 +10,10 @@ import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
 
 public class UIHandler implements Updatable, Drawable {
 
-	/**last time the {@link UIHandler} was updated*/
+	/** last time the {@link UIHandler} was updated */
 	private long lastUpdateTime;
 
-	/**{@link UIScreen} to be handled*/
+	/** {@link UIScreen} to be handled */
 	private UIScreen uiscreen;
 
 	/**
@@ -35,6 +35,7 @@ public class UIHandler implements Updatable, Drawable {
 
 	/**
 	 * returns the overlay of the {@link UIScreen}
+	 * 
 	 * @return
 	 */
 	public UIObject getOverlay() {
@@ -43,6 +44,7 @@ public class UIHandler implements Updatable, Drawable {
 
 	/**
 	 * returns {@link Touchable}s of the screen
+	 * 
 	 * @return
 	 */
 	public Touchable[] getTouchables() {
@@ -53,10 +55,10 @@ public class UIHandler implements Updatable, Drawable {
 				data.add(this.uiscreen.getUILayers().get(i).getObject(i2));
 			}
 		}
-		
+
 		Touchable[] touchables = new Touchable[data.size()];
-		
-		for (int i = 0; i < data.size(); ++i){
+
+		for (int i = 0; i < data.size(); ++i) {
 			touchables[i] = data.get(i);
 		}
 
@@ -70,6 +72,7 @@ public class UIHandler implements Updatable, Drawable {
 
 	/**
 	 * returns if the {@link UIScreen} has an overlay
+	 * 
 	 * @return hasOverlay?
 	 */
 	public boolean hasOverlay() {
@@ -83,6 +86,7 @@ public class UIHandler implements Updatable, Drawable {
 
 	/**
 	 * sets the overlay of the {@link UIScreen}
+	 * 
 	 * @param overlay
 	 */
 	public void setOverlay(UIObject overlay) {
@@ -91,6 +95,7 @@ public class UIHandler implements Updatable, Drawable {
 
 	/**
 	 * sets the {@link UIScreen} of the object
+	 * 
 	 * @param uiscreen
 	 */
 	public void setUIScreen(UIScreen uiscreen) {
@@ -99,6 +104,7 @@ public class UIHandler implements Updatable, Drawable {
 
 	/**
 	 * handles the {@link CrafexTouchEvent} for the screen
+	 * 
 	 * @param touch
 	 */
 	public void touchScreen(CrafexTouchEvent touch) {

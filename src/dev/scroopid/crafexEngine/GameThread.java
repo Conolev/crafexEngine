@@ -1,14 +1,14 @@
 package dev.scroopid.crafexEngine;
 
 public abstract class GameThread extends Thread {
-	
-	/**frames per second to limit the thread to*/
+
+	/** frames per second to limit the thread to */
 	private long FPS;
 
-	/**does the {@link GameThread} exists*/
+	/** does the {@link GameThread} exists */
 	private boolean exists = false;
 
-	/**is the {@link GameThread} running*/
+	/** is the {@link GameThread} running */
 	private boolean running = false;
 
 	/**
@@ -17,10 +17,12 @@ public abstract class GameThread extends Thread {
 	public GameThread() {
 		FPS = 10;
 	}
-	
+
 	/**
 	 * {@link Crafex} {@link Thread}.
-	 * @param fps to run at
+	 * 
+	 * @param fps
+	 *        to run at
 	 */
 	public GameThread(int fps) {
 		FPS = fps;
@@ -56,7 +58,7 @@ public abstract class GameThread extends Thread {
 
 	@Override
 	public void run() {
-		
+
 		long frameLength = 1000 / FPS;
 		long startingTime;
 		long sleepTime;
@@ -65,12 +67,12 @@ public abstract class GameThread extends Thread {
 
 			while (this.running) {
 				startingTime = System.currentTimeMillis();
-				
+
 				this.threadStuff();
-				
+
 				sleepTime = frameLength - (System.currentTimeMillis() - startingTime);
-				
-				if(FPS > 0){
+
+				if (FPS > 0) {
 					try {
 						if (sleepTime > 0)
 							sleep(sleepTime);

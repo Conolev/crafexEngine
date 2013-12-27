@@ -6,23 +6,24 @@ import java.lang.reflect.Method;
 import dev.scroopid.crafexEngine.Logger;
 
 public class Command {
-	
+
 	private static final Logger logger = new Logger(Command.class);
 
-	/**target {@link Object} of the {@link Command}*/
+	/** target {@link Object} of the {@link Command} */
 	private Object target;
 
-	/**{@link Method} to call in the target {@link Object}*/
+	/** {@link Method} to call in the target {@link Object} */
 	private Method method;
 
-	/**name of the {@link Command}*/
+	/** name of the {@link Command} */
 	private String name;
 
-	/**default arguments of the method*/
+	/** default arguments of the method */
 	private Object[] defaultargs;
 
 	/**
 	 * a command that saves a {@link Object} and a {@link Method} to be run.
+	 * 
 	 * @param name
 	 * @param target
 	 * @param method
@@ -37,6 +38,7 @@ public class Command {
 
 	/**
 	 * runs the {@link Method} of the target {@link Object} of the {@link Command}.
+	 * 
 	 * @return if the command successfully ran
 	 */
 	public boolean run() {
@@ -70,7 +72,9 @@ public class Command {
 
 	/**
 	 * runs the {@link Method} of the target {@link Object} of the {@link Command}.
-	 * @param args to run in the method.
+	 * 
+	 * @param args
+	 *        to run in the method.
 	 * @return if the command successfully ran
 	 */
 	public boolean run(Object... args) {

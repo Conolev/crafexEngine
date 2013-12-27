@@ -10,20 +10,29 @@ import dev.scroopid.crafexEngine.save.util.SaveUtils;
 
 public class PrimitiveSaveMethods {
 	private static final String SAVE_PRIMITIVE = "savePrimitive";
+
 	private static final Logger LOGGER = new Logger(PrimitiveSaveMethods.class);
-	
-	static{
+
+	static {
 		// Add all of the save handlers for each primitive Type
-		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, int.class));
-		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, short.class));
-		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, long.class));
-		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, byte.class));
-		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, double.class));
-		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, float.class));
-		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, boolean.class));
-		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, char.class));
+		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,
+					int.class));
+		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,
+					short.class));
+		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,
+					long.class));
+		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,
+					byte.class));
+		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,
+					double.class));
+		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,
+					float.class));
+		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,
+					boolean.class));
+		SaveManager.addSavableFieldMethod(SaveUtils.getSavableFieldMethod(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,
+					char.class));
 	}
-	
+
 	/**
 	 * Saves a primitive type field and returns it as a String Saves it in this format <br/>
 	 * <b>&lt;fieldName : type : "data"&gt;</b>
@@ -36,10 +45,10 @@ public class PrimitiveSaveMethods {
 	 *        The amount of calls deep we are
 	 * @return The Formatted string of the primitive field
 	 */
-	public static String[] savePrimitive(Object target, Field field, int callsDeep){
+	public static String[] savePrimitive(Object target, Field field, int callsDeep) {
 		String data = "";
 		Class<?> fieldType = field.getType();
-		
+
 		try {
 
 			// How I wish I could use a switch on this...
@@ -126,7 +135,7 @@ public class PrimitiveSaveMethods {
 			throw new SaveException(String.format("Unable to save: %s", field.getName()));
 
 		}
-		
-		return new String[] {SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep) + data};
+
+		return new String[] { SaveUtils.addMultipleString(SaveConstants.TAB, callsDeep) + data };
 	}
 }

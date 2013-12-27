@@ -12,12 +12,12 @@ import dev.scroopid.crafexEngine.util.intPoint;
 
 public class InputHandler implements Updatable {
 
-	/**input of keyboard*/
+	/** input of keyboard */
 	private Inputable input;
 
-	/**keyboard*/
+	/** keyboard */
 	private static InputMethodManager imm;
-    
+
 	/**
 	 * handles inputs
 	 */
@@ -27,10 +27,12 @@ public class InputHandler implements Updatable {
 
 	/**
 	 * handles a {@link Crafex} {@link KeyBoard} {@link CrafexKeyInputEvent}
+	 * 
 	 * @param event
 	 */
 	public void crafexKeyboardInput(CrafexKeyInputEvent event) {
-		this.input.setInput(CrafexKeyInputEvent.doInput(event.getValue(), this.input.getInput(), this.input.getInputingIndex()));
+		this.input.setInput(CrafexKeyInputEvent.doInput(event.getValue(), this.input.getInput(),
+					this.input.getInputingIndex()));
 	}
 
 	@Override
@@ -45,20 +47,19 @@ public class InputHandler implements Updatable {
 
 	/**
 	 * handles {@link MotionEvent}s from {@link Activity}
+	 * 
 	 * @param event
 	 * @return handled
 	 */
 	public boolean handleTouchInput(MotionEvent event) {
-		CrafexTouchEvent touch = new CrafexTouchEvent(event.getActionIndex(), 
-					new intPoint((int) event.getX(event.getActionIndex()), 
-								(int) event.getY(event.getActionIndex())), 
-								event.getAction());
-		
-		
+		CrafexTouchEvent touch =
+					new CrafexTouchEvent(event.getActionIndex(), new intPoint((int) event.getX(event.getActionIndex()),
+								(int) event.getY(event.getActionIndex())), event.getAction());
+
 		if (Crafex.uiHandler != null) {
 			Crafex.uiHandler.touchScreen(touch);
 		}
-		
+
 		return true;
 	}
 
@@ -68,24 +69,24 @@ public class InputHandler implements Updatable {
 	/**
 	 * shows the android keyboard
 	 */
-	public static void showKeyBoard(){
+	public static void showKeyBoard() {
 		imm.showSoftInput(AppActivity.crafex, 0);
 	}
-	
+
 	/**
 	 * hides the android keyboard
 	 */
-	public static void hideKeyBoard(){
+	public static void hideKeyBoard() {
 		imm.hideSoftInputFromWindow(AppActivity.crafex.getApplicationWindowToken(), 0);
 	}
-	
-	public boolean onBackPressed(){
+
+	public boolean onBackPressed() {
 		return false;
 	}
 
 	@Override
 	public void update() {
-		
+
 	}
 
 }

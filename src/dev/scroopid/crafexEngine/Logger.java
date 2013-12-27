@@ -4,21 +4,25 @@ package dev.scroopid.crafexEngine;
  * This {@link Class} is used to dump informational messages.
  */
 public class Logger {
-	/**debug level*/
+	/** debug level */
 	public static final int DEBUG = 4;
-	/**error level*/
+
+	/** error level */
 	public static final int ERROR = 1;
-	/**info level*/
+
+	/** info level */
 	public static final int INFO = 3;
-	/**trace level*/
+
+	/** trace level */
 	public static final int TRACE = 5;
-	/**warning level*/
+
+	/** warning level */
 	public static final int WARNING = 2;
 
 	/** This member holds the current level to be output. */
 	private static int level = TRACE;
 
-	/**prefix of the {@link Logger}*/
+	/** prefix of the {@link Logger} */
 	private String prefix;
 
 	public Logger(Class<?> cls) {
@@ -27,6 +31,7 @@ public class Logger {
 
 	/**
 	 * sends a debug message
+	 * 
 	 * @param message
 	 */
 	public void debug(String message) {
@@ -35,6 +40,7 @@ public class Logger {
 
 	/**
 	 * sends an error message.
+	 * 
 	 * @param message
 	 */
 	public void error(String message) {
@@ -43,6 +49,7 @@ public class Logger {
 
 	/**
 	 * sends an error message.
+	 * 
 	 * @param message
 	 * @param throwable
 	 */
@@ -61,6 +68,7 @@ public class Logger {
 
 	/**
 	 * sends an info message.
+	 * 
 	 * @param message
 	 */
 	public void info(String message) {
@@ -69,6 +77,7 @@ public class Logger {
 
 	/**
 	 * sends a message at given messageLevel.
+	 * 
 	 * @param messageLevel
 	 * @param message
 	 * @param throwable
@@ -110,6 +119,7 @@ public class Logger {
 
 	/**
 	 * sends a trace message.
+	 * 
 	 * @param message
 	 */
 	public void trace(String message) {
@@ -118,6 +128,7 @@ public class Logger {
 
 	/**
 	 * sends a warning message.
+	 * 
 	 * @param message
 	 */
 	public void warning(String message) {

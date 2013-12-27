@@ -11,11 +11,11 @@ import dev.scroopid.crafexEngine.util.intPoint;
 import dev.scroopid.crafexEngine.util.intRectangle;
 
 public class Sprite implements ISavable {
-	
+
 	@Ignore
 	private Bitmap image;
-	
-	/**key for the bitmap*/
+
+	/** key for the bitmap */
 	private String imageKey;
 
 	/** the size of the texture */
@@ -30,25 +30,27 @@ public class Sprite implements ISavable {
 	/** the amount of sets of frames in the texture */
 	private int cycle;
 
-	/**speed to change frame*/
+	/** speed to change frame */
 	private float frameSpeed;
 
-	/**last time sprite updated*/
+	/** last time sprite updated */
 	@Ignore
 	private long lastUpdated = System.currentTimeMillis();
 
 	/**
 	 * sprite for an object.
 	 */
-	public Sprite(){
+	public Sprite() {
 		this.frames = 1;
 		this.frameSize = new intPoint(this.image.getWidth(), this.image.getHeight());
 		this.frameSpeed = .2f;
 	}
-	
+
 	/**
 	 * sprite for an object.
-	 * @param srcImage image for sprite.
+	 * 
+	 * @param srcImage
+	 *        image for sprite.
 	 */
 	public Sprite(String imageKey) {
 		this.imageKey = imageKey;
@@ -57,14 +59,20 @@ public class Sprite implements ISavable {
 		this.frameSize = new intPoint(this.image.getWidth(), this.image.getHeight());
 		this.frameSpeed = .2f;
 	}
-	
+
 	/**
 	 * sprite for an object.
-	 * @param srcImage - image for sprite.
-	 * @param frames - amount of frames
-	 * @param cycles - amount of cycles
-	 * @param defaultFrame index number
-	 * @param frameSpeed speed the frames change.
+	 * 
+	 * @param srcImage
+	 *        - image for sprite.
+	 * @param frames
+	 *        - amount of frames
+	 * @param cycles
+	 *        - amount of cycles
+	 * @param defaultFrame
+	 *        index number
+	 * @param frameSpeed
+	 *        speed the frames change.
 	 */
 	public Sprite(String imageKey, int frames, int cycles, float frameSpeed) {
 		this.imageKey = imageKey;
@@ -73,10 +81,12 @@ public class Sprite implements ISavable {
 		this.frameSize = new intPoint(this.image.getWidth() / frames, this.image.getHeight() / cycles);
 		this.frameSpeed = frameSpeed;
 	}
-	
+
 	/**
 	 * sprite for an object.
-	 * @param srcImage image for sprite.
+	 * 
+	 * @param srcImage
+	 *        image for sprite.
 	 */
 	public Sprite(Bitmap srcImage) {
 		this.setImage(srcImage);
@@ -84,14 +94,20 @@ public class Sprite implements ISavable {
 		this.frameSize = new intPoint(this.image.getWidth(), this.image.getHeight());
 		this.frameSpeed = .2f;
 	}
-	
+
 	/**
 	 * sprite for an object.
-	 * @param srcImage - image for sprite.
-	 * @param frames - amount of frames
-	 * @param cycles - amount of cycles
-	 * @param defaultFrame index number
-	 * @param frameSpeed speed the frames change.
+	 * 
+	 * @param srcImage
+	 *        - image for sprite.
+	 * @param frames
+	 *        - amount of frames
+	 * @param cycles
+	 *        - amount of cycles
+	 * @param defaultFrame
+	 *        index number
+	 * @param frameSpeed
+	 *        speed the frames change.
 	 */
 	public Sprite(Bitmap srcImage, int frames, int cycles, float frameSpeed) {
 		this.setImage(srcImage);
@@ -99,7 +115,7 @@ public class Sprite implements ISavable {
 		this.frameSize = new intPoint(this.image.getWidth() / frames, this.image.getHeight() / cycles);
 		this.frameSpeed = frameSpeed;
 	}
-	
+
 	public String getImageKey() {
 		return imageKey;
 	}
@@ -154,29 +170,32 @@ public class Sprite implements ISavable {
 
 	/**
 	 * draws the sprite to canvas at location
+	 * 
 	 * @param canvas
 	 * @param location
 	 */
 	public void draw(Canvas canvas, intRectangle location) {
-		if (image != null && (location.getRight()) - Crafex.levelMan.getLevel().getScroll().getX() >= 0
+		if (image != null
+					&& (location.getRight()) - Crafex.levelMan.getLevel().getScroll().getX() >= 0
 					&& location.getLeft() - Crafex.levelMan.getLevel().getScroll().getX() <= Crafex.WINDOW_DIMENTIONS.getX()
 					&& (location.getBottom()) - Crafex.levelMan.getLevel().getScroll().getY() >= 0
 					&& location.getTop() - Crafex.levelMan.getLevel().getScroll().getY() <= Crafex.WINDOW_DIMENTIONS.getY()) {
-			
+
 			int srcX = this.frame * this.frameSize.getX();
 			int srcY = this.frameSize.getY() * this.cycle;
-			
+
 			Rect src = new Rect(srcX, srcY, srcX + this.frameSize.getX(), srcY + this.frameSize.getY());
 			intRectangle tempdst = location.clone();
 			tempdst.getCenter().subtract(Crafex.levelMan.getLevel().getScroll());
 			Rect dst = tempdst.getRect();
-			
+
 			canvas.drawBitmap(this.image, src, dst, null);
 		}
 	}
 
 	/**
 	 * draws the sprite to canvas at location
+	 * 
 	 * @param canvas
 	 * @param location
 	 */
@@ -185,25 +204,25 @@ public class Sprite implements ISavable {
 					&& location.getLeft() - Crafex.levelMan.getLevel().getScroll().getX() <= Crafex.WINDOW_DIMENTIONS.getX()
 					&& (location.getBottom()) - Crafex.levelMan.getLevel().getScroll().getY() >= 0
 					&& location.getTop() - Crafex.levelMan.getLevel().getScroll().getY() <= Crafex.WINDOW_DIMENTIONS.getY()) {
-			
-			if(rotate){
-				canvas.rotate(location.getRotation(), 
+
+			if (rotate) {
+				canvas.rotate(location.getRotation(),
 							(int) (location.getX() - Crafex.levelMan.getLevel().getScroll().getX()),
 							(int) (location.getY() - Crafex.levelMan.getLevel().getScroll().getY()));
 			}
-			
+
 			int srcX = this.frame * this.frameSize.getX();
 			int srcY = this.frameSize.getY() * this.cycle;
-			
+
 			Rect src = new Rect(srcX, srcY, srcX + this.frameSize.getX(), srcY + this.frameSize.getY());
 			intRectangle tempdst = location.clone();
 			tempdst.getCenter().subtract(Crafex.levelMan.getLevel().getScroll());
 			Rect dst = tempdst.getRect();
-			
+
 			canvas.drawBitmap(this.image, src, dst, null);
-			
-			if(rotate){
-				canvas.rotate(-location.getRotation(), 
+
+			if (rotate) {
+				canvas.rotate(-location.getRotation(),
 							(int) (location.getX() - Crafex.levelMan.getLevel().getScroll().getX()),
 							(int) (location.getY() - Crafex.levelMan.getLevel().getScroll().getY()));
 			}
@@ -249,17 +268,19 @@ public class Sprite implements ISavable {
 			updateTimedFrame();
 		}
 	}
-	
+
 	/**
 	 * returns the delta of the last time updated and current time
-	 * @return  delta of the last time updated and current time
+	 * 
+	 * @return delta of the last time updated and current time
 	 */
-	public float getDeltaTime(){
-		return (System.currentTimeMillis() - lastUpdated)/1000;
+	public float getDeltaTime() {
+		return (System.currentTimeMillis() - lastUpdated) / 1000;
 	}
 
 	/**
 	 * gets the current cycle
+	 * 
 	 * @return cycle
 	 */
 	public int getCycle() {
@@ -268,14 +289,15 @@ public class Sprite implements ISavable {
 
 	/**
 	 * gets the current frame
+	 * 
 	 * @return frame
 	 */
 	public int getFrame() {
 		return this.frame;
 	}
 
-	/** 
-	 * gets the texture 
+	/**
+	 * gets the texture
 	 */
 	public Bitmap getFullImage() {
 		return this.image;
@@ -283,6 +305,7 @@ public class Sprite implements ISavable {
 
 	/**
 	 * gets the dentenation height
+	 * 
 	 * @return dstheight
 	 */
 	public int getHeight() {
@@ -291,6 +314,7 @@ public class Sprite implements ISavable {
 
 	/**
 	 * gets the dentenation width
+	 * 
 	 * @return dstwidth
 	 */
 	public int getWidth() {
@@ -300,7 +324,7 @@ public class Sprite implements ISavable {
 	@Override
 	public void postLoad() {
 		lastUpdated = System.currentTimeMillis();
-		if(imageKey != null || imageKey != ""){
+		if (imageKey != null || imageKey != "") {
 			image = Crafex.graphicsMan.getImageFromKey(imageKey);
 		}
 	}
@@ -320,37 +344,39 @@ public class Sprite implements ISavable {
 
 	}
 
-	/** 
-	 * sets the texture 
+	/**
+	 * sets the texture
 	 */
 	public void setImage(Bitmap image) {
 		this.image = image;
 	}
-	
+
 	/**
 	 * updates values for the sprite
+	 * 
 	 * @param movement
 	 */
 	public void update(floatPoint movement) {
-			if(movement.getX() > 0 || movement.getY() > 0){
-				cycleUpdate(movement);
-			}
+		if (movement.getX() > 0 || movement.getY() > 0) {
+			cycleUpdate(movement);
+		}
 	}
-	
+
 	/**
 	 * updates values for the sprite
+	 * 
 	 * @param movement
 	 * @param maxSpeed
 	 */
 	public void update(floatPoint movement, float currentSpeed, float maxSpeed) {
-			//TODO make speed Update
+		// TODO make speed Update
 	}
 
 	public void updateTimedFrame() {
 		if (getDeltaTime() >= this.frameSpeed) {
 			if (this.frame >= this.frames - 1) {
 				this.frame = 0;
-			}else{
+			} else {
 				this.frame++;
 			}
 		}

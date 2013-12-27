@@ -38,18 +38,21 @@ public class SaveUtils {
 
 	/**
 	 * Can the object be cast to another?
-	 * @param castee The object being cast
-	 * @param castTo The object type desired
+	 * 
+	 * @param castee
+	 *        The object being cast
+	 * @param castTo
+	 *        The object type desired
 	 * @return If it can happen.
 	 */
-	public static boolean canCastTo(Class<?> castee, Class<?> castTo){
-		if (castee == null || castTo == null){
+	public static boolean canCastTo(Class<?> castee, Class<?> castTo) {
+		if (castee == null || castTo == null) {
 			log.error("NULL Arguements!");
 			throw new IllegalArgumentException("Null Arguements");
 		}
 		return castTo.isAssignableFrom(castee);
 	}
-	
+
 	/**
 	 * Returns the string multiplied by the amount so if str is equal to aba and amount is equal to 2, result is abaaba
 	 * 
@@ -161,17 +164,21 @@ public class SaveUtils {
 
 		return null;
 	}
-	
+
 	/**
 	 * creates a SavableFieldMethod from the method name, the infering class and the sfmType
-	 * @param methodName The method name of the saveMethod
-	 * @param inferFrom The class to pull the static method from
-	 * @param sfmType The type of SFM
+	 * 
+	 * @param methodName
+	 *        The method name of the saveMethod
+	 * @param inferFrom
+	 *        The class to pull the static method from
+	 * @param sfmType
+	 *        The type of SFM
 	 * @return The SFM
 	 */
-	public static SavableFieldMethod getSavableFieldMethod(String methodName, Class<?> inferFrom, Class<?> sfmType){
+	public static SavableFieldMethod getSavableFieldMethod(String methodName, Class<?> inferFrom, Class<?> sfmType) {
 		Method method = null;
-		
+
 		try {
 			// Try and get the method from the infering class.
 			method = inferFrom.getMethod(methodName, Object.class, Field.class, int.class);
@@ -179,7 +186,7 @@ public class SaveUtils {
 			log.error(String.format("No such method named %s with object, field, int parameters", methodName));
 			throw new SaveException("No such method named: " + methodName);
 		}
-		
+
 		return new SavableFieldMethod(method, sfmType);
 	}
 }

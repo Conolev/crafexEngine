@@ -15,43 +15,43 @@ import dev.scroopid.crafexEngine.ui.UIHandler;
 import dev.scroopid.crafexEngine.util.FileManager;
 import dev.scroopid.crafexEngine.util.intPoint;
 
-public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
+public class Crafex extends SurfaceView implements SurfaceHolder.Callback {
 
 	public static Context CONTEXT;
-	
-	/**color of the background*/
+
+	/** color of the background */
 	public static int DEFAULT_COLOR;
-	
-	/**file manager of the {@link Crafex}*/
+
+	/** file manager of the {@link Crafex} */
 	public static FileManager fileMan;
 
-	/**input handler of the {@link Crafex}*/
+	/** input handler of the {@link Crafex} */
 	public static InputHandler inputHandler;
 
-	/**UI handler of the {@link Crafex}*/
+	/** UI handler of the {@link Crafex} */
 	public static UIHandler uiHandler;
 
-	/**level manager of the {@link Crafex}*/
+	/** level manager of the {@link Crafex} */
 	public static LevelManager levelMan;
-	
-	/**contains and manages bitmaps*/
+
+	/** contains and manages bitmaps */
 	public static GraphicsManager graphicsMan;
-	
-	/**Phone's screen resolution*/
+
+	/** Phone's screen resolution */
 	public static intPoint WINDOW_DIMENTIONS;
-	
-	/**the expected resolution*/
+
+	/** the expected resolution */
 	public static intPoint WINDOW_DEFAULT;
 
-	/**scale of the pixels*/
+	/** scale of the pixels */
 	public static float SCALE;
-	
+
 	public static Paint paint = new Paint();
-	
-	/**update {@link GameThread}*/
+
+	/** update {@link GameThread} */
 	public static GameThread update;
-	
-	/**draw {@link GameThread}*/
+
+	/** draw {@link GameThread} */
 	public static DrawThread draw;
 
 	/**
@@ -60,8 +60,8 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 	 * @param context
 	 *        of activity
 	 */
-	public Crafex(Level level, AssetManager assets, Context context, int backGroundColor, 
-				intPoint defaultResalution, intPoint screenResalution, String files) {
+	public Crafex(Level level, AssetManager assets, Context context, int backGroundColor, intPoint defaultResalution,
+				intPoint screenResalution, String files) {
 		super(context);
 		Crafex.CONTEXT = context;
 		graphicsMan = new GraphicsManager();
@@ -73,42 +73,42 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 		levelMan = new LevelManager(uiHandler);
 		inputHandler = new InputHandler();
 		paint.setColor(backGroundColor);
-		if(level != null){
+		if (level != null) {
 			levelMan.setLevel(level);
-		}else{
+		} else {
 			levelMan.setLevel(new Level());
 		}
 		SCALE = (float) (Crafex.WINDOW_DIMENTIONS.getY()) / Crafex.WINDOW_DEFAULT.getY();
 		update = new GameThread(60) {
-			
+
 			@Override
 			public void threadStuff() {
 				update();
 			}
 		};
-		
+
 		draw = new DrawThread(this, 60);
-		
+
 		getHolder().addCallback(this);
 
-        setFocusable(true);
+		setFocusable(true);
 	}
-	
+
 	/**
 	 * Initializes {@link Crafex}
 	 */
-	public void init(){
+	public void init() {
 		update.start();
 		draw.start();
 	}
-	
+
 	/**
 	 * update of {@link Crafex}
 	 */
-	public void update(){
+	public void update() {
 		levelMan.update();
 	}
-	
+
 	/**
 	 * draws the {@link Crafex} to {@link Canvas}
 	 */
@@ -120,13 +120,13 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 	/**
 	 * activates when back is pressed
 	 */
-	public boolean onBackPressed(){
-		if(inputHandler != null){
+	public boolean onBackPressed() {
+		if (inputHandler != null) {
 			return inputHandler.onBackPressed();
-		}else
+		} else
 			return false;
 	}
-	
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		return inputHandler.handleTouchInput(event);
@@ -134,7 +134,7 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		
+
 	}
 
 	@Override
@@ -144,6 +144,6 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback{
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		
+
 	}
 }

@@ -6,26 +6,27 @@ import dev.scroopid.crafexEngine.util.intPoint;
 
 public class CrafexTouchEvent {
 
-	/**action type: down*/
+	/** action type: down */
 	public static final int ACTION_DOWN = MotionEvent.ACTION_DOWN;
 
-	/**action type: up*/
+	/** action type: up */
 	public static final int ACTION_UP = MotionEvent.ACTION_UP;
 
-	/**action type: move*/
+	/** action type: move */
 	public static final int ACTION_MOVE = MotionEvent.ACTION_MOVE;
 
-	/**number of finger of event*/
+	/** number of finger of event */
 	private int pointer;
 
-	/**location of touch*/
+	/** location of touch */
 	private intPoint touchLocation;
 
-	/**action of touch performed*/
+	/** action of touch performed */
 	private int action;
 
 	/**
 	 * a holder for info regarding touch events for {@link Crafex} based elements.
+	 * 
 	 * @param pointer
 	 * @param touchlocation
 	 * @param action
@@ -38,6 +39,7 @@ public class CrafexTouchEvent {
 
 	/**
 	 * returns the action number of {@link CrafexTouchEvent}
+	 * 
 	 * @return action number of event
 	 */
 	public int getAction() {
@@ -46,6 +48,7 @@ public class CrafexTouchEvent {
 
 	/**
 	 * returns the pointer number of the {@link CrafexTouchEvent}
+	 * 
 	 * @return pointer number of the event
 	 */
 	public int getPointer() {
@@ -54,6 +57,7 @@ public class CrafexTouchEvent {
 
 	/**
 	 * returns the touch location of {@link CrafexTouchEvent}
+	 * 
 	 * @return touch location of event
 	 */
 	public intPoint getTouchLocation() {
@@ -62,6 +66,7 @@ public class CrafexTouchEvent {
 
 	/**
 	 * sets the action of the {@link CrafexTouchEvent}
+	 * 
 	 * @param action
 	 */
 	public void setAction(int action) {
@@ -70,6 +75,7 @@ public class CrafexTouchEvent {
 
 	/**
 	 * sets the pointer number of the {@link CrafexTouchEvent}
+	 * 
 	 * @param pointer
 	 */
 	public void setPointer(int pointer) {
@@ -78,27 +84,27 @@ public class CrafexTouchEvent {
 
 	/**
 	 * sets the location of the touch
+	 * 
 	 * @param touchLocation
 	 */
 	public void setTouchLocation(intPoint touchLocation) {
 		this.touchLocation = touchLocation;
 	}
-	
+
 	@Override
 	public String toString() {
 		String data = "action: ";
-		
-		if(action == ACTION_DOWN){
+
+		if (action == ACTION_DOWN) {
 			data += "DOWN";
-		}else if(action == ACTION_MOVE){
+		} else if (action == ACTION_MOVE) {
 			data += "MOVE";
-		}else if(action == ACTION_UP){
+		} else if (action == ACTION_UP) {
 			data += "UP";
 		}
-		
-		data += ". pointer: " + pointer +  ". X: " + touchLocation.getX() 
-					+ ". Y:" + touchLocation.getY() + ".";
-		
+
+		data += ". pointer: " + pointer + ". X: " + touchLocation.getX() + ". Y:" + touchLocation.getY() + ".";
+
 		return data;
 	}
 }

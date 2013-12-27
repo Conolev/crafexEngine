@@ -3,10 +3,11 @@ package dev.scroopid.crafexEngine.util;
 import android.graphics.Point;
 
 public class floatPoint {
-	
-	/**X coordinate*/
+
+	/** X coordinate */
 	private float x;
-	/**Y coordinate*/
+
+	/** Y coordinate */
 	private float y;
 
 	/**
@@ -19,6 +20,7 @@ public class floatPoint {
 
 	/**
 	 * a custom {@link Point} {@link Class} using floats
+	 * 
 	 * @param x
 	 * @param y
 	 */
@@ -29,6 +31,7 @@ public class floatPoint {
 
 	/**
 	 * a custom {@link Point} {@link Class} using floats
+	 * 
 	 * @param point
 	 */
 	public floatPoint(floatPoint point) {
@@ -37,6 +40,7 @@ public class floatPoint {
 
 	/**
 	 * adds the values of another {@link floatPoint} to this one
+	 * 
 	 * @param target
 	 * @return result of addition
 	 */
@@ -45,9 +49,10 @@ public class floatPoint {
 		this.y += target.y;
 		return this;
 	}
-	
+
 	/**
 	 * adds the values of another {@link floatPoint} to this one
+	 * 
 	 * @param target
 	 * @return result of addition
 	 */
@@ -56,9 +61,10 @@ public class floatPoint {
 		this.y += y;
 		return this;
 	}
-	
+
 	/**
 	 * adds to the X coordinate
+	 * 
 	 * @param value
 	 */
 	public void addX(float value) {
@@ -67,12 +73,13 @@ public class floatPoint {
 
 	/**
 	 * adds to the Y coordinate
+	 * 
 	 * @param value
 	 */
 	public void addY(float value) {
 		this.y += value;
 	}
-	
+
 	/**
 	 * clones this {@link floatPoint}
 	 */
@@ -82,6 +89,7 @@ public class floatPoint {
 
 	/**
 	 * gets the distance from this to another {@link floatPoint}
+	 * 
 	 * @param target
 	 * @return distance from this to another floatPoint
 	 */
@@ -91,6 +99,7 @@ public class floatPoint {
 
 	/**
 	 * gets the distance from this to a {@link intPoint}
+	 * 
 	 * @param target
 	 * @return distance from this to a intPoint
 	 */
@@ -100,6 +109,7 @@ public class floatPoint {
 
 	/**
 	 * returns the X coordinate
+	 * 
 	 * @return X coordinate
 	 */
 	public float getX() {
@@ -108,6 +118,7 @@ public class floatPoint {
 
 	/**
 	 * returns the Y coordinate
+	 * 
 	 * @return Y coordinate
 	 */
 	public float getY() {
@@ -116,6 +127,7 @@ public class floatPoint {
 
 	/**
 	 * checks if this {@link floatPoint} is equal to another
+	 * 
 	 * @param target
 	 * @return is this floatPoint is equal to another
 	 */
@@ -125,6 +137,7 @@ public class floatPoint {
 
 	/**
 	 * checks if this {@link floatPoint} is equal to a {@link intPoint}
+	 * 
 	 * @param target
 	 * @return is this floatPoint is equal to a intPoint
 	 */
@@ -156,15 +169,17 @@ public class floatPoint {
 
 	/**
 	 * sets the {@link floatPoint} to another
+	 * 
 	 * @param point
 	 */
 	public void set(floatPoint point) {
 		this.x = point.x;
 		this.y = point.y;
 	}
-	
+
 	/**
 	 * sets the {@link floatPoint} to another
+	 * 
 	 * @param point
 	 */
 	public void set(float x, float y) {
@@ -174,6 +189,7 @@ public class floatPoint {
 
 	/**
 	 * sets the X coordinate value
+	 * 
 	 * @param x
 	 */
 	public void setX(float x) {
@@ -182,22 +198,24 @@ public class floatPoint {
 
 	/**
 	 * sets the Y coordinate value
+	 * 
 	 * @param y
 	 */
 	public void setY(float y) {
 		this.y = y;
 	}
-	
+
 	/**
 	 * sets coordinates to 0,0
 	 */
-	public void reset(){
+	public void reset() {
 		x = 0;
 		y = 0;
 	}
 
 	/**
 	 * subtracts the values of this {@link floatPoint} with another
+	 * 
 	 * @param target
 	 * @return values of this {@link floatPoint} with another subtracted
 	 */
@@ -206,33 +224,35 @@ public class floatPoint {
 		this.y -= target.y;
 		return this;
 	}
-	
+
 	/**
 	 * multiplys the coordinates by the given number
+	 * 
 	 * @param multiplier
 	 * @return this
 	 */
-	public floatPoint multiply(float multiplier){
+	public floatPoint multiply(float multiplier) {
 		this.x *= multiplier;
 		this.y *= multiplier;
 		return this;
 	}
-	
+
 	/**
 	 * Multiplys the coordinates by the given numbers
+	 * 
 	 * @param multiplierX
 	 * @param multiplierY
 	 * @return this
 	 */
-	public floatPoint multiply(float multiplierX, float multiplierY){
+	public floatPoint multiply(float multiplierX, float multiplierY) {
 		this.x *= multiplierX;
 		this.y *= multiplierY;
 		return this;
 	}
 
 	/**
-	 * creates a new {@link floatPoint} from 
-	 * subtracting the values of this {@link floatPoint} with another
+	 * creates a new {@link floatPoint} from subtracting the values of this {@link floatPoint} with another
+	 * 
 	 * @param target
 	 * @return values of this {@link floatPoint} with another subtracted
 	 */
@@ -242,12 +262,13 @@ public class floatPoint {
 
 	/**
 	 * returns this {@link floatPoint} as an {@link intPoint}
+	 * 
 	 * @return
 	 */
 	public intPoint toIntPoint() {
 		return new intPoint((int) this.x, (int) this.y);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "X: " + x + ". Y:" + y + ".";
