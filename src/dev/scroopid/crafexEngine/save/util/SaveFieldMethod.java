@@ -10,7 +10,7 @@ import java.util.List;
 import dev.scroopid.crafexEngine.Logger;
 
 /**
- * Based on the concept of a command, but much restricted to just certain arguements.
+ * Based on the concept of a command, but much restricted to just certain arguments.
  * @author jameswomack
  *
  */
