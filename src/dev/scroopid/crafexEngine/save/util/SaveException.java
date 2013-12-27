@@ -1,4 +1,4 @@
-package dev.scroopid.crafexEngine.save;
+package dev.scroopid.crafexEngine.save.util;
 
 /**
  * Exception Class for Saving Failures by the Save Subsystem.

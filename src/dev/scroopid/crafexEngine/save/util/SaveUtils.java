@@ -1,4 +1,4 @@
-package dev.scroopid.crafexEngine.save;
+package dev.scroopid.crafexEngine.save.util;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
@@ -18,12 +18,12 @@ import dev.scroopid.crafexEngine.Logger;
  * @author jameswomack
  * 
  */
-class SaveUtils {
-	static final Logger log = new Logger(SaveUtils.class);
+public class SaveUtils {
+	private static final Logger log = new Logger(SaveUtils.class);
 
-	static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss a", Locale.US);
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss a", Locale.US);
 
-	static MessageDigest digest;
+	private static MessageDigest digest;
 
 	// This is needed for the creation of the Hash Digest...
 	static {
@@ -45,7 +45,7 @@ class SaveUtils {
 	 *        The times to multiply it
 	 * @return The string multipled
 	 */
-	static String addMultipleString(String str, int amount) {
+	public static String addMultipleString(String str, int amount) {
 		String val = "";
 		for (int i = 0; i < amount; ++i) {
 			val += str;
@@ -61,7 +61,7 @@ class SaveUtils {
 	 *        The comment to put into the save
 	 * @return The comment without newlines and in format.
 	 */
-	static String createComment(String comment) {
+	public static String createComment(String comment) {
 		// Split newlines if there are any
 		String[] splitByNewline = comment.split("\\r?\\n");
 		String val = "#";
@@ -85,7 +85,7 @@ class SaveUtils {
 	 * 
 	 * @return The date comment
 	 */
-	static String createDateComment() {
+	public static String createDateComment() {
 		Date date = new Date();
 
 		return createComment("Created on " + dateFormat.format(date));
@@ -103,7 +103,7 @@ class SaveUtils {
 	 *        The data to put into the field
 	 * @return The formatted field data
 	 */
-	static String formatPrimitive(String fieldName, String type, String data) {
+	public static String formatPrimitive(String fieldName, String type, String data) {
 		return String.format(SaveConstants.PRIMITIVE_TYPE_FORMAT, fieldName, type, data);
 	}
 
@@ -114,7 +114,7 @@ class SaveUtils {
 	 *        the Class reflection variable to pull fields/methods from
 	 * @return The Hash
 	 */
-	static String uuidObjectHash(Class<?> klass) {
+	public static String uuidObjectHash(Class<?> klass) {
 		log.trace("Creating hash for class");
 		String hash = klass.getName() + " ";
 
