@@ -161,4 +161,25 @@ public class SaveUtils {
 
 		return null;
 	}
+	
+	/**
+	 * creates a SavableFieldMethod from the method name, the infering class and the sfmType
+	 * @param methodName The method name of the saveMethod
+	 * @param inferFrom The class to pull the static method from
+	 * @param sfmType The type of SFM
+	 * @return The SFM
+	 */
+	public static SavableFieldMethod getSavableFieldMethod(String methodName, Class<?> inferFrom, Class<?> sfmType){
+		Method method = null;
+		
+		try {
+			// Try and get the method from the infering class.
+			method = inferFrom.getMethod(methodName, Object.class, Field.class, int.class);
+		} catch (NoSuchMethodException e) {
+			log.error(String.format("No such method named %s with object, field, int parameters", methodName));
+			throw new SaveException("No such method named: " + methodName);
+		}
+		
+		return new SavableFieldMethod(method, sfmType);
+	}
 }

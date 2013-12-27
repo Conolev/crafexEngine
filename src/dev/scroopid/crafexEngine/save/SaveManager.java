@@ -89,6 +89,8 @@ public class SaveManager {
 					// Logger trace statement
 					LOGGER.trace("Ignoring field: " + field.getName());
 				} else {
+					LOGGER.trace("Saving field");
+					
 					// The field data from the SFM
 					List<String> fieldData = new ArrayList<String>();
 					
@@ -133,4 +135,34 @@ public class SaveManager {
 		return object.save();
 	}
 	
+	/**
+	 * Adds the SFM to the savableFieldMethods if it doesn't already exist,
+	 * have the same saving type as another, and as long as its not null.
+	 * @param sfm The sfm to add.
+	 */
+	public static void addSavableFieldMethod(SavableFieldMethod sfm){
+		// sfm cannot be null, be existant...
+		if (sfm == null){
+			LOGGER.error("SFM is null!");
+			throw new IllegalArgumentException("sfm is null!");
+		} else if (saveMethods.contains(sfm)){
+			LOGGER.error("SFM already exists!");
+			throw new IllegalArgumentException("sfm already exists: " + sfm.getMethodName());
+		}
+		
+		if (saveMethods.size() > 1){
+			// And already have a saving type in the saveMethods
+			for (int i = 0; i < saveMethods.size() - 1; ++i){
+				for (int j = 1; j < saveMethods.size(); ++j){
+					if (saveMethods.get(i).getType().equals(saveMethods.get(j).getType())){
+						LOGGER.error("SFM with saving type already exists!");
+						throw new IllegalArgumentException("SFM with saving type already exists");
+					}
+				}
+			}
+		}
+		
+		// Add it to the saveMethods if sanity checks are passed.
+		saveMethods.add(sfm);
+	}
 }
