@@ -9,10 +9,10 @@ import dev.scroopid.crafexEngine.save.util.SaveException;
 import dev.scroopid.crafexEngine.save.util.SaveUtils;
 
 /**
- * Saves primitive types:
- * int, float, double, boolean, short, long, byte, char
+ * Saves primitive types: int, float, double, boolean, short, long, byte, char
+ * 
  * @author jameswomack
- *
+ * 
  */
 public class PrimitiveSaveMethods {
 	private static final String SAVE_STRING = "saveString";
@@ -29,24 +29,29 @@ public class PrimitiveSaveMethods {
 		SaveManager.addSFM(SaveUtils.getSFM(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, byte.class));
 		SaveManager.addSFM(SaveUtils.getSFM(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, double.class));
 		SaveManager.addSFM(SaveUtils.getSFM(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, float.class));
-		SaveManager.addSFM(SaveUtils.getSFM(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,	boolean.class));
+		SaveManager.addSFM(SaveUtils.getSFM(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, boolean.class));
 		SaveManager.addSFM(SaveUtils.getSFM(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, char.class));
 		SaveManager.addSFM(SaveUtils.getSFM(SAVE_STRING, PrimitiveSaveMethods.class, String.class));
 	}
 
 	/**
 	 * Saves the string type field
-	 * @param target The String field to save from
-	 * @param field The field to save
-	 * @param callsDeep How many calls deep we are
+	 * 
+	 * @param target
+	 *        The String field to save from
+	 * @param field
+	 *        The field to save
+	 * @param callsDeep
+	 *        How many calls deep we are
 	 * @return The formatted primitive string
 	 */
-	public static String[] saveString(Object target, Field field, int callsDeep){
-		String rawStr = (String)SaveUtils.getData(target, field);
-		
-		return new String[]{SaveUtils.tabify(SaveUtils.formatPrimitive(field.getName(), field.getClass().getName(), rawStr), callsDeep)};
+	public static String[] saveString(Object target, Field field, int callsDeep) {
+		String rawStr = (String) SaveUtils.getData(target, field);
+
+		return new String[] { SaveUtils.tabify(
+					SaveUtils.formatPrimitive(field.getName(), field.getClass().getName(), rawStr), callsDeep) };
 	}
-	
+
 	/**
 	 * Saves a primitive type field and returns it as a String Saves it in this format <br/>
 	 * <b>&lt;fieldName : type : "data"&gt;</b>

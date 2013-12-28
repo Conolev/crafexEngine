@@ -59,7 +59,7 @@ public class SaveManager {
 	 *        How many calls deep we are
 	 * @return The data in List form
 	 */
-	private List<String> saveISavable(ISavable object, int callsDeep) {
+	public List<String> saveISavable(ISavable object, int callsDeep) {
 		List<String> data = new ArrayList<String>();
 
 		LOGGER.trace("Saving ISavable Object");
@@ -81,13 +81,12 @@ public class SaveManager {
 
 			// Call preSave
 			object.preSave();
-			
+
 			String objectHeader = createISavableHeader(object);
 
 			// Add it to the file header along with {
 			data.add(SaveUtils.tabify(objectHeader, callsDeep - 1));
 			data.add(SaveUtils.tabify(SaveConstants.DATA_START, callsDeep - 1));
-
 
 			// Lets save all of its fields, that are not ignored.
 			for (Field field : object.getClass().getDeclaredFields()) {
@@ -106,7 +105,7 @@ public class SaveManager {
 					data.addAll(fieldData);
 				}
 			}
-			
+
 			// Add closing }
 			data.add(SaveUtils.tabify(SaveConstants.DATA_END, callsDeep - 1));
 
@@ -118,8 +117,6 @@ public class SaveManager {
 
 		return data;
 	}
-
-	
 
 	/**
 	 * Simply calls save method of saveHandler object
@@ -169,10 +166,12 @@ public class SaveManager {
 		// Add it to the saveMethods if sanity checks are passed.
 		saveMethods.add(sfm);
 	}
-	
+
 	/**
 	 * Creates the ISavable header using a UUID hash (SHA-256 Hash) and the type info.
-	 * @param object The object to create the UUID hash from
+	 * 
+	 * @param object
+	 *        The object to create the UUID hash from
 	 * @return The header
 	 */
 	private String createISavableHeader(ISavable object) {
@@ -184,15 +183,19 @@ public class SaveManager {
 					String.format(SaveConstants.SAVE_TYPE_FORMAT, klass.getName(), SaveConstants.I_SAVABLE,
 								SaveUtils.uuidObjectHash(klass));
 		LOGGER.trace("Created objectHeader: " + objectHeader);
-		
+
 		return objectHeader;
 	}
 
 	/**
 	 * Tries to save the field given using one of the SFM (SavableFieldMethods)
-	 * @param object The object being saved
-	 * @param callsDeep How many calls deep we currently are
-	 * @param field The field to save.
+	 * 
+	 * @param object
+	 *        The object being saved
+	 * @param callsDeep
+	 *        How many calls deep we currently are
+	 * @param field
+	 *        The field to save.
 	 * @return The data of the fields in list form
 	 */
 	private List<String> saveField(ISavable object, int callsDeep, Field field) {

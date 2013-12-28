@@ -37,29 +37,32 @@ public class SaveUtils {
 	}
 
 	/**
-	 * Pre: field is not null, target is not null
-	 * Gets the object form of the data, catches reflective exception and throws them as SaveExceptions
-	 * @param target The object to pull data from
-	 * @param field The field to get data form.
+	 * Pre: field is not null, target is not null Gets the object form of the data, catches reflective exception and
+	 * throws them as SaveExceptions
+	 * 
+	 * @param target
+	 *        The object to pull data from
+	 * @param field
+	 *        The field to get data form.
 	 * @return The data in object form
 	 */
-	public static Object getData(Object target, Field field){
+	public static Object getData(Object target, Field field) {
 		Object data = null;
-		
+
 		// Lets try to get the data
-		try{
+		try {
 			data = field.get(target);
-		} catch(IllegalArgumentException e){
+		} catch (IllegalArgumentException e) {
 			log.error("Could not get the data, Invalid arguements", e);
 			throw new SaveException("Could not get data from field: Invalid Arguements");
-		} catch(IllegalAccessException e){
+		} catch (IllegalAccessException e) {
 			log.error("Could not get the data, Access denied", e);
 			throw new SaveException("Could not get data from field: Access Denied");
 		}
-		
+
 		return data;
 	}
-	
+
 	/**
 	 * Can the object be cast to another?
 	 * 
@@ -94,15 +97,18 @@ public class SaveUtils {
 
 		return val;
 	}
-	
+
 	/**
-	 * Adds tabs to the given string and returns it.
-	 * I got bored of doing addMultipleString(SaveConstants.TAB, callsDeep) + data
-	 * @param str The string to add tabs to
-	 * @param tabs The amount of tabs
+	 * Adds tabs to the given string and returns it. I got bored of doing addMultipleString(SaveConstants.TAB,
+	 * callsDeep) + data
+	 * 
+	 * @param str
+	 *        The string to add tabs to
+	 * @param tabs
+	 *        The amount of tabs
 	 * @return The tabified string
 	 */
-	public static String tabify(String str, int tabs){
+	public static String tabify(String str, int tabs) {
 		return addMultipleString(SaveConstants.TAB, tabs) + str;
 	}
 

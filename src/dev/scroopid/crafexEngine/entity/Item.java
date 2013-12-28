@@ -11,13 +11,13 @@ import android.graphics.Rect;
 
 public class Item implements ISavable {
 
-	/**name of the item*/
+	/** name of the item */
 	private String name;
 
-	/**key of the image for the item*/
+	/** key of the image for the item */
 	private String imageKey;
 
-	/**type of item it is (ex. WEAPON, FIELDITEM, ARMOR)*/
+	/** type of item it is (ex. WEAPON, FIELDITEM, ARMOR) */
 	private String type;
 
 	@Ignore
@@ -26,14 +26,15 @@ public class Item implements ISavable {
 	/**
 	 * an container for an item in the game
 	 */
-	public Item(){
+	public Item() {
 		this.imageKey = "MISSING";
 		this.name = "";
 		this.type = "NONE";
 	}
-	
+
 	/**
 	 * an container for an item in the game
+	 * 
 	 * @param imageKey
 	 * @param name
 	 * @param type
@@ -47,6 +48,7 @@ public class Item implements ISavable {
 
 	/**
 	 * returns the name of the {@link Item}
+	 * 
 	 * @return name of the item
 	 */
 	public String getName() {
@@ -55,6 +57,7 @@ public class Item implements ISavable {
 
 	/**
 	 * sets the name of the item
+	 * 
 	 * @param name
 	 */
 	public void setName(String name) {
@@ -63,6 +66,7 @@ public class Item implements ISavable {
 
 	/**
 	 * returns the {@link Bitmap} for teh {@link Item}
+	 * 
 	 * @return the bitmap for the item
 	 */
 	public Bitmap getImage() {
@@ -71,22 +75,25 @@ public class Item implements ISavable {
 
 	/**
 	 * sets the {@link Bitmap} of the {@link Item}
+	 * 
 	 * @param image
 	 */
 	public void setImage(Bitmap image) {
 		this.image = image;
 	}
-	
+
 	/**
 	 * uses the {@link Item} on the {@link Entity}
+	 * 
 	 * @param entity
 	 */
-	public void use(Entity entity){
-		
+	public void use(Entity entity) {
+
 	}
 
 	/**
 	 * draws the {@link Item} on a location
+	 * 
 	 * @param canvas
 	 * @param location
 	 */
