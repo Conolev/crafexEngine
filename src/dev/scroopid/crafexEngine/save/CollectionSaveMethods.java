@@ -60,6 +60,8 @@ public class CollectionSaveMethods {
 				LOGGER.error("Failed to get Generic type of collection, Invalid Length", sEx);
 				throw sEx;
 			}
+			
+			Class<?> genericType = (Class<?>)arr[0];
 		}
 		
 		// Create collection header

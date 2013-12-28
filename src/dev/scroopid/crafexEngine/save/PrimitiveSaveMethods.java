@@ -29,8 +29,15 @@ public class PrimitiveSaveMethods {
 		SaveManager.addSFM(SaveUtils.getSFM(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, float.class));
 		SaveManager.addSFM(SaveUtils.getSFM(SAVE_PRIMITIVE, PrimitiveSaveMethods.class,	boolean.class));
 		SaveManager.addSFM(SaveUtils.getSFM(SAVE_PRIMITIVE, PrimitiveSaveMethods.class, char.class));
+		SaveManager.addSFM(SaveUtils.getSFM("saveString", PrimitiveSaveMethods.class, String.class));
 	}
 
+	public static String[] saveString(Object target, Field field, int callsDeep){
+		String rawStr = (String)SaveUtils.getData(target, field);
+		
+		return new String[]{SaveUtils.tabify(SaveUtils.formatPrimitive(field.getName(), field.getClass().getName(), rawStr), callsDeep)};
+	}
+	
 	/**
 	 * Saves a primitive type field and returns it as a String Saves it in this format <br/>
 	 * <b>&lt;fieldName : type : "data"&gt;</b>
