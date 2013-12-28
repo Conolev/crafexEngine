@@ -1,6 +1,5 @@
 package dev.scroopid.crafexEngine.entity;
 
-import dev.scroopid.crafexEngine.Crafex;
 import dev.scroopid.crafexEngine.Drawable;
 import dev.scroopid.crafexEngine.Updatable;
 import dev.scroopid.crafexEngine.graphics.Sprite;
@@ -8,7 +7,6 @@ import dev.scroopid.crafexEngine.save.ISavable;
 import dev.scroopid.crafexEngine.save.Ignore;
 import dev.scroopid.crafexEngine.util.floatPoint;
 import dev.scroopid.crafexEngine.util.floatRectangle;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 public class Entity implements Updatable, Drawable, ISavable {
