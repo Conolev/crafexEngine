@@ -7,6 +7,7 @@ import dev.scroopid.crafexEngine.Drawable;
 import dev.scroopid.crafexEngine.Touchable;
 import dev.scroopid.crafexEngine.Updatable;
 import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
+import dev.scroopid.crafexEngine.input.Inputable;
 
 public class UIScreen implements Drawable, Updatable, Touchable {
 
@@ -18,7 +19,7 @@ public class UIScreen implements Drawable, Updatable, Touchable {
 
 	/** last time updated */
 	private long lastUpdateTime;
-
+	
 	/**
 	 * a screen of {@link UIObject}
 	 */
@@ -160,6 +161,12 @@ public class UIScreen implements Drawable, Updatable, Touchable {
 	public void whenReleased(CrafexTouchEvent touch) {
 		if (uiLayers.size() > 0 && uiLayers.get(uiLayers.size() - 1).isTouching(touch)) {
 			uiLayers.get(uiLayers.size() - 1).whenReleased(touch);
+		}
+	}
+	
+	public void keyboardInput(String input){
+		if (uiLayers.size() > 0) {
+			uiLayers.get(uiLayers.size() - 1).keyboardInput(input);
 		}
 	}
 
