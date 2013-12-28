@@ -314,11 +314,14 @@ public class Sprite implements ISavable {
 
 	/**
 	 * gets the dentenation width
-	 * 
 	 * @return dstwidth
 	 */
 	public int getWidth() {
 		return this.image.getWidth();
+	}
+	
+	public intPoint getSize(){
+		return new intPoint(image.getWidth(), image.getHeight());
 	}
 
 	@Override
