@@ -319,7 +319,55 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	public void setLocation(floatPoint location) {
 		this.location.setCenter(location);
 	}
+	
+	/**
+	 * returns the left side of this {@link UIObject}
+	 * @return left side of this UIObject
+	 */
+	public float getLeft(){
+		return location.getLeft();
+	}
+	
+	/**
+	 * returns the right side of this {@link UIObject}
+	 * @return right side of this UIObject
+	 */
+	public float getRight(){
+		return location.getRight();
+	}
+	
+	/**
+	 * returns the top side of this {@link UIObject}
+	 * @return top side of this UIObject
+	 */
+	public float getTop(){
+		return location.getTop();
+	}
+	
+	/**
+	 * returns the bottom side of this {@link UIObject}
+	 * @return bottom side of this UIObject
+	 */
+	public float getBottom(){
+		return location.getBottom();
+	}
 
+	/**
+	 * returns the width of this {@link UIObject}
+	 * @return width of this UIObject
+	 */
+	public float getWidth(){
+		return location.getWidth();
+	}
+	
+	/**
+	 * returns the height of this {@link UIObject}
+	 * @return height of this UIObject
+	 */
+	public float getHeight(){
+		return location.getHeight();
+	}
+	
 	/**
 	 * sets the real size of the {@link UIObject}
 	 * 
