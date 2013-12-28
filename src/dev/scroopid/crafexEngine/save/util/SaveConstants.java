@@ -12,7 +12,9 @@ public class SaveConstants {
 
 	public static final String SAVE_TYPE_FORMAT = "(%s : %s : %s)";
 
-	public static final String ARRAY_TYPE_FORMAT = "[%s : %s : %s : %d]";
+	public static final String ARRAY_TYPE_FORMAT = "[%s : %s : %s]";
+	
+	public static final String MAP_TYPE_FORMAT = "[%s : %s : %s : %s]";
 
 	public static final String I_SAVE_HANDLER = "ISaveHandler";
 

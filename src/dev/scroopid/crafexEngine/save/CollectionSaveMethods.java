@@ -60,13 +60,21 @@ public class CollectionSaveMethods {
 		Class<?> klass = rawObject.getClass();
 		
 		
-
+		
 		// Create collection header
-
+		
+		
 		return (String[])data.toArray();
 	}
 	
 	private static List<String> walkCollection(Collection<?> collection, int callsDeep){
+		List<String> data = new ArrayList<String>();
+		
+		
+		return data;
+	}
+	
+	private static List<String> walkMap(Map<?, ?> map, int callsDeep){
 		List<String> data = new ArrayList<String>();
 		
 		

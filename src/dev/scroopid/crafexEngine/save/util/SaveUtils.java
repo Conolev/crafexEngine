@@ -164,6 +164,31 @@ public class SaveUtils {
 	public static String formatPrimitive(String fieldName, String type, String data) {
 		return String.format(SaveConstants.PRIMITIVE_TYPE_FORMAT, fieldName, type, data);
 	}
+	
+	/**
+	 * Formats a collection type in this format <br/>
+	 * <b>[name : type : genericType]</b>
+	 * @param name The name of the field/parent collection
+	 * @param type The type of collection
+	 * @param subType The Generic Type of collection
+	 * @return The Formatted header
+	 */
+	public static String formatCollection(String name, String type, String subType){
+		return String.format(SaveConstants.ARRAY_TYPE_FORMAT, name, type, subType);
+	}
+	
+	/**
+	 * Formats a map type in this format <br/>
+	 * <b>[name : type : keyType : valueType]</b>
+	 * @param name The name of field/parent collection/map
+	 * @param type The type of map
+	 * @param keyType The type of key
+	 * @param valueType The type of value
+	 * @return The formatted header
+	 */
+	public static String formatMap(String name, String type, String keyType, String valueType){
+		return String.format(SaveConstants.MAP_TYPE_FORMAT, name, type, keyType, valueType);
+	}
 
 	/**
 	 * Creates the uuid hash for the object

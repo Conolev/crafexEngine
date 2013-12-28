@@ -8,10 +8,14 @@ import dev.scroopid.crafexEngine.Logger;
 import dev.scroopid.crafexEngine.save.util.SaveUtils;
 
 public class SavableFieldMethods {
+	private static final String SAVE_SAVE_HANDER = "saveSaveHander";
+	private static final String SAVE_I_SAVABLE = "saveISavable";
+	
 	private static final Logger LOGGER = new Logger(SavableFieldMethods.class);
+	
 	static {
-		SaveManager.addSFM(SaveUtils.getSFM("saveISavable", SavableFieldMethods.class, ISavable.class));
-		SaveManager.addSFM(SaveUtils.getSFM("saveSaveHander", SavableFieldMethods.class, ISaveHandler.class));
+		SaveManager.addSFM(SaveUtils.getSFM(SAVE_I_SAVABLE, SavableFieldMethods.class, ISavable.class));
+		SaveManager.addSFM(SaveUtils.getSFM(SAVE_SAVE_HANDER, SavableFieldMethods.class, ISaveHandler.class));
 	}
 
 	/**
