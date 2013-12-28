@@ -58,25 +58,19 @@ public class CollectionSaveMethods {
 
 		// Lets get some basic type info
 		Class<?> klass = rawObject.getClass();
-		Type type = field.getGenericType();
-		if (type instanceof ParameterizedType) {
-			// If we can cast it to a ParameterizedType then we can get it's generic Info
-			ParameterizedType pType = (ParameterizedType) type;
-			Type[] arr = pType.getActualTypeArguments();
-
-			if (arr.length != 1) {
-				// We don't want the length to be greater than 1
-				SaveException sEx = new SaveException("Invalid Collection Passed to saveCollection SFM");
-				LOGGER.error("Failed to get Generic type of collection, Invalid Length", sEx);
-				throw sEx;
-			}
-
-			Class<?> genericType = (Class<?>) arr[0];
-		}
+		
+		
 
 		// Create collection header
 
-		return null;
+		return (String[])data.toArray();
+	}
+	
+	private static List<String> walkCollection(Collection<?> collection, int callsDeep){
+		List<String> data = new ArrayList<String>();
+		
+		
+		return data;
 	}
 
 }
