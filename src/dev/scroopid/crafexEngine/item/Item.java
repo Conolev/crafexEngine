@@ -2,7 +2,6 @@ package dev.scroopid.crafexEngine.item;
 
 import dev.scroopid.crafexEngine.Crafex;
 import dev.scroopid.crafexEngine.entity.Entity;
-import dev.scroopid.crafexEngine.graphics.GraphicsManager;
 import dev.scroopid.crafexEngine.save.ISavable;
 import dev.scroopid.crafexEngine.save.Ignore;
 import dev.scroopid.crafexEngine.util.intRectangle;
@@ -30,7 +29,7 @@ public class Item implements ISavable {
 	public Item() {
 		this.imageKey = "MISSING";
 		this.name = "";
-		this.type = "NONE";
+		this.setType("NONE");
 	}
 
 	/**
@@ -43,8 +42,16 @@ public class Item implements ISavable {
 	public Item(String imageKey, String name, String type) {
 		this.imageKey = imageKey;
 		this.name = name;
-		this.type = type;
+		this.setType(type);
 		image = Crafex.graphicsMan.getImageFromKey(imageKey);
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	/**

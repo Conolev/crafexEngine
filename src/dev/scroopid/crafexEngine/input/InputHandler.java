@@ -12,17 +12,22 @@ import dev.scroopid.crafexEngine.util.intPoint;
 
 public class InputHandler implements Updatable {
 
-	/** input of keyboard */
-	private Inputable input;
-
 	/** keyboard */
-	private static InputMethodManager imm;
+	private static InputMethodManager IMM;
 
 	/**
 	 * handles inputs
 	 */
 	public InputHandler(InputMethodManager imm) {
-		this.imm = imm;
+		InputHandler.IMM = imm;
+	}
+
+	public static InputMethodManager getIMM() {
+		return IMM;
+	}
+
+	public static void setIMM(InputMethodManager iMM) {
+		IMM = iMM;
 	}
 
 	@Override

@@ -2,8 +2,6 @@ package dev.scroopid.crafexEngine.ui;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import dev.scroopid.crafexEngine.Crafex;
-import dev.scroopid.crafexEngine.graphics.GraphicsUtil;
 import dev.scroopid.crafexEngine.util.floatPoint;
 import dev.scroopid.crafexEngine.util.intPoint;
 
@@ -52,6 +50,42 @@ public class UITextBox extends UIObject {
 	 */
 	public void setText(String text) {
 		this.Text = text;
+		//TODO graphics
+	}
+	
+	public void setCursor(int index){
+		
+	}
+	
+	public void setCursor(intPoint point){
+		
+	}
+	
+	/**
+	 * returns the cursor location
+	 * @return cursor location
+	 */
+	public int getCursor(){
+		return cursor;
+	}
+	
+	/**
+	 * adds a letter to text
+	 * @param letter
+	 */
+	public void addLetter(String letter){
+		String one;
+		String two;
+		if(cursor < 1){
+			one = "";
+			two = Text;
+		} else {
+			one = Text.substring(0, cursor - 1);
+			two = Text.substring(cursor);
+		}
+		
+		String data = one + letter + two;
+		setText(data);
 	}
 	
 	@Override

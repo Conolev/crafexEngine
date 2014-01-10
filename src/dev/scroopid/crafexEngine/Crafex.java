@@ -55,6 +55,14 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback {
 
 	/** draw {@link GameThread} */
 	public static DrawThread draw;
+	
+	/**
+	 * !!! DONT CALL THIS !!!
+	 * @param context
+	 */
+	public Crafex(Context context){
+		super(context);
+	}
 
 	/**
 	 * Game screen where {@link GameThread}s are.

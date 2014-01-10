@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
-import dev.scroopid.crafexEngine.util.Util;
 import dev.scroopid.crafexEngine.util.floatPoint;
 
 public class UIPanel extends UIObject {
@@ -72,16 +71,24 @@ public class UIPanel extends UIObject {
 		this.uiObjects = uiObjects;
 	}
 
+	public boolean isScrolled() {
+		return scrolled;
+	}
+
+	public void setScrolled(boolean scrolled) {
+		this.scrolled = scrolled;
+	}
+
 	@Override
 	public void whenHeld(CrafexTouchEvent touch) {
 		if (touch.getTouchLocation().getDistance(touch.getTouchLocation()) > this.DRAG_DISTANCE) {
 			if (this.realSize.getX() != getRectangle().getWidth()) {
 				this.scrollX(this.touch.getTouchLocation().getX() - touch.getTouchLocation().getX());
-				this.scrolled = true;
+				this.setScrolled(true);
 			}
 			if (this.realSize.getY() != getRectangle().getHeight()) {
 				this.scrollY(this.touch.getTouchLocation().getY() - touch.getTouchLocation().getY());
-				this.scrolled = true;
+				this.setScrolled(true);
 			}
 			this.touch = touch;
 		}

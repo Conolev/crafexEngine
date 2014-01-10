@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import dev.scroopid.crafexEngine.Drawable;
 import dev.scroopid.crafexEngine.Touchable;
 import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
-import dev.scroopid.crafexEngine.input.Inputable;
 import dev.scroopid.crafexEngine.util.Util;
 import dev.scroopid.crafexEngine.util.intRectangle;
 

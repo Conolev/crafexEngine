@@ -7,7 +7,6 @@ import dev.scroopid.crafexEngine.Drawable;
 import dev.scroopid.crafexEngine.Touchable;
 import dev.scroopid.crafexEngine.Updatable;
 import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
-import dev.scroopid.crafexEngine.input.Inputable;
 
 public class UIScreen implements Drawable, Updatable, Touchable {
 
