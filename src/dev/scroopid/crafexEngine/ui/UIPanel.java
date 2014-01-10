@@ -3,6 +3,7 @@ package dev.scroopid.crafexEngine.ui;
 import java.util.ArrayList;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
 import dev.scroopid.crafexEngine.util.Util;
 import dev.scroopid.crafexEngine.util.floatPoint;
@@ -11,9 +12,6 @@ public class UIPanel extends UIObject {
 
 	/** {@link UIObject} in the panel */
 	protected ArrayList<UIObject> uiObjects;
-
-	/** index of object being used */
-	private int index;
 
 	/** has scrolled at all */
 	private boolean scrolled;
@@ -25,10 +23,9 @@ public class UIPanel extends UIObject {
 	 * @param location
 	 * @param layer
 	 */
-	public UIPanel(Bitmap image, floatPoint location, int layer) {
-		super(image, location, 0, layer);
+	public UIPanel(Bitmap image, floatPoint location) {
+		super(image, location, 0);
 		this.setUiObjects(new ArrayList<UIObject>());
-		this.setSelected(0);
 	}
 
 	/**
@@ -37,16 +34,24 @@ public class UIPanel extends UIObject {
 	 * @param uiobject
 	 */
 	public void addUIObject(UIObject uiobject) {
+		uiobject.getLocation().add(getLocation());
 		this.uiObjects.add(uiobject);
 	}
-
-	/**
-	 * get the index of the {@link UIObject} being used
-	 * 
-	 * @return
-	 */
-	public int getIndex() {
-		return this.index;
+	
+	@Override
+	public void update() {
+		super.update();
+		for(int i = 0; i < uiObjects.size(); ++i){
+			uiObjects.get(i).update();
+		}
+	}
+	
+	@Override
+	public void draw(Canvas canvas) {
+		super.draw(canvas);
+		for(int i = 0; i < uiObjects.size(); ++i){
+			uiObjects.get(i).draw(canvas);
+		}
 	}
 
 	/**
@@ -56,15 +61,6 @@ public class UIPanel extends UIObject {
 	 */
 	public ArrayList<UIObject> getUiObjects() {
 		return this.uiObjects;
-	}
-
-	/**
-	 * sets the index of the selected {@link UIObject}
-	 * 
-	 * @param index
-	 */
-	public void setSelected(int index) {
-		this.index = index;
 	}
 
 	/**
@@ -93,27 +89,19 @@ public class UIPanel extends UIObject {
 
 	@Override
 	public void whenPressed(CrafexTouchEvent touch) {
-		for (int i = 0; i < this.uiObjects.size(); ++i) {
-			if (Util.isBetween(touch.getTouchLocation().getX(), this.uiObjects.get(i).getX(),
-						this.uiObjects.get(i).getSize().getX() + this.uiObjects.get(i).getX())
-						&& Util.isBetween(touch.getTouchLocation().getY(), this.uiObjects.get(i).getY(),
-									this.uiObjects.get(i).getSize().getY() + this.uiObjects.get(i).getY())) {
-				touch.getTouchLocation().subtract(this.uiObjects.get(i).getLocation().toIntPoint());
+		for (int i = 0; i < this.uiObjects.size(); i++) {
+			if (uiObjects.get(i).isTouching(touch)) {
 				this.uiObjects.get(i).whenPressed(touch);
-				this.index = i;
 			}
 		}
 	}
 
 	@Override
 	public void whenReleased(CrafexTouchEvent touch) {
-		if (!this.scrolled
-					&& Util.isBetween(touch.getTouchLocation().getX(), this.uiObjects.get(this.index).getX(),
-								this.uiObjects.get(this.index).getSize().getX())
-					&& Util.isBetween(touch.getTouchLocation().getY(), this.uiObjects.get(this.index).getY(),
-								this.uiObjects.get(this.index).getSize().getY())) {
-			touch.getTouchLocation().subtract(this.uiObjects.get(this.index).getLocation().toIntPoint());
-			this.uiObjects.get(this.index).whenPressed(touch);
+		for (int i = 0; i < this.uiObjects.size(); i++) {
+			if (uiObjects.get(i).touch != null && uiObjects.get(i).isTouching(touch)) {
+				this.uiObjects.get(i).whenReleased(touch);
+			}
 		}
 	}
 

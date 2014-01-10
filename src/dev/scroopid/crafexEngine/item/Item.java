@@ -1,6 +1,7 @@
-package dev.scroopid.crafexEngine.entity;
+package dev.scroopid.crafexEngine.item;
 
 import dev.scroopid.crafexEngine.Crafex;
+import dev.scroopid.crafexEngine.entity.Entity;
 import dev.scroopid.crafexEngine.graphics.GraphicsManager;
 import dev.scroopid.crafexEngine.save.ISavable;
 import dev.scroopid.crafexEngine.save.Ignore;

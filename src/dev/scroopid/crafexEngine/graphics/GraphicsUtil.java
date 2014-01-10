@@ -15,6 +15,11 @@ public class GraphicsUtil {
 	// TODO link entitys to entity class
 	/** direction for the entitys to move */
 	public static Hashtable<String, Integer> directions;
+	
+	public static final int STRECH_NONE = 0;
+	public static final int STRECH_NORMAL = 1;
+	public static final int STRECH_CUT = 2;
+	public static final int STRECH_CLEAN = 3;
 
 	/**
 	 * combines to {@link Bitmap}s
@@ -89,7 +94,8 @@ public class GraphicsUtil {
 	 *        or to streach the button template to text size
 	 * @return button image with text
 	 */
-	public static Bitmap makeTextButtonImage(String text, Bitmap Buttonimage, Bitmap letters, intPoint grid, boolean scale) {
+	public static Bitmap makeTextButtonImage(String text, Bitmap Buttonimage, 
+				Bitmap letters, intPoint grid, int scaleType) {
 		text.toLowerCase(Locale.ENGLISH);
 		char[] newtext = text.toCharArray();
 		Bitmap data = null;
@@ -119,8 +125,18 @@ public class GraphicsUtil {
 									(letters.getHeight() / grid.getY())), null);
 		}
 
-		if (scale) {
+		if (scaleType == STRECH_CUT) {
 			Buttonimage = cutStrechImage(Buttonimage, textmap.getWidth(), textmap.getHeight());
+			data = Bitmap.createBitmap(Buttonimage.getWidth(), Buttonimage.getHeight(), Buttonimage.getConfig());
+			temp = new Canvas(data);
+			temp.drawBitmap(Buttonimage, 0, 0, null);
+		} else if(scaleType == STRECH_NORMAL) {
+			Buttonimage = strechImage(Buttonimage, textmap.getWidth(), textmap.getHeight());
+			data = Bitmap.createBitmap(Buttonimage.getWidth(), Buttonimage.getHeight(), Buttonimage.getConfig());
+			temp = new Canvas(data);
+			temp.drawBitmap(Buttonimage, 0, 0, null);
+		} else if(scaleType == STRECH_CLEAN) {
+			Buttonimage = cleanStrechImage(Buttonimage, textmap.getWidth(), textmap.getHeight());
 			data = Bitmap.createBitmap(Buttonimage.getWidth(), Buttonimage.getHeight(), Buttonimage.getConfig());
 			temp = new Canvas(data);
 			temp.drawBitmap(Buttonimage, 0, 0, null);
@@ -181,6 +197,24 @@ public class GraphicsUtil {
 	 * @return
 	 */
 	public static Bitmap cutStrechImage(Bitmap image, int xsize, int ysize) {
+		Bitmap data = Bitmap.createBitmap((int) (xsize), (int) (ysize), image.getConfig());
+		Canvas canvas = new Canvas(data);
+		canvas.drawBitmap(image, new Rect(0, 0, image.getWidth() / 2, image.getHeight() / 2), new Rect(0, 0,
+					(int) (image.getWidth() / 2), (int) (image.getHeight() / 2)), null);
+
+		canvas.drawBitmap(image, new Rect(image.getWidth() / 2, 0, image.getWidth(), image.getHeight() / 2), new Rect(
+					xsize - (image.getWidth() / 2), 0, xsize, (int) (image.getHeight() / 2)), null);
+
+		canvas.drawBitmap(image, new Rect(0, image.getHeight() / 2, image.getWidth() / 2, image.getHeight()), new Rect(
+					0, ysize - (image.getHeight() / 2), (int) (image.getWidth() / 2), ysize), null);
+
+		canvas.drawBitmap(image,
+					new Rect(image.getWidth() / 2, image.getHeight() / 2, image.getWidth(), image.getHeight()),
+					new Rect(xsize - (image.getWidth() / 2), ysize - (image.getHeight() / 2), xsize, ysize), null);
+		return data;
+	}
+	
+	public static Bitmap cleanStrechImage(Bitmap image, int xsize, int ysize){
 		Bitmap data = Bitmap.createBitmap((int) (xsize), (int) (ysize), image.getConfig());
 		Canvas canvas = new Canvas(data);
 		canvas.drawBitmap(image, new Rect(0, 0, image.getWidth() / 2, image.getHeight() / 2), new Rect(0, 0,

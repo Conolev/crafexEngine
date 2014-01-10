@@ -409,4 +409,9 @@ public class intRectangle implements ISavable {
 	public void preSave() {
 
 	}
+	
+	@Override
+	public String toString() {
+		return "centerX: " + center.getX() + "centerY: " + center.getY() + "width: " + size.getX() + "height: " + size.getY();
+	}
 }

@@ -53,6 +53,11 @@ public class InputHandler implements Updatable {
 		return true;
 	}
 	
+	public boolean handleKeyboardInput(String key){
+		Crafex.uiHandler.handleKeyInput(key);
+		return true;
+	}
+	
 	public boolean handleKeyboardInput(int keyCode, KeyEvent event){
 		String test = String.valueOf(event.getKeyCode());
 		System.out.println(test);
@@ -66,14 +71,14 @@ public class InputHandler implements Updatable {
 	 * shows the android keyboard
 	 */
 	public static void showKeyBoard() {
-		imm.showSoftInput(AppActivity.crafex, InputMethodManager.SHOW_FORCED);
+		((InputMethodManager)Crafex.CONTEXT.getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 	}
 
 	/**
 	 * hides the android keyboard
 	 */
 	public static void hideKeyBoard() {
-		imm.hideSoftInputFromWindow(AppActivity.crafex.getApplicationWindowToken(), 0);
+		((InputMethodManager)Crafex.CONTEXT.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(AppActivity.crafex.getWindowToken(), 0);
 	}
 
 	public boolean onBackPressed() {

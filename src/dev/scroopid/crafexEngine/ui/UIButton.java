@@ -27,8 +27,8 @@ public class UIButton extends UIObject {
 	 * @param scaler
 	 * @param layer
 	 */
-	public UIButton(Bitmap image, floatPoint location, float scaler, int layer) {
-		super(image, location, 0, layer);
+	public UIButton(Bitmap image, floatPoint location, float scaler) {
+		super(image, location, 0);
 		this.scaler = scaler;
 	}
 
@@ -41,8 +41,8 @@ public class UIButton extends UIObject {
 	 * @param scaler
 	 * @param layer
 	 */
-	public UIButton(Bitmap image, floatPoint location, int rotation, float scaler, int layer) {
-		super(image, location, rotation, layer);
+	public UIButton(Bitmap image, floatPoint location, int rotation, float scaler) {
+		super(image, location, rotation);
 		this.scaler = scaler;
 	}
 
@@ -56,8 +56,8 @@ public class UIButton extends UIObject {
 	 * @param layer
 	 * @param command
 	 */
-	public UIButton(Bitmap image, floatPoint location, int rotation, float scaler, int layer, Command command) {
-		super(image, location, rotation, layer);
+	public UIButton(Bitmap image, floatPoint location, int rotation, float scaler, Command command) {
+		super(image, location, rotation);
 		this.command = command;
 		this.scaler = scaler;
 	}
@@ -69,7 +69,7 @@ public class UIButton extends UIObject {
 			temp = new intPoint((int) getSize().getX(), (int) getSize().getY());
 		if (temp2 == null) {
 			temp2 = temp.clone();
-			temp2.set((int) (temp.getX() * 1.1), (int) (temp.getY() * 1.1));
+			temp2.set((int) (temp.getX() * scaler), (int) (temp.getY() * scaler));
 		}
 		setSize(temp2);
 	}
@@ -81,7 +81,7 @@ public class UIButton extends UIObject {
 			temp = new intPoint((int) getSize().getX(), (int) getSize().getY());
 		if (temp2 == null) {
 			temp2 = temp.clone();
-			temp2.set((int) (temp.getX() * 1.1), (int) (temp.getY() * 1.1));
+			temp2.set((int) (temp.getX() * scaler), (int) (temp.getY() * scaler));
 		}
 		setSize(temp);
 	}

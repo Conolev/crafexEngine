@@ -4,6 +4,7 @@ package dev.scroopid.crafexEngine;
  * This {@link Class} is used to dump informational messages.
  */
 public class Logger {
+	
 	/** debug level */
 	public static final int DEBUG = 4;
 

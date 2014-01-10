@@ -1,15 +1,18 @@
 package dev.scroopid.crafexEngine.level;
 
+import java.util.List;
+
 import android.graphics.Canvas;
 import dev.scroopid.crafexEngine.Crafex;
 import dev.scroopid.crafexEngine.Drawable;
 import dev.scroopid.crafexEngine.Updatable;
+import dev.scroopid.crafexEngine.entity.Entity;
 import dev.scroopid.crafexEngine.ui.UILayer;
 import dev.scroopid.crafexEngine.ui.UIObject;
 import dev.scroopid.crafexEngine.ui.UIScreen;
 import dev.scroopid.crafexEngine.util.intPoint;
 
-public class Level implements Updatable, Drawable {
+public abstract class Level implements Updatable, Drawable {
 
 	/** last time {@link Level} updated */
 	protected long lastUpdateTime;
@@ -212,5 +215,7 @@ public class Level implements Updatable, Drawable {
 	public void draw(Canvas canvas) {
 
 	}
+	
+	public abstract List<Entity> getEntities();
 
 }

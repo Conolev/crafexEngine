@@ -42,7 +42,9 @@ public abstract class AppActivity extends Activity {
 	private int touchStyle = 1;
 
 	/** default {@link Level} */
-	private Level level;;
+	private Level level;
+	
+	private int FPS = 10;
 
 	/**
 	 * {@link Method} called after created.
@@ -78,7 +80,7 @@ public abstract class AppActivity extends Activity {
 
 		crafex = new Crafex(this.level, this.getAssets(), this, defaultColor, defaultResolution, 
 					this.resolution, this.getFilesDir().toString(), 
-					(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+					(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE), FPS);
 		this.setContentView(crafex);
 
 		LOGGER.debug("Finished Creation");
@@ -93,6 +95,10 @@ public abstract class AppActivity extends Activity {
 	 */
 	public void removeTitle() {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	}
+	
+	public void setFPS(int fps){
+		this.FPS = fps;
 	}
 
 	/**

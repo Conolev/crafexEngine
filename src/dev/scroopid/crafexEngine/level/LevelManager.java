@@ -46,7 +46,9 @@ public class LevelManager implements Updatable, Drawable {
 	 */
 	public void setLevel(Level level) {
 		this.level = level;
-		uiHandler.setUIScreen(level.uiscreen);
+		if(level != null){
+			uiHandler.setUIScreen(level.uiscreen);
+		}
 	}
 
 	public void setLevel(String key) {
@@ -65,8 +67,10 @@ public class LevelManager implements Updatable, Drawable {
 
 	@Override
 	public void draw(Canvas canvas) {
-		level.draw(canvas);
-		uiHandler.draw(canvas);
+		if(level != null){
+			level.draw(canvas);
+			uiHandler.draw(canvas);
+		}
 	}
 
 	@Override
@@ -86,7 +90,9 @@ public class LevelManager implements Updatable, Drawable {
 
 	@Override
 	public void update() {
-		uiHandler.update();
+		if(uiHandler != null){
+			uiHandler.update();
+		}
 	}
 
 }

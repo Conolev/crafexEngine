@@ -21,8 +21,8 @@ public class JoyStick extends UIObject {
 	 * @param location
 	 * @param layer
 	 */
-	public JoyStick(Bitmap image, Bitmap stick, floatPoint location, int layer) {
-		super(image, location, 0, layer);
+	public JoyStick(Bitmap image, Bitmap stick, floatPoint location) {
+		super(image, location, 0);
 		this.stick = new Sprite(stick);
 		stickLocation = new intRectangle(location.toIntPoint(), this.stick.getSize(), 0);
 		movement = new floatPoint();

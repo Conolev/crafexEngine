@@ -1,4 +1,6 @@
-package dev.scroopid.crafexEngine.entity;
+package dev.scroopid.crafexEngine.item;
+
+import dev.scroopid.crafexEngine.entity.Entity;
 
 public class ItemEntity extends Entity {
 

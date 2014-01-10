@@ -116,10 +116,16 @@ public class UIHandler implements Updatable, Drawable {
 			this.uiscreen.whenHeld(touch);
 		}
 	}
+	
+	public void handleKeyInput(String key){
+		this.uiscreen.keyboardInput(key);
+	}
 
 	@Override
 	public void update() {
-		this.uiscreen.update();
+		if(uiscreen != null){
+			uiscreen.update();
+		}
 		this.setLastUpdateTime(System.currentTimeMillis());
 	}
 }

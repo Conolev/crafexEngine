@@ -3,6 +3,8 @@ package dev.scroopid.crafexEngine.util;
 import dev.scroopid.crafexEngine.Crafex;
 
 public class Util {
+	
+	public static char PAUSE = '~' + 1;
 
 	/**
 	 * returns the distance between two points

@@ -63,7 +63,7 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback {
 	 *        of activity
 	 */
 	public Crafex(Level level, AssetManager assets, Context context, int backGroundColor, intPoint defaultResalution,
-				intPoint screenResalution, String files, InputMethodManager imm) {
+				intPoint screenResalution, String files, InputMethodManager imm, int fps) {
 		super(context);
 		Crafex.CONTEXT = context;
 		graphicsMan = new GraphicsManager();
@@ -75,13 +75,9 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback {
 		levelMan = new LevelManager(uiHandler);
 		inputHandler = new InputHandler(imm);
 		paint.setColor(backGroundColor);
-		if (level != null) {
-			levelMan.setLevel(level);
-		} else {
-			levelMan.setLevel(new Level());
-		}
+		levelMan.setLevel(level);
 		SCALE = (float) (Crafex.WINDOW_DIMENTIONS.getY()) / Crafex.WINDOW_DEFAULT.getY();
-		update = new GameThread(60) {
+		update = new GameThread(fps) {
 
 			@Override
 			public void threadStuff() {
@@ -89,7 +85,7 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		};
 
-		draw = new DrawThread(this, 60);
+		draw = new DrawThread(this, fps);
 
 		getHolder().addCallback(this);
 

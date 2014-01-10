@@ -22,9 +22,6 @@ public abstract class UIObject implements Updatable, Touchable, Drawable, Inputa
 	/** distance before the object is "dragging"(moving with the finder movement) */
 	protected int DRAG_DISTANCE;
 
-	/** layer of {@link UIObject} is in */
-	private int layer;
-
 	/** speed the {@link UIObject} rotates */
 	private int rotationSpeed;
 
@@ -60,12 +57,11 @@ public abstract class UIObject implements Updatable, Touchable, Drawable, Inputa
 	 * @param layer
 	 *        of object
 	 */
-	public UIObject(Bitmap image, floatPoint location, float rotation, int layer) {
+	public UIObject(Bitmap image, floatPoint location, float rotation) {
 		this.sprite = new Sprite(image);
 		this.targetLocation =
 					new intRectangle(location.toIntPoint(), new intPoint(sprite.getWidth(), sprite.getHeight()),
 								(int) rotation);
-		this.setLayer(layer);
 		this.generateRect(location, rotation);
 	}
 
@@ -77,12 +73,11 @@ public abstract class UIObject implements Updatable, Touchable, Drawable, Inputa
 	 * @param layer
 	 *        of object
 	 */
-	public UIObject(String imageKey, floatPoint location, float rotation, int layer) {
+	public UIObject(String imageKey, floatPoint location, float rotation) {
 		this.sprite = new Sprite(imageKey);
 		this.targetLocation =
 					new intRectangle(location.toIntPoint(), new intPoint(sprite.getWidth(), sprite.getHeight()),
 								(int) rotation);
-		this.setLayer(layer);
 		this.generateRect(location, rotation);
 	}
 
@@ -132,15 +127,6 @@ public abstract class UIObject implements Updatable, Touchable, Drawable, Inputa
 	@Override
 	public long getLastUpdateTime() {
 		return this.lastUpdateTime;
-	}
-
-	/**
-	 * returns the layer of the object
-	 * 
-	 * @return
-	 */
-	public int getLayer() {
-		return this.layer;
 	}
 
 	/**
@@ -291,15 +277,6 @@ public abstract class UIObject implements Updatable, Touchable, Drawable, Inputa
 	@Override
 	public void setLastUpdateTime(long time) {
 		this.lastUpdateTime = time;
-	}
-
-	/**
-	 * sets the layer of the {@link UIObject}
-	 * 
-	 * @param layer
-	 */
-	public void setLayer(int layer) {
-		this.layer = layer;
 	}
 
 	/**
