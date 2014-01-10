@@ -2,15 +2,15 @@ package dev.scroopid.crafexEngine.ui;
 
 import android.graphics.Bitmap;
 import dev.scroopid.crafexEngine.Crafex;
-import dev.scroopid.crafexEngine.input.CrafexInputer;
 import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
 import dev.scroopid.crafexEngine.input.Inputable;
 import dev.scroopid.crafexEngine.util.floatPoint;
 import dev.scroopid.crafexEngine.util.intPoint;
 
-public class UIEditableTextBox extends UITextBox implements Inputable {
+public class UIEditableTextBox extends UITextBox {
 	/** index of input */
 	private int index = -1;
+	private String Text;
 
 	/**
 	 * {@link UITextBox} that can have human input
@@ -48,7 +48,7 @@ public class UIEditableTextBox extends UITextBox implements Inputable {
 	}
 
 	@Override
-	public void setInput(String newInput) {
+	public void giveInput(String newInput) {
 		this.setText(newInput);
 	}
 
@@ -66,6 +66,11 @@ public class UIEditableTextBox extends UITextBox implements Inputable {
 				this.setCursor(touch.getTouchLocation());
 			}
 		}
+	}
+
+	@Override
+	public boolean isInputing() {
+		return index != -1;
 	}
 
 }

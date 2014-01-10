@@ -3,12 +3,14 @@ package dev.scroopid.crafexEngine;
 import java.lang.reflect.Method;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import dev.scroopid.crafexEngine.level.Level;
 import dev.scroopid.crafexEngine.util.intPoint;
 
@@ -74,9 +76,9 @@ public abstract class AppActivity extends Activity {
 		int width = this.displaymetrics.widthPixels;
 		this.resolution = new intPoint(width, height);
 
-		crafex =
-					new Crafex(this.level, this.getAssets(), this, defaultColor, defaultResolution, this.resolution,
-								this.getFilesDir().toString());
+		crafex = new Crafex(this.level, this.getAssets(), this, defaultColor, defaultResolution, 
+					this.resolution, this.getFilesDir().toString(), 
+					(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
 		this.setContentView(crafex);
 
 		LOGGER.debug("Finished Creation");
@@ -175,13 +177,6 @@ public abstract class AppActivity extends Activity {
 	 */
 	public void setTouchStyle(int touchStyle) {
 		this.touchStyle = touchStyle;
-	}
-
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		if (!hasFocus) {
-			System.exit(0);
-		}
 	}
 
 	@Override

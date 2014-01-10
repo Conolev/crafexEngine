@@ -2,12 +2,12 @@ package dev.scroopid.crafexEngine.input;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.inputmethod.InputMethodManager;
 import dev.scroopid.crafexEngine.AppActivity;
 import dev.scroopid.crafexEngine.Crafex;
 import dev.scroopid.crafexEngine.Updatable;
-import dev.scroopid.crafexEngine.ui.Input.KeyBoard;
 import dev.scroopid.crafexEngine.util.intPoint;
 
 public class InputHandler implements Updatable {
@@ -21,18 +21,8 @@ public class InputHandler implements Updatable {
 	/**
 	 * handles inputs
 	 */
-	public InputHandler() {
-		imm = (InputMethodManager) Crafex.CONTEXT.getSystemService(Context.INPUT_METHOD_SERVICE);
-	}
-
-	/**
-	 * handles a {@link Crafex} {@link KeyBoard} {@link CrafexKeyInputEvent}
-	 * 
-	 * @param event
-	 */
-	public void crafexKeyboardInput(CrafexKeyInputEvent event) {
-		this.input.setInput(CrafexKeyInputEvent.doInput(event.getValue(), this.input.getInput(),
-					this.input.getInputingIndex()));
+	public InputHandler(InputMethodManager imm) {
+		this.imm = imm;
 	}
 
 	@Override
@@ -62,6 +52,12 @@ public class InputHandler implements Updatable {
 
 		return true;
 	}
+	
+	public boolean handleKeyboardInput(int keyCode, KeyEvent event){
+		String test = String.valueOf(event.getKeyCode());
+		System.out.println(test);
+		return true;
+	}
 
 	@Override
 	public void setLastUpdateTime(long time) {}
@@ -70,7 +66,7 @@ public class InputHandler implements Updatable {
 	 * shows the android keyboard
 	 */
 	public static void showKeyBoard() {
-		imm.showSoftInput(AppActivity.crafex, 0);
+		imm.showSoftInput(AppActivity.crafex, InputMethodManager.SHOW_FORCED);
 	}
 
 	/**

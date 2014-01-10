@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.inputmethod.InputMethodManager;
 import dev.scroopid.crafexEngine.graphics.GraphicsManager;
 import dev.scroopid.crafexEngine.input.InputHandler;
 import dev.scroopid.crafexEngine.level.Level;
@@ -61,7 +63,7 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback {
 	 *        of activity
 	 */
 	public Crafex(Level level, AssetManager assets, Context context, int backGroundColor, intPoint defaultResalution,
-				intPoint screenResalution, String files) {
+				intPoint screenResalution, String files, InputMethodManager imm) {
 		super(context);
 		Crafex.CONTEXT = context;
 		graphicsMan = new GraphicsManager();
@@ -71,7 +73,7 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback {
 		fileMan = new FileManager(assets, files);
 		uiHandler = new UIHandler();
 		levelMan = new LevelManager(uiHandler);
-		inputHandler = new InputHandler();
+		inputHandler = new InputHandler(imm);
 		paint.setColor(backGroundColor);
 		if (level != null) {
 			levelMan.setLevel(level);
@@ -131,7 +133,17 @@ public class Crafex extends SurfaceView implements SurfaceHolder.Callback {
 	public boolean onTouchEvent(MotionEvent event) {
 		return inputHandler.handleTouchInput(event);
 	}
-
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		return inputHandler.handleKeyboardInput(keyCode, event);
+	}
+	
+	@Override
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		return inputHandler.handleKeyboardInput(keyCode, event);
+	}
+	
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 

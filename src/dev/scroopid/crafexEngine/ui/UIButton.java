@@ -85,4 +85,5 @@ public class UIButton extends UIObject {
 		}
 		setSize(temp);
 	}
+
 }

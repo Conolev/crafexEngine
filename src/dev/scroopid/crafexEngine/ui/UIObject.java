@@ -7,13 +7,14 @@ import dev.scroopid.crafexEngine.Touchable;
 import dev.scroopid.crafexEngine.Updatable;
 import dev.scroopid.crafexEngine.graphics.Sprite;
 import dev.scroopid.crafexEngine.input.CrafexTouchEvent;
+import dev.scroopid.crafexEngine.input.Inputable;
 import dev.scroopid.crafexEngine.util.Util;
 import dev.scroopid.crafexEngine.util.floatPoint;
 import dev.scroopid.crafexEngine.util.floatRectangle;
 import dev.scroopid.crafexEngine.util.intPoint;
 import dev.scroopid.crafexEngine.util.intRectangle;
 
-public abstract class UIObject implements Updatable, Touchable, Drawable {
+public abstract class UIObject implements Updatable, Touchable, Drawable, Inputable {
 
 	/** sprite of the {@link UIObject} */
 	protected Sprite sprite;
@@ -442,5 +443,40 @@ public abstract class UIObject implements Updatable, Touchable, Drawable {
 	@Override
 	public void whenReleased(CrafexTouchEvent touch) {
 		this.touch = null;
+	}
+	
+	@Override
+	public void endInput() {
+		
+	}
+
+	@Override
+	public String getInput() {
+		return null;
+	}
+
+	@Override
+	public int getInputingIndex() {
+		return 0;
+	}
+
+	@Override
+	public int getInputLength() {
+		return 0;
+	}
+
+	@Override
+	public void giveInput(String newInput) {
+		
+	}
+
+	@Override
+	public void startInput() {
+		
+	}
+
+	@Override
+	public boolean isInputing() {
+		return false;
 	}
 }

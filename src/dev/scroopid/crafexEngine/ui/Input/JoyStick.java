@@ -28,6 +28,10 @@ public class JoyStick extends UIObject {
 		movement = new floatPoint();
 	}
 	
+	public floatPoint getMovement(){
+		return movement;
+	}
+	
 	@Override
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
@@ -41,7 +45,7 @@ public class JoyStick extends UIObject {
 	
 	@Override
 	public boolean isTouching(CrafexTouchEvent touch) {
-		if(touch != null){
+		if(this.touch != null){
 			return true;
 		}
 		return super.isTouching(touch);

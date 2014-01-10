@@ -28,14 +28,16 @@ public interface Inputable {
 	public int getInputLength();
 
 	/**
-	 * sets the input
+	 * handles input
 	 * 
 	 * @param newInput
 	 */
-	public void setInput(String newInput);
+	public void giveInput(String newInput);
 
 	/**
 	 * starts input stream
 	 */
 	public void startInput();
+	
+	public boolean isInputing();
 }
