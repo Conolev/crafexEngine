@@ -7,6 +7,7 @@ import java.util.Locale;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Rect;
 import dev.scroopid.crafexEngine.Crafex;
 import dev.scroopid.crafexEngine.entity.Entity;
@@ -16,10 +17,10 @@ public class GraphicsUtil {
 	/** direction for the {@link Entity} to move */
 	public static Hashtable<String, Integer> directions;
 	
-	public static final int STRECH_NONE = 0;
-	public static final int STRECH_NORMAL = 1;
-	public static final int STRECH_CUT = 2;
-	public static final int STRECH_CROSS = 3;
+	public static final int STRETCH_NONE = 0;
+	public static final int STRETCH_NORMAL = 1;
+	public static final int STRETCH_CUT = 2;
+	public static final int STRETCH_CROSS = 3;
 
 	/**
 	 * combines to {@link Bitmap}s
@@ -90,8 +91,7 @@ public class GraphicsUtil {
 	 *        or char chart
 	 * @param grid
 	 *        of char chart (ex. 6x6)
-	 * @param scale
-	 *        or to streach the button template to text size
+	 * @param what type of stretch to do to the buttonimage
 	 * @return button image with text
 	 */
 	public static Bitmap makeTextButtonImage(String text, Bitmap Buttonimage, 
@@ -112,18 +112,18 @@ public class GraphicsUtil {
 									(letters.getHeight() / grid.getY())), null);
 		}
 
-		if (scaleType == STRECH_CUT) {
-			Buttonimage = cutStrechImage(Buttonimage, textmap.getWidth(), textmap.getHeight());
+		if (scaleType == STRETCH_CUT) {
+			Buttonimage = cutStretchImage(Buttonimage, textmap.getWidth(), textmap.getHeight());
 			data = Bitmap.createBitmap(Buttonimage.getWidth(), Buttonimage.getHeight(), Buttonimage.getConfig());
 			temp = new Canvas(data);
 			temp.drawBitmap(Buttonimage, 0, 0, null);
-		} else if(scaleType == STRECH_NORMAL) {
-			Buttonimage = strechImage(Buttonimage, textmap.getWidth(), textmap.getHeight());
+		} else if(scaleType == STRETCH_NORMAL) {
+			Buttonimage = stretchImage(Buttonimage, textmap.getWidth(), textmap.getHeight());
 			data = Bitmap.createBitmap(Buttonimage.getWidth(), Buttonimage.getHeight(), Buttonimage.getConfig());
 			temp = new Canvas(data);
 			temp.drawBitmap(Buttonimage, 0, 0, null);
-		} else if(scaleType == STRECH_CROSS) {
-			Buttonimage = cleanStrechImage(Buttonimage, textmap.getWidth(), textmap.getHeight());
+		} else if(scaleType == STRETCH_CROSS) {
+			Buttonimage = cleanStretchImage(Buttonimage, textmap.getWidth(), textmap.getHeight());
 			data = Bitmap.createBitmap(Buttonimage.getWidth(), Buttonimage.getHeight(), Buttonimage.getConfig());
 			temp = new Canvas(data);
 			temp.drawBitmap(Buttonimage, 0, 0, null);
@@ -207,7 +207,7 @@ public class GraphicsUtil {
 	 * @param yscale
 	 * @return
 	 */
-	public static Bitmap strechImage(Bitmap image, float xscale, float yscale) {
+	public static Bitmap stretchImage(Bitmap image, float xscale, float yscale) {
 		Bitmap data =
 					Bitmap.createBitmap((int) (image.getWidth() * xscale), (int) (image.getHeight() * yscale),
 								image.getConfig());
@@ -225,7 +225,7 @@ public class GraphicsUtil {
 	 * @param ysize
 	 * @return
 	 */
-	public static Bitmap strechImage(Bitmap image, int xsize, int ysize) {
+	public static Bitmap stretchImage(Bitmap image, int xsize, int ysize) {
 		Bitmap data = Bitmap.createBitmap(xsize, ysize, image.getConfig());
 		Canvas canvas = new Canvas(data);
 		canvas.drawBitmap(image, new Rect(0, 0, image.getWidth(), image.getHeight()),
@@ -241,7 +241,7 @@ public class GraphicsUtil {
 	 * @param ysize
 	 * @return
 	 */
-	public static Bitmap cutStrechImage(Bitmap image, int xsize, int ysize) {
+	public static Bitmap cutStretchImage(Bitmap image, int xsize, int ysize) {
 		Bitmap data = Bitmap.createBitmap((int) (xsize), (int) (ysize), image.getConfig());
 		Canvas canvas = new Canvas(data);
 		canvas.drawBitmap(image, new Rect(0, 0, image.getWidth() / 2, image.getHeight() / 2),
@@ -264,7 +264,13 @@ public class GraphicsUtil {
 		return data;
 	}
 	
-	public static Bitmap cleanStrechImageX(Bitmap image, int xsize){
+	/**
+	 * stretches the middle section of the image on the X axis to avoid the borders looking stretched
+	 * @param image
+	 * @param xsize
+	 * @return stretched image
+	 */
+	public static Bitmap crossStretchImageX(Bitmap image, int xsize){
 		Bitmap cutout = Bitmap.createBitmap((image.getWidth()/3), image.getHeight(),
 					image.getConfig());
 		Canvas cutoutc = new Canvas(cutout);
@@ -280,7 +286,7 @@ public class GraphicsUtil {
 					image.getHeight()), new Rect(temp.getWidth() - (image.getWidth() / 3), 
 								0, temp.getWidth(), temp.getHeight()), null);
 		
-		cutout = strechImage(cutout, xsize - ((temp.getWidth() / 3) * 2), cutout.getHeight());
+		cutout = stretchImage(cutout, xsize - ((temp.getWidth() / 3) * 2), cutout.getHeight());
 		
 		tempc.drawBitmap(cutout, new Rect(0, 0, cutout.getWidth(), cutout.getHeight()), 
 					new Rect(image.getWidth() / 3, 0, temp.getWidth() - (image.getWidth() / 3),
@@ -289,7 +295,13 @@ public class GraphicsUtil {
 		return temp;
 	}
 	
-	public static Bitmap cleanStrechImageY(Bitmap image, int ysize){
+	/**
+	 * stretches the middle section of the image on the Y axis to avoid the borders looking stretched
+	 * @param image
+	 * @param ysize
+	 * @return stretched image
+	 */
+	public static Bitmap cleanStretchImageY(Bitmap image, int ysize){
 		Bitmap cutout = Bitmap.createBitmap(image.getWidth(), image.getHeight() / 3,
 					image.getConfig());
 		Canvas cutoutc = new Canvas(cutout);
@@ -305,7 +317,7 @@ public class GraphicsUtil {
 					image.getHeight()), new Rect(0, temp.getHeight() - (image.getHeight() / 3), 
 								temp.getWidth(), temp.getHeight()), null);
 		
-		cutout = strechImage(cutout, cutout.getWidth(), ysize - ((temp.getHeight() / 3) * 2));
+		cutout = stretchImage(cutout, cutout.getWidth(), ysize - ((temp.getHeight() / 3) * 2));
 		
 		tempc.drawBitmap(cutout, new Rect(0, 0, cutout.getWidth(), cutout.getHeight()), 
 					new Rect(0, image.getHeight() / 3, image.getWidth(),
@@ -314,11 +326,204 @@ public class GraphicsUtil {
 		return temp;
 	}
 	
-	public static Bitmap cleanStrechImage(Bitmap image, int xsize, int ysize){
-		image = cleanStrechImageX(image, xsize);
-		image = cleanStrechImageY(image, ysize);
+	/**
+	 * stretches the middle sections of the image in a cross to avoid the borders looking stretched
+	 * @param image
+	 * @param xsize
+	 * @param ysize
+	 * @return
+	 */
+	public static Bitmap cleanStretchImage(Bitmap image, int xsize, int ysize){
+		image = crossStretchImageX(image, xsize);
+		image = cleanStretchImageY(image, ysize);
 		return image;
 	}
+
+	/**
+	 * returns blank area of the image to the downward direction of the image
+	 * @param img
+	 * @return blank area of the image to the downward direction of the image
+	 */
+    public static int getTrimmedBottom(Bitmap img) {
+        int width = img.getWidth();
+        int height = img.getHeight();
+        int data = 0;
+
+        for(int i = 0; i < width; ++i) {
+            for(int j = height - 1; j >= 0; --j) {
+                if(img.getPixel(i, j) != Color.TRANSPARENT && j > data) {
+                    data = j;
+                    break;
+                }
+            }
+        }
+        
+        return data;
+    }
+    
+    /**
+	 * returns blank area of the image to the downward direction of the image
+	 * @param img
+	 * @param border
+	 * @return blank area of the image to the downward direction of the image
+	 */
+    public static int getTrimmedBottom(Bitmap img, int border) {
+        int width = img.getWidth();
+        int height = img.getHeight();
+        int data = 0;
+
+        for(int i = 0; i < width; ++i) {
+            for(int j = height - 1; j >= 0; --j) {
+                if(img.getPixel(i, j) != Color.TRANSPARENT && j > data) {
+                    data = j;
+                    break;
+                }
+            }
+        }
+        
+        return data + border;
+    }
+    
+    /**
+	 * returns blank area of the image to the right direction of the image
+	 * @param img
+	 * @return blank area of the image to the right direction of the image
+	 */
+    public static int getTrimmedRight(Bitmap img) {
+        int width = img.getWidth();
+        int height = img.getHeight();
+        int data = 0;
+
+        for(int i = 0; i < height; ++i) {
+            for(int j = width - 1; j >= 0; --j) {
+                if(img.getPixel(j, i) != Color.TRANSPARENT && j > data) {
+                    data = j;
+                    break;
+                }
+            }
+        }
+        
+        return data;
+    }
+    
+    /**
+	 * returns blank area of the image to the right direction of the image
+	 * @param img
+	 * @param border
+	 * @return blank area of the image to the right direction of the image
+	 */
+    public static int getTrimmedRight(Bitmap img, int border) {
+        int width = img.getWidth();
+        int height = img.getHeight();
+        int data = 0;
+
+        for(int i = 0; i < height; ++i) {
+            for(int j = width - 1; j >= 0; --j) {
+                if(img.getPixel(j, i) != Color.TRANSPARENT && j > data) {
+                    data = j;
+                    break;
+                }
+            }
+        }
+        
+        return data + border;
+    }
+    
+    /**
+	 * returns blank area of the image to the up direction of the image
+	 * @param img
+	 * @return blank area of the image to the up direction of the image
+	 */
+    public static int getTrimmedTop(Bitmap img) {
+        int width = img.getWidth();
+        int height = img.getHeight();
+        int data = height;
+
+        for(int i = 0; i < width; ++i) {
+            for(int j = 0; j < height; ++j) {
+                if(img.getPixel(i, j) != Color.TRANSPARENT && j < data) {
+                    data = j;
+                    break;
+                }
+            }
+        }
+        
+        return data;
+    }
+    
+    /**
+	 * returns blank area of the image to the up direction of the image
+	 * @param img
+	 * @param border
+	 * @return blank area of the image to the up direction of the image
+	 */
+    public static int getTrimmedTop(Bitmap img, int border) {
+        int width = img.getWidth();
+        int height = img.getHeight();
+        int data = height;
+
+        for(int i = 0; i < width; ++i) {
+            for(int j = 0; j < height; ++j) {
+                if(img.getPixel(i, j) != Color.TRANSPARENT && j < data) {
+                    data = j;
+                    break;
+                }
+            }
+        }
+        
+        return data + border;
+    }
+    
+    /**
+	 * returns blank area of the image to the left direction of the image
+	 * @param img
+	 * @return blank area of the image to the left direction of the image
+	 */
+    public static int getTrimmedLeft(Bitmap img) {
+        int width = img.getWidth();
+        int height = img.getHeight();
+        int data = width;
+
+        for(int i = 0; i < height; ++i) {
+            for(int j = 0; j < width; ++j) {
+                if(img.getPixel(j, i) != Color.TRANSPARENT && j < data) {
+                    data = j;
+                    break;
+                }
+            }
+        }
+        
+        return data;
+    }
+    
+    /**
+	 * returns blank area of the image to the left direction of the image
+	 * @param img
+	 * @param border
+	 * @return blank area of the image to the left direction of the image
+	 */
+    public static int getTrimmedLeft(Bitmap img, int border) {
+        int width = img.getWidth();
+        int height = img.getHeight();
+        int data = width;
+
+        for(int i = 0; i < height; ++i) {
+            for(int j = 0; j < width; ++j) {
+                if(img.getPixel(j, i) != Color.TRANSPARENT && j < data) {
+                    data = j;
+                    break;
+                }
+            }
+        }
+        
+        return data + border;
+    }
+    
+    public static Bitmap trimWidth(Bitmap bitmap){
+    	
+    	//TODO
+    	return null;
+    }
 
 	/**
 	 * contains graphics shit. !!! use constructor before using this class please !!!
