@@ -3,12 +3,15 @@ package dev.scroopid.crafexEngine.save.util;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 import dev.scroopid.crafexEngine.Logger;
 
@@ -148,7 +151,92 @@ public class SaveUtils {
 
 		return createComment("Created on " + dateFormat.format(date));
 	}
-
+	
+	/**
+	 * Gets the Generic type of a Field
+	 * @param field The Field to get the type from
+	 * @return The Generic type in class form.
+	 */
+	public static Class<?> getGenericType(Field field){
+		ParameterizedType type;
+		if (field.getGenericType() instanceof ParameterizedType){
+			type = (ParameterizedType)field.getGenericType();
+		} else {
+			throw new SaveException("The is not a generic collection");
+		}
+		return (Class<?>)type.getActualTypeArguments()[0];
+	}
+	
+	/**
+	 * Grabs the generic type by trying to access the generic type of an element
+	 * @param collection to pull froms
+	 * @return type: the generic type of the collection
+	 */
+	public static Class<?> getGenericType(Collection<?> collection){
+		if (collection == null){
+			log.error("NULL Object passed int getGenericType");
+			throw new SaveException("This is an illegal argument: null object");
+		}else if (collection.isEmpty()){
+			log.error("Cannot get an object from the collection");
+			throw new SaveException("This is an Illegal Arguement: Empty Array");
+		}
+		
+		Class<?> type = null;
+		
+		/*
+		 * checks if not null and sets type to oject
+		 */
+		for (Object object : collection){
+			if (object != null){
+				type = object.getClass();
+				break;
+			}
+		}
+		
+		// Final check
+		if (type == null){
+			log.error("Cannot get Type from array, no valid elements");
+			throw new SaveException("This is an Illegal Arguement: No Valid Elements");
+		}
+		
+		return type;
+	}
+	
+	public static Class<?>[] getGenericType (Map<?,?> map){
+		if (map == null) {
+			log.error("Null Map passed");
+			throw new SaveException("Illegal argument: null map");
+		}
+		if (map.keySet().isEmpty() || map.values().isEmpty()) {
+			log.error("Map is empty (key or value)");
+			throw new SaveException("The map keys or values are empty");
+		}
+		
+		Class<?> keyType = null;
+		Class<?> valueType = null;
+		
+		for (Object obj : map.keySet()){
+			if (obj != null) {
+				keyType = obj.getClass();
+				break;
+			}
+		}
+		
+		for (Object obj : map.values()) {
+			if (obj != null) {
+				valueType = obj.getClass();
+				break;
+			}
+		}
+		
+		if (valueType == null || keyType == null) {
+			log.error("Cannot get key or value types");
+			throw new SaveException("Illegal argument: no valid elements");
+		}
+		
+		return new Class<?>[] {keyType, valueType};
+	}
+	
 	/**
 	 * Formats a primitive type field in this format <br/>
 	 * <b>&lt;fieldName : type : data&gt;</b>
